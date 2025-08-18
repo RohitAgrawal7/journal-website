@@ -1,19 +1,25 @@
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 const Footer = () => {
+  const [ref, inView] = useInView({ triggerOnce: true });
+
   return (
     <motion.footer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="bg-#1e40af text-white py-8 px-6 text-center"
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8 }}
+      className="bg-deep-green py-8 px-4 sm:px-6 lg:px-8"
     >
-      <p className="mb-4">&copy; 2025 UORA. All rights reserved.</p>
-      <nav className="flex justify-center space-x-6">
-        <a href="#" className="hover:underline">Privacy Policy</a>
-        <a href="#" className="hover:underline">Terms of Use</a>
-        <a href="#" className="hover:underline">Contact Us</a>
-      </nav>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="text-center text-green-200"
+      >
+        © 2025 Universal Oneness in Research Scholars. All rights reserved.
+      </motion.p>
     </motion.footer>
   );
 };

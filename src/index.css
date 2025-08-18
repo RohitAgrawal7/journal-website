@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500;600&display=swap');
 
-/* body {
-  font-family: 'Inter', sans-serif;
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #2e7754 0%, #2f7450 100%);
+  color: #e0f7d7;
+  min-height: 100vh;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
+  overflow-x: hidden;
+}
