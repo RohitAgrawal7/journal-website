@@ -105,7 +105,7 @@ const EditorialBoard = () => {
       transition={{ duration: 0.8 }}
       className="py-16 px-6 bg-neutral"
     >
-      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-12 text-center text-primary">
+      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-12 text-center text-green-600">
         Editorial Board
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -122,20 +122,20 @@ const EditorialBoard = () => {
               <img
                 src={member.image}
                 alt={`${member.name} profile`}
-                className="w-20 h-20 rounded-full object-cover border-2 border-primary"
+                className="w-20 h-20 rounded-full object-cover border-2 border-green-700"
               />
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-primary leading-relaxed">{member.name}</h3>
-                <p className="text-gray-600 leading-relaxed">{member.role}</p>
-                <p className="text-gray-500 text-sm leading-relaxed">{member.affiliation}</p>
+                <h3 className="text-xl font-semibold text-amber-700 leading-relaxed">{member.name}</h3>
+                <p className="text-green-800 leading-relaxed">{member.role}</p>
+                <p className="text-green-800 text-sm leading-relaxed">{member.affiliation}</p>
                 {member.subject && (
-                  <p className="text-gray-500 text-sm leading-relaxed">Subject: {member.subject}</p>
+                  <p className="text-green-800 text-sm leading-relaxed">Subject: {member.subject}</p>
                 )}
                 {member.email && (
-                  <p className="text-gray-500 text-sm leading-relaxed">Email: {member.email}</p>
+                  <p className="text-green-800 text-sm leading-relaxed">Email: {member.email}</p>
                 )}
                 {member.mobile && (
-                  <p className="text-gray-500 text-sm leading-relaxed">Mobile: {member.mobile}</p>
+                  <p className="text-green-800 text-sm leading-relaxed">Mobile: {member.mobile}</p>
                 )}
               </div>
             </div>

@@ -193,7 +193,7 @@ const Summary = () => {
             <CountUp
               end={inView ? stat.value : 0}
               duration={2}
-              className="text-4xl font-bold text-deep-green"
+              className="text-4xl font-bold text-amber-600"
               suffix={stat.unit}
             />
             <p className="mt-2 text-green-200 leading-relaxed">{stat.label}</p>
@@ -202,7 +202,7 @@ const Summary = () => {
       </div>
 
       {/* Inline Styles */}
-      <style jsx>{`
+      <style >{`
         @keyframes pulseNetwork {
           0% {
             stroke-width: 1;

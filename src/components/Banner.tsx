@@ -86,18 +86,17 @@ const Banner = () => {
       </div>
 
       {/* Left Logo */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={inView ? { scale: 1, opacity: 1 } : {}}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        whileHover={{ scale: 1.05, filter: 'drop-shadow(0 0 10px rgba(64, 255, 0, 0.5))' }}
-        className="mb-4 sm:mb-0 sm:w-1/4"
+       <motion.div
+        initial={{ scale: 0.8, opacity: 0, y: -10 }}
+        animate={inView ? { scale: 1, opacity: 1, y: [0, -10, 0] } : {}}
+        transition={{ duration: 0.8, delay: 0.2, y: { repeat: Infinity, duration: 6, ease: 'easeInOut' } }}
+        whileHover={{ scale: 1.05 }}
+        className="flex justify-center w-1/4 sm:w-1/5"
       >
         <img
-          src="/src/assets/logo_image.jpeg"
-          alt="GreenTech Innovative Society Left Logo"
-          className="w-full h-auto max-w-[100px] sm:max-w-[150px] lg:max-w-[200px]"
-          style={{ aspectRatio: '4/1' }}
+          src="/UJGIS.png"
+          alt="GreenTech Left Logo"
+          className="w-full h-auto max-w-[80px] sm:max-w-[120px] lg:max-w-[150px]"
         />
       </motion.div>
 
@@ -125,23 +124,22 @@ const Banner = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="text-xl sm:text-2xl lg:text-3xl font-['Poppins']"
         >
-          Universal OneNess Research Association
+          Universal Oneness Research Association
         </motion.p>
       </div>
 
       {/* Right Logo */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={inView ? { scale: 1, opacity: 1 } : {}}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        whileHover={{ scale: 1.05, filter: 'drop-shadow(0 0 10px rgba(64, 255, 0, 0.5))' }}
-        className="mt-4 sm:mt-0 sm:w-1/4"
+            <motion.div
+        initial={{ scale: 0.8, opacity: 0, y: -10 }}
+        animate={inView ? { scale: 1, opacity: 1, y: [0, -10, 0] } : {}}
+        transition={{ duration: 0.8, delay: 0.2, y: { repeat: Infinity, duration: 6, ease: 'easeInOut' } }}
+        whileHover={{ scale: 1.05 }}
+        className="flex justify-center w-2/4 sm:w-1/5"
       >
         <img
-          src="/src/assets/logo_image.jpeg"
-          alt="GreenTech Innovative Society Right Logo"
-          className="w-full h-auto max-w-[100px] sm:max-w-[150px] lg:max-w-[200px]"
-          style={{ aspectRatio: '4/1' }}
+          src="/UORA.png"
+          alt="GreenTech Right Logo"
+          className="w-full h-auto max-w-[80px] sm:max-w-[120px] lg:max-w-[150px]"
         />
       </motion.div>
     </motion.section>

@@ -47,12 +47,12 @@ const SubmissionGuidelines = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8 }}
-      className="py-16 px-6 bg-neutral"
+      className="py-16 px-6 bg-neutral text-green-400"
     >
       <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-8 text-center text-primary">
         Submission Guidelines
       </h2>
-      <div className="max-w-4xl mx-auto prose text-gray-700 text-left mb-12 text-xl">
+      <div className="max-w-4xl mx-auto prose text-green-200 text-left mb-12 text-xl">
         <p className="leading-relaxed mb-8 ">
           Authors are invited to submit manuscripts through our online submission system (to be established). Submissions must include a Cover Letter cum Declaration Form specifying the research field and subject area to assist editors in assigning appropriate reviewers. </p>
         <p className="leading-relaxed mb-8">
@@ -90,12 +90,12 @@ const SubmissionGuidelines = () => {
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               className="bg-white p-4 rounded-lg shadow-md"
             >
-              <p className="font-semibold text-primary">{item.issue}</p>
+              <p className="font-semibold text-amber-600">{item.issue}</p>
               <p className="text-gray-700">{item.date}</p>
             </motion.div>
           ))}
         </div>
-        <div className="prose text-gray-700 text-left">
+        <div className="prose text-green-200 text-left">
           <p className="leading-relaxed">
             <strong>Special Volumes:</strong> We occasionally publish theme-based special issues. Authors and editorial board members are welcome to suggest themes to enhance the journal’s quality and relevance.
           </p>
@@ -112,7 +112,7 @@ const SubmissionGuidelines = () => {
         <motion.a
           href="#submit"
           whileHover={{ scale: 1.05 }}
-          className="inline-block bg-secondary text-white py-3 px-8 rounded-full hover:bg-green-600 transition text-lg font-semibold"
+          className="inline-block bg-green-600 text-white py-3 px-8 rounded-full hover:bg-green-700 transition text-lg font-semibold"
         >
           Submit Your Manuscript
         </motion.a>

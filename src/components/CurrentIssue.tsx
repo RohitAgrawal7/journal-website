@@ -27,7 +27,7 @@ const CurrentIssue = () => {
       transition={{ duration: 0.8 }}
       className="py-16 px-6 bg-neutral"
     >
-      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-8 text-center">
+      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-8 text-center text-green-600">
         Current Issue: August 2025
       </h2>
       <div className="max-w-5xl mx-auto space-y-6">
@@ -42,9 +42,9 @@ const CurrentIssue = () => {
             {/* Placeholder for flag images */}
             <div className="w-8 h-8 bg-gray-300 rounded mr-4"></div>
             <div>
-              <h3 className="text-lg font-semibold text-#1e40af">{pub.title}</h3>
-              <p className="text-gray-600">{pub.authors}</p>
-              <p className="text-gray-500 text-sm">{pub.country}</p>
+              <h3 className="text-lg font-semibold text-amber-600">{pub.title}</h3>
+              <p className="text-green-700">{pub.authors}</p>
+              <p className="text-green-700 text-sm">{pub.country}</p>
             </div>
           </motion.div>
         ))}

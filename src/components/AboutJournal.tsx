@@ -11,12 +11,12 @@ const AboutJournal = () => {
       initial={{ opacity: 0, x: -50 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.8 }}
-      className="py-16 px-6 "
+      className="py-16 px-6  text-green-400 "
     >
       <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-6">
        About the Journal
       </h2>
-      <div className="prose max-w-4xl mx-auto text-gray-700">
+      <div className="prose max-w-4xl mx-auto text-green-200">
         <p>
           The International Journal of Latest Technology in Engineering, Management & Applied Science (UORA) is an open-access platform committed to promoting advancements in engineering, management, and applied sciences. We facilitate scholarly communication by providing a multidisciplinary forum for researchers, practitioners, and scholars to exchange innovative ideas and findings.
         </p>
