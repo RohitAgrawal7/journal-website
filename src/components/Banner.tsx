@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FaLeaf, FaCloud, FaSun, FaSeedling } from 'react-icons/fa';
-
+import oneness from '/public/oneness.png';
+import greentech from '/public/greentech.png';
 const Banner = () => {
   const { ref, inView } = useInView({ triggerOnce: true });
 
@@ -94,7 +95,7 @@ const Banner = () => {
         className="flex justify-center w-1/4 sm:w-1/5"
       >
         <img
-          src="/public/greentech.png"
+          src={greentech}
           alt="GreenTech Left Logo"
           className="w-full h-auto max-w-[80px] sm:max-w-[120px] lg:max-w-[150px]"
         />
@@ -137,7 +138,7 @@ const Banner = () => {
         className="flex justify-center w-2/4 sm:w-1/5"
       >
         <img
-          src="/public/oneness.png"
+          src={oneness}
           alt="GreenTech Right Logo"
           className="w-full h-auto max-w-[80px] sm:max-w-[120px] lg:max-w-[150px]"
         />
