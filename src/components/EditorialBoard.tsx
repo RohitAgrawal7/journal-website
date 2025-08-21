@@ -127,7 +127,7 @@ const EditorialBoard = () => {
                   className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-green-600 mx-auto sm:mx-0"
                 />
                 <div className="flex-1 text-center sm:text-left ml-5">
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800 leading-tight mb-1">{member.name}</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold text-amber-700 leading-tight mb-1">{member.name}</h3>
                   <p className="text-green-700 font-medium text-sm sm:text-base mb-1">{member.role}</p>
                   <p className="text-gray-600 text-xs sm:text-sm mb-2 leading-tight">{member.affiliation}</p>
                   
