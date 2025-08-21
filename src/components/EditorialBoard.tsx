@@ -103,44 +103,59 @@ const EditorialBoard = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8 }}
-      className="py-16 px-6 bg-neutral"
+      className="py-12 px-4 sm:py-16 sm:px-6 bg-neutral"
     >
-      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-12 text-center text-green-400">
+      <h2 className="text-2xl sm:text-4xl font-bold font-serif mb-8 sm:mb-12 text-center text-green-700">
         Editorial Board
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-5xl mx-auto">
-        {boardMembers.map((member, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: idx * 0.1 }}
-            whileHover={{ scale: 1.03, boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)' }}
-            className="bg-white p-6 rounded-xl shadow-md border-l-4 border-secondary hover:border-secondary/80 transition-all"
-          >
-            <div className="flex items-center space-x-4">
-              <img
-                src={member.image}
-                alt={`${member.name} profile`}
-                className="w-20 h-20 rounded-full object-cover border-2 border-green-700"
-              />
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-amber-700 leading-relaxed">{member.name}</h3>
-                <p className="text-green-800 leading-relaxed">{member.role}</p>
-                <p className="text-green-800 text-sm leading-relaxed">{member.affiliation}</p>
-                {member.subject && (
-                  <p className="text-green-800 text-sm leading-relaxed">Subject: {member.subject}</p>
-                )}
-                {member.email && (
-                  <p className="text-green-800 text-sm leading-relaxed">Email: {member.email}</p>
-                )}
-                {member.mobile && (
-                  <p className="text-green-800 text-sm leading-relaxed">Mobile: {member.mobile}</p>
-                )}
+      
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          {boardMembers.map((member, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              whileHover={{ scale: 1.02, boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)' }}
+              className="bg-white p-4 sm:p-6 rounded-xl shadow-md border-l-4 border-green-600 hover:border-green-500 transition-all overflow-hidden"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start space-y-4  sm:space-y-0 sm:space-x-4">
+                <img
+                  src={member.image}
+                  alt={`${member.name} profile`}
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-green-600 mx-auto sm:mx-0"
+                />
+                <div className="flex-1 text-center sm:text-left ml-5">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800 leading-tight mb-1">{member.name}</h3>
+                  <p className="text-green-700 font-medium text-sm sm:text-base mb-1">{member.role}</p>
+                  <p className="text-gray-600 text-xs sm:text-sm mb-2 leading-tight">{member.affiliation}</p>
+                  
+                  {member.subject && (
+                    <p className="text-gray-600 text-xs sm:text-sm mb-1">
+                      <span className="font-medium">Subject:</span> {member.subject}
+                    </p>
+                  )}
+                  
+                  {member.email && (
+                    <div className="mt-2">
+                      <p className="text-xs sm:text-sm text-gray-600 mb-0">
+                        <span className="font-medium">Email:</span>
+                      </p>
+                      <p className="text-xs sm:text-sm text-blue-600 break-all">{member.email}</p>
+                    </div>
+                  )}
+                  
+                  {member.mobile && (
+                    <p className="text-gray-600 text-xs sm:text-sm mt-1">
+                      <span className="font-medium">Mobile:</span> {member.mobile}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.section>
   );

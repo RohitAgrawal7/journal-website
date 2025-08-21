@@ -52,7 +52,7 @@ const Navbar = () => {
         ))}
       </div>
 
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex items-center justify-between relative z-10">
         {/* Title */}
         <motion.h2
           className="text-xl sm:text-2xl font-roboto-slab font-bold text-green-300"
@@ -63,7 +63,7 @@ const Navbar = () => {
         {/* Hamburger Button (Mobile) */}
         <motion.button
           whileTap={{ scale: 0.8, rotate: 90 }}
-          className="block sm:hidden text-eco-gold text-2xl focus:outline-none"
+          className="block sm:hidden text-eco-gold text-2xl focus:outline-none bg-rich-green p-2 rounded-md"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <FaTimes /> : <FaBars />}
@@ -98,32 +98,39 @@ const Navbar = () => {
         initial={{ x: '100%' }}
         animate={{ x: isOpen ? 0 : '100%' }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="fixed top-0 right-0 h-full w-3/4 sm:hidden bg-rich-green shadow-lg z-50"
+        className="fixed top-0 right-0 h-full w-3/4 sm:hidden z-50"
       >
-        <div className="flex justify-end p-4">
+        {/* Gradient background that doesn't interfere with text */}
+        <div className="absolute inset-0 bg-gradient-to-l from-green-600 to-green-800 z-0"></div>
+        
+        {/* Solid overlay behind text content */}
+        <div className="absolute inset-0 bg-deep-green/80 z-1"></div>
+        
+        <div className="relative z-10 flex justify-end p-4">
           <motion.button
             whileTap={{ scale: 0.8, rotate: 90 }}
-            className="text-eco-gold text-2xl focus:outline-none"
+            className="text-green-200 text-2xl focus:outline-none bg-rich-green p-1 rounded-md"
             onClick={() => setIsOpen(false)}
           >
             <FaTimes />
           </motion.button>
         </div>
-        <ul className="flex flex-col items-center space-y-6 py-8">
+        
+        <ul className="relative z-10 flex flex-col items-start space-y-6 py-8 pl-10">
           {navLinks.map((link, idx) => (
             <motion.li
               key={idx}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
-              whileHover={{ scale: 1.1, color: '#e9c46a' }}
+              whileHover={{ scale: 1.05 }}
               onClick={() => setIsOpen(false)}
-              className="flex items-center"
+              className="flex items-center bg-deep-green/70 px-4 py-2 rounded-r-full w-full"
             >
-              <span className="mr-3 text-dark-brown">{link.icon}</span>
+              <span className="mr-3 text-white text-lg">{link.icon}</span>
               <a
                 href={link.href}
-                className="text-eco-gold hover:text-eco-green transition text-base font-montserrat"
+                className="text-white hover:text-green-300 transition text-lg font-montserrat font-medium"
               >
                 {link.name}
               </a>
