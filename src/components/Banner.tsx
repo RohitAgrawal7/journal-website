@@ -94,7 +94,7 @@ const Banner = () => {
         className="flex justify-center w-1/4 sm:w-1/5"
       >
         <img
-          src="/UJGIS.png"
+          src="/public/greentech.png"
           alt="GreenTech Left Logo"
           className="w-full h-auto max-w-[80px] sm:max-w-[120px] lg:max-w-[150px]"
         />
@@ -137,7 +137,7 @@ const Banner = () => {
         className="flex justify-center w-2/4 sm:w-1/5"
       >
         <img
-          src="/UORA.png"
+          src="/public/oneness.png"
           alt="GreenTech Right Logo"
           className="w-full h-auto max-w-[80px] sm:max-w-[120px] lg:max-w-[150px]"
         />
