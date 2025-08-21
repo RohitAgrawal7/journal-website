@@ -27,7 +27,7 @@ const CurrentIssue = () => {
       transition={{ duration: 0.8 }}
       className="py-16 px-6 bg-neutral"
     >
-      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-8 text-center text-green-600">
+      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-8 text-center text-green-400">
         Current Issue: August 2025
       </h2>
       <div className="max-w-5xl mx-auto space-y-6">
@@ -53,7 +53,7 @@ const CurrentIssue = () => {
         <motion.a
           href="#archives"
           whileHover={{ scale: 1.05 }}
-          className="inline-block bg-#10b981 text-white py-2 px-6 rounded-full hover:bg-green-600 transition"
+          className="inline-block bg-green-600 text-white py-2 px-6 rounded-full hover:bg-green-700 transition"
         >
           View All Articles
         </motion.a>

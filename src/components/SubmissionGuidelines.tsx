@@ -49,7 +49,7 @@ const SubmissionGuidelines = () => {
       transition={{ duration: 0.8 }}
       className="py-16 px-6 bg-neutral text-green-400"
     >
-      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-8 text-center text-primary">
+      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-8 text-center text-green-400">
         Submission Guidelines
       </h2>
       <div className="max-w-4xl mx-auto prose text-green-200 text-left mb-12 text-xl">
@@ -70,8 +70,8 @@ const SubmissionGuidelines = () => {
             transition={{ duration: 0.6, delay: idx * 0.1 }}
             className="bg-white p-6 rounded-xl shadow-md border-l-4 border-secondary hover:shadow-lg transition-all"
           >
-            <h3 className="text-xl font-semibold text-primary mb-2">{step.title}</h3>
-            <p className="text-gray-700 leading-relaxed">{step.description}</p>
+            <h3 className="text-xl font-semibold text-amber-600 mb-2">{step.title}</h3>
+            <p className="text-green-800 leading-relaxed">{step.description}</p>
           </motion.div>
         ))}
       </div>
@@ -91,7 +91,7 @@ const SubmissionGuidelines = () => {
               className="bg-white p-4 rounded-lg shadow-md"
             >
               <p className="font-semibold text-amber-600">{item.issue}</p>
-              <p className="text-gray-700">{item.date}</p>
+              <p className="text-green-800">{item.date}</p>
             </motion.div>
           ))}
         </div>

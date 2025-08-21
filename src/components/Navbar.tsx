@@ -15,7 +15,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  // Close sidebar on outside click
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
@@ -35,7 +34,7 @@ const Navbar = () => {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="bg-deep-green sticky top-0 z-50 py-2 px-4 sm:py-4 sm:px-6 shadow-lg"
+      className="bg-gradient-to-r from-deep-green to-rich-green sticky top-0 z-50 py-2 px-4 sm:py-4 sm:px-6 shadow-lg"
     >
       {/* Background Animations */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
@@ -56,7 +55,7 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between">
         {/* Title */}
         <motion.h2
-          className="text-xl sm:text-2xl font-roboto-slab font-bold text-eco-gold"
+          className="text-xl sm:text-2xl font-roboto-slab font-bold text-green-300"
         >
           GreenTech Innovative Society
         </motion.h2>
@@ -78,13 +77,13 @@ const Navbar = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.1, color: '#e9c46a' }}
               className="flex items-center"
             >
-              <span className="mr-2 text-dark-brown">{link.icon}</span>
+              <span className="mr-2 text-green-400 ">{link.icon}</span>
               <a
                 href={link.href}
-                className="text-dark-brown hover:text-eco-gold transition text-sm sm:text-base lg:text-lg font-montserrat"
+                className="text-green-300 hover:text-green-500 transition text-sm sm:text-base lg:text-lg font-montserrat"
               >
                 {link.name}
               </a>
@@ -117,14 +116,14 @@ const Navbar = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.1, color: '#e9c46a' }}
               onClick={() => setIsOpen(false)}
               className="flex items-center"
             >
               <span className="mr-3 text-dark-brown">{link.icon}</span>
               <a
                 href={link.href}
-                className="text-dark-brown hover:text-eco-gold transition text-base font-montserrat"
+                className="text-eco-gold hover:text-eco-green transition text-base font-montserrat"
               >
                 {link.name}
               </a>

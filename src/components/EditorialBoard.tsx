@@ -105,7 +105,7 @@ const EditorialBoard = () => {
       transition={{ duration: 0.8 }}
       className="py-16 px-6 bg-neutral"
     >
-      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-12 text-center text-green-600">
+      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-12 text-center text-green-400">
         Editorial Board
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-5xl mx-auto">
