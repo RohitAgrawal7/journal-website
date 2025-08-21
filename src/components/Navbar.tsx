@@ -34,7 +34,7 @@ const Navbar = () => {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="bg-gradient-to-r from-[#5e3f3b] to-[#4b2e2b] sticky top-0 z-50 py-2 px-4 sm:py-4 sm:px-6 shadow-lg"
+      className="bg-gradient-to-r from-[#4b2e2b] to-[#4b2e2b] sticky top-0 z-50 py-2 px-4 sm:py-4 sm:px-6 shadow-lg"
     >
       {/* Background Animations */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
