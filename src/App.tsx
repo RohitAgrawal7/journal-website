@@ -1,5 +1,5 @@
 // src/App.js
-import React from 'react';
+// import React from 'react';
 import { motion } from 'framer-motion';
 import Banner from './components/Banner';
 import Navbar from './components/Navbar';

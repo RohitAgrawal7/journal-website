@@ -61,7 +61,7 @@ const SubmissionGuidelines = () => {
       </div>
 
       {/* Submission Steps */}
-      {/* <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
         {steps.map((step, idx) => (
           <motion.div
             key={idx}
@@ -74,7 +74,7 @@ const SubmissionGuidelines = () => {
             <p className="text-gray-700 leading-relaxed">{step.description}</p>
           </motion.div>
         ))}
-      </div> */}
+      </div>
 
       {/* Publication Schedule and Additional Info */}
       <div className="max-w-4xl mx-auto">
