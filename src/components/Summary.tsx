@@ -1,254 +1,126 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { FaLeaf, FaSolarPanel, FaSeedling, FaWater, FaGlobeAmericas } from 'react-icons/fa';
-import CountUp from 'react-countup';
+import React from 'react';
 
-const stats = [
-  { value: 6, unit: ' Issues/Year', label: 'Bi-Monthly Publications' },
-  { value: 100, unit: '%', label: 'Open Access for All' },
-  { value: 50, unit: '+', label: 'Global Reviewers' },
-  { value: 20, unit: '+', label: 'Countries Represented' },
-  { value: 100, unit: '+', label: 'Submissions Received' },
-];
-
-const Summary = () => {
-  const { ref, inView } = useInView({ triggerOnce: true });
-
+const HomeContent: React.FC = () => {
   return (
-    <motion.section
-      id="home"
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={inView ? { opacity: 1 } : {}}
-      transition={{ duration: 1 }}
-      className="relative py-16 px-6 bg-gradient-to-b from-deep-green to-rich-green text-center overflow-hidden"
-    >
-      {/* Animated Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        {/* Earth and Network */}
-        <motion.div
-          initial={{ x: 100, opacity: 0 }}
-          animate={inView ? { x: 0, opacity: 1 } : {}}
-          transition={{ duration: 1.2, delay: 0.4 }}
-          className="absolute top-1/2 right-0 w-1/2 h-full hidden lg:block"
-        >
-          {/* Floating Earth */}
-          <motion.div
-            className="absolute top-1/2 right-0 text-9xl text-tech-teal"
-            animate={{
-              y: [-20, 0, -20],
-              rotate: [-5, 0, 5],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ filter: 'drop-shadow(0 0 20px rgba(42, 157, 143, 0.7))' }}
-          >
-            <FaGlobeAmericas />
-          </motion.div>
-          {/* Rotating Globe and Network */}
-          <motion.svg
-            viewBox="0 0 400 400"
-            className="absolute top-1/2 right-0 w-[400px] h-[400px] transform -translate-y-1/2"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-          >
-            <circle cx="200" cy="200" r="150" fill="none" stroke="#2a9d8f" strokeWidth="1" strokeOpacity="0.1" />
-            <g className="pulse-network" style={{ animation: 'pulseNetwork 3s ease-in-out infinite' }}>
-              <path
-                d="M200,50 Q250,100 200,150 Q150,100 200,50"
-                fill="none"
-                stroke="#5d9b7b"
-                strokeWidth="1"
-              />
-              <path
-                d="M200,150 Q250,200 200,250 Q150,200 200,150"
-                fill="none"
-                stroke="#5d9b7b"
-                strokeWidth="1"
-              />
-              <path
-                d="M50,200 Q100,250 150,200 Q100,150 50,200"
-                fill="none"
-                stroke="#5d9b7b"
-                strokeWidth="1"
-              />
-            </g>
-            {/* Spider Web */}
-            <g className="spider-web" style={{ animation: 'spiderWeb 4s ease-in-out infinite' }}>
-              <line x1="200" y1="50" x2="200" y2="350" stroke="#e9c46a" strokeWidth="0.5" strokeOpacity="0.3" />
-              <line x1="50" y1="200" x2="350" y2="200" stroke="#e9c46a" strokeWidth="0.5" strokeOpacity="0.3" />
-            </g>
-            {/* Circuit Flow */}
-            <path
-              d="M120,120 L150,120 L150,150 L180,150"
-              fill="none"
-              stroke="#2a9d8f"
-              strokeWidth="2"
-              strokeDasharray="5"
-              className="circuit-flow"
-            />
-          </motion.svg>
-        </motion.div>
+    <main id="primary" className="site-main max-w-6xl mx-auto px-4 py-8">
+      <article id="post-7" className="pb-article pb-singular post-7 page type-page status-publish hentry">
+        <header className="entry-header mb-8">
+          <h1 className="entry-title text-3xl font-bold text-gray-800">Home</h1>
+        </header>
 
-        {/* Floating Leaves */}
-        {[...Array(8)].map((_, idx) => (
-          <motion.div
-            key={idx}
-            className="floating-leaf text-2xl text-[#5d9b7b] absolute"
-            initial={{ y: -100, opacity: 0, rotate: 0 }}
-            animate={{ y: '100vh', opacity: [0, 1, 1, 0], rotate: 360 }}
-            transition={{ duration: 15, delay: idx * 1.5, repeat: Infinity }}
-            style={{ left: `${5 + idx * 12}%` }}
-          >
-            <FaLeaf />
-          </motion.div>
-        ))}
+        <div className="pb-content">
+          <div className="entry-content space-y-6">
+            <div className="wp-block-buttons flex justify-end space-x-4 mb-6">
+              <div className="wp-block-button">
+                <a
+                  className="wp-block-button__link bg-teal-800 text-white font-medium py-4 px-6 rounded-lg hover:bg-teal-700 transition-colors duration-200"
+                  href="https://qtanalytics.in/journals/index.php/IJERR/issue/current"
+                >
+                  Current
+                </a>
+              </div>
+              <div className="wp-block-button">
+                <a
+                  className="wp-block-button__link bg-teal-800 text-white font-medium py-4 px-6 rounded-lg hover:bg-teal-700 transition-colors duration-200"
+                  href="https://qtanalytics.in/journals/index.php/IJERR/issue/archive"
+                >
+                  Archive
+                </a>
+              </div>
+            </div>
 
-        {/* Bouncing Science Icons */}
-        {[
-          { icon: FaSolarPanel, top: '20%', left: '10%', delay: 0.5 },
-          { icon: FaSeedling, top: '30%', left: '85%', delay: 1.5 },
-          { icon: FaWater, top: '40%', left: '15%', delay: 2.5 },
-        ].map(({ icon: Icon, top, left, delay }, idx) => (
-          <motion.div
-            key={idx}
-            className="absolute text-2xl text-eco-gold"
-            initial={{ y: 0 }}
-            animate={{ y: [-20, 0, -20] }}
-            transition={{ duration: 5, delay, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ top, left }}
-          >
-            <Icon />
-          </motion.div>
-        ))}
+            <p className="text-gray-700 leading-relaxed">
+              For promoting scientific research and science communication among the researchers and enhancing the knowledge base encompassing the latest trends and developments in various disciplines of International Journal of Experimental Research and Review (IJERR) encourages author(s) to submit manuscripts from Basic Sciences (Physics, Chemistry, Mathematics, Earth Science, Astronomy & Life Sciences), Applied Sciences (Engineering, Medicine, Agriculture & Environmental Science) and Allied Disciplines including Computer, Technology, Management, Health and Medical Sciences, Nutrition, Botany, Zoology, Forestry, Fishery, Sericulture, Apiculture, Pharmacology, Bioinformatics, Geography, Educational Statistics and Social Sciences (Psychology, Sociology, Economics, Anthropology).
+            </p>
 
-        {/* Growing Trees */}
-        <div className="absolute bottom-0 left-0 w-full flex justify-around">
-          {[...Array(5)].map((_, idx) => (
-            <motion.div
-              key={idx}
-              className="text-5xl text-vibrant-green"
-              initial={{ scaleY: 0, opacity: 0 }}
-              animate={inView ? { scaleY: 1, opacity: 1 } : {}}
-              transition={{ duration: 8, delay: idx * 0.5, ease: 'easeOut' }}
-              style={{ transformOrigin: 'bottom' }}
-            >
-              <FaLeaf />
-            </motion.div>
-          ))}
+            <p className="text-gray-700 leading-relaxed">
+              International Journal of Experimental Research and Review i.e., IJERR (e-ISSN: 2455-4855; <a href="https://www.iaph.in" className="text-blue-600 hover:underline">www.iaph.in</a>) is a tri-annual multidisciplinary online journal. The journal is published tri-annually and follows double-blind peer-review strategy. The journal accepts good-quality original research articles, review articles, short communications, conference proceedings, seminar papers etc. International Academic Publishing House (IAPH) also publishes theme-based special issues from time to time. IAPH is committed to maintaining ethical standards at all stages of the publication process. Submitted manuscripts are assessed and reviewed by qualified editorial board members and invited expert reviewers (at least one from India and one from abroad each) from the relevant subject area. When submitting the manuscript to the online journal system, it is necessary to provide a Cover letter cum Declaration Form in which the author should focus on the subjects and mention specific research fields. This input is extremely helpful because it enables editors to simplify their responsibility of ensuring appropriate expertise. From a variety of sources and subject-matter experience, editors search for relevant possible reviewer names. Recommendations from subject-matter experts often guide editors in determining whether a submission should be accepted, revised, or rejected. Reviewers could provide significant advice on these decisions.
+            </p>
+
+            <p className="text-gray-700 leading-relaxed">
+              IJERR is not a registered member of the Committee of Publication Ethics (COPE). However, it follows the best practices as defined by COPE and is open to the views and opinions of authors, reviewers and editorial board members. The journal adheres to the highest academic integrity standards as advocated by COPE (<a href="https://publicationethics.org/guidance/Guidelines" className="text-blue-600 hover:underline">https://publicationethics.org/guidance/Guidelines</a>) and upholds the standards of ethical behaviour at all stages of the publication process.
+            </p>
+
+            <p className="text-gray-700 leading-relaxed">
+              From 2021, the IJERR editorial office strictly monitors technical issues including fabrication, falsification, and plagiarism. The journal requests a write-up from the author(s) in the form of percentages of text similarity. Editorial office also checks such similarities with the help of Turnitin software. IJERR's Statement on Publication Ethics & Malpractice thoroughly explains all other important points relating to numerous malpractice categories.
+            </p>
+
+            <p className="text-gray-700 leading-relaxed">
+              The journal sets quality standards for the acceptance of appropriate manuscripts. IJERR welcomes the views and suggestions from author and editorial board members at all times to maintain and improve the overall standard. IJERR's team follows a set of processes, which encourage the accuracy and clarity of manuscripts, including editorial services, if required. All such processing is carried out by a team of experts, including the Co-Editors-in-Chief, Associate Editors and Editorial Members, whose is binding and final.
+            </p>
+
+            <p className="text-gray-700 leading-relaxed">
+              <strong>Subject areas for Publication:</strong> IJERR encourages author(s) to submit manuscripts from Basic Sciences (Physics, Chemistry, Mathematics, Earth Science, Astronomy & Life Sciences), Applied Sciences (Engineering, Medicine, Agriculture & Environmental Science) and Allied Disciplines including Computer, Technology, Management, Health and Medical Sciences, Nutrition, Botany, Zoology, Forestry, Fishery, Sericulture, Apiculture, Pharmacology, Bioinformatics, Geography, Educational Statistics and Social Sciences (Psychology, Sociology, Economics, Anthropology).
+            </p>
+
+            <hr className="wp-block-separator border-gray-300 my-8" />
+
+            <div className="journal-info space-y-4">
+              <p>
+                <strong>Journal Title:</strong> <strong>International Journal of Experimental Research and Review</strong><br />
+                <strong>ISSN:</strong> 2455-4855<br />
+                <strong>Website:</strong> <a href="http://www.iaph.in/" className="text-blue-600 hover:underline">www.iaph.in</a><br />
+                <strong>Publisher:</strong> International Academic Publishing House (IAPH)<br />
+                <strong>Copyright:</strong> International Academic Publishing House (IAPH)<br />
+                <strong>Starting Year:</strong> 2015<br />
+                <strong>Subject:</strong> Multidisciplinary<br />
+                <strong>Language:</strong> English<br />
+                <strong>Publication Format:</strong><br />
+                <a href="https://qtanalytics.in/journals/index.php/IJERR/online-submission-procedure" className="text-blue-600 hover:underline">https://qtanalytics.in/journals/index.php/IJERR/online-submission-procedure</a><br />
+                <strong>Phone No:</strong> +91-9733697736
+              </p>
+
+              <p>
+                <strong>Co-Editor-in-Chief</strong><br />
+                <strong>Shubhadeep Roychoudhury,</strong> Ph.D., Habil.<br />
+                Associate Professor, Department of Life Science & Bioinformatics<br />
+                Assam University, Silchar, India<br />
+                E-mail: shubhadeep1@gmail.com<br />
+                <a href="https://orcid.org/0000-0003-4174-1852" className="text-blue-600 hover:underline"><strong>https://orcid.org/0000-0003-4174-1852</strong></a><br />
+                <a href="https://www.scopus.com/authid/detail.uri?authorId=24067583200" className="text-blue-600 hover:underline"><strong>https://www.scopus.com/authid/detail.uri?authorId=24067583200</strong></a><br />
+                <a href="https://www.researchgate.net/profile/Shubhadeep_Roychoudhury" className="text-blue-600 hover:underline"><strong>https://www.researchgate.net/profile/Shubhadeep_Roychoudhury</strong></a>
+              </p>
+
+              <p>
+                <strong>Co-Editor-in-Chief</strong><br />
+                <strong>Nithar Ranjan Madhu,</strong> Ph.D.<br />
+                Associate Professor, Department of Zoology<br />
+                Acharya Prafulla Chandra College, New Barrackpore, North 24 Parganas, Kolkata, India<br />
+                E-mail: chiefeditoriaph@gmail.com, nithar@apccollege.ac.in<br />
+                <a href="https://orcid.org/0000-0003-4198-5048" className="text-blue-600 hover:underline"><strong>https://orcid.org/0000-0003-4198-5048</strong></a><br />
+                <a href="https://www.scopus.com/authid/detail.uri?authorId=36178099100" className="text-blue-600 hover:underline"><strong>https://www.scopus.com/authid/detail.uri?authorId=36178099100</strong></a>
+              </p>
+
+              <p>
+                <strong>Regular Volumes:</strong><br />
+                (A) Date of Publishing: 30<sup>th</sup> April (Submission Deadline: 20th March)<br />
+                (B) Date of Publishing: 30<sup>th</sup> August (Submission Deadline: 20th July)<br />
+                (C) Date of Publishing: 30<sup>th</sup> December (Submission Deadline: 20th November)
+              </p>
+
+              <p>
+                <strong>Special Volumes:</strong> Based on the needs<br />
+                (*) Acknowledgement of received information: Within Seven (7) days<br />
+                (**) Final Decision (Accepted/ Rejected): Approx. 25+ days from the date of submission of the manuscript
+              </p>
+
+              <p>
+                <strong>Address-1:</strong> Village & Post.: Chikanpara, Thakurnagar, P.S. Gaighata, Dist. North 24 Parganas, West Bengal 743287, India
+              </p>
+
+              <p>
+                <strong>Address-2:</strong> Sarada Sarani, Nibedita Park, Post Office: Hridaypur, Dist- North 24 Parganas, Kolkata, Pin – 700127, West Bengal, India. E-mail: iaphjournal@gmail.com
+              </p>
+
+              <p>
+                <strong>Address-3 (International):</strong> 91 Victoria Road, Swindon, SN13BD, ENGLAND, E-mail: publisher@iaph.co.in
+              </p>
+            </div>
+          </div>
         </div>
-
-        {/* Water Ripples */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-24">
-          {[...Array(3)].map((_, idx) => (
-            <motion.div
-              key={idx}
-              className="absolute top-1/2 left-1/2 w-10 h-10 border-2 border-tech-teal rounded-full"
-              initial={{ scale: 1, opacity: 0.7 }}
-              animate={{ scale: 2, opacity: 0 }}
-              transition={{ duration: 3, delay: idx * 1, repeat: Infinity }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="max-w-3xl mx-auto prose text-green-200 relative z-10">
-        <motion.h2
-          initial={{ y: 50, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-3xl sm:text-4xl font-bold font-['Roboto_Slab'] mb-8 text-eco-gold"
-        >
-          Welcome to GreenTech Innovative Society
-        </motion.h2>
-        <motion.p
-          initial={{ y: 50, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg leading-relaxed"
-        >
-          The Universal Journal of Green Tech is a bi-monthly, open-access journal dedicated to advancing research in green technology and sustainability. Published by the Universal One Research Association, we provide a global platform for researchers, scientists, and scholars to share innovative solutions addressing environmental challenges.
-        </motion.p>
-        <motion.p
-          initial={{ y: 50, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-lg leading-relaxed"
-        >
-          We welcome submissions across Basic Sciences (Physics, Chemistry, Earth Science, Life Sciences), Applied Sciences (Engineering, Environmental Science, Agriculture), and Allied Disciplines (Technology, Management, Health Sciences, Social Sciences), emphasizing sustainable innovations.
-        </motion.p>
-      </div>
-
-      {/* Stats Section */}
-      <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
-        {stats.map((stat, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: idx * 0.2 }}
-            whileHover={{ scale: 1.05, boxShadow: '0 15px 30px rgba(0, 0, 0, 0.4)' }}
-            className="bg-rich-green/80 p-6 rounded-xl shadow-md border-l-4 border-tech-teal hover:shadow-lg transition-all"
-          >
-            <CountUp
-              end={inView ? stat.value : 0}
-              duration={2}
-              className="text-4xl font-bold text-deep-green"
-              suffix={stat.unit}
-            />
-            <p className="mt-2 text-green-200 leading-relaxed">{stat.label}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Inline Styles */}
-      <style jsx>{`
-        @keyframes pulseNetwork {
-          0% {
-            stroke-width: 1;
-            stroke-opacity: 0.3;
-          }
-          50% {
-            stroke-width: 2;
-            stroke-opacity: 0.6;
-          }
-          100% {
-            stroke-width: 1;
-            stroke-opacity: 0.3;
-          }
-        }
-        @keyframes spiderWeb {
-          0% {
-            stroke-opacity: 0.1;
-          }
-          50% {
-            stroke-opacity: 0.5;
-          }
-          100% {
-            stroke-opacity: 0.1;
-          }
-        }
-        @keyframes circuitFlow {
-          0% {
-            stroke-dashoffset: 100;
-          }
-          100% {
-            stroke-dashoffset: 0;
-          }
-        }
-        .pulse-network {
-          animation: pulseNetwork 3s ease-in-out infinite;
-        }
-        .spider-web {
-          animation: spiderWeb 4s ease-in-out infinite;
-        }
-        .circuit-flow {
-          animation: circuitFlow 3s linear infinite;
-          stroke-dasharray: 10;
-        }
-      `}</style>
-    </motion.section>
+      </article>
+    </main>
   );
 };
 
-export default Summary;
+export default HomeContent;
