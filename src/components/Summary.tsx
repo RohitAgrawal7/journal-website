@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaGlasses, FaUnlock, FaClock, FaBook, FaShieldAlt, FaCompass, FaHome, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { FaCheckCircle, FaUnlock, FaClock, FaBook, FaShieldAlt, FaCompass, FaHome, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
 const AboutJournal: React.FC = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -32,7 +32,7 @@ const AboutJournal: React.FC = () => {
     const navItems = [
       { id: 'overview', title: 'Overview', icon: FaBook },
       { id: 'scope', title: 'Scope & Subject Areas', icon: FaBookOpen },
-      { id: 'peer-review', title: 'Peer Review', icon: FaGlasses },
+      { id: 'peer-review', title: 'Peer Review', icon: FaCheckCircle },
       { id: 'publication-schedule', title: 'Publication Schedule', icon: FaClock },
       { id: 'commitment', title: 'Our Commitment', icon: FaShieldAlt },
     ];
@@ -103,7 +103,7 @@ const AboutJournal: React.FC = () => {
             </ul>
           </ContentSection>
 
-          <ContentSection id="peer-review" title="Peer Review" icon={FaGlasses}>
+          <ContentSection id="peer-review" title="Peer Review" icon={FaCheckCircle}>
             <p className="text-gray-700 leading-relaxed">
               UJGSM follows a <strong>double-blind peer-review process</strong>, ensuring rigorous evaluation of manuscripts by experts from India and abroad. All submissions undergo plagiarism screening using tools such as Turnitin, and authors are required to provide a text similarity report along with a Cover Letter cum Declaration Form.
             </p>

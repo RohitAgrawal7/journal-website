@@ -33,24 +33,24 @@ const UpcomingContent: React.FC = () => {
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Special Issues */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold text-light-green mb-4">
+              <h3 className="text-xl font-semibold text-teal-800 mb-4">
                 📚 Upcoming Special Issues
               </h3>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start">
-                  <span className="bg-teal-100 text-light-green rounded-full p-2 mr-3">
+                  <span className="bg-teal-100 text-teal-800 rounded-full p-2 mr-3">
                     ⏰
                   </span>
                   <span>Advanced Materials Research - April 2024</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-teal-100 text-light-green rounded-full p-2 mr-3">
+                  <span className="bg-teal-100 text-teal-800 rounded-full p-2 mr-3">
                     🌱
                   </span>
                   <span>Environmental Sustainability - August 2024</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-teal-100 text-light-green rounded-full p-2 mr-3">
+                  <span className="bg-teal-100 text-teal-800 rounded-full p-2 mr-3">
                     🤖
                   </span>
                   <span>AI in Scientific Research - December 2024</span>
@@ -60,12 +60,12 @@ const UpcomingContent: React.FC = () => {
 
             {/* Events */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold text-light-green mb-4">
+              <h3 className="text-xl font-semibold text-teal-800 mb-4">
                 🎤 Upcoming Events
               </h3>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start">
-                  <span className="bg-teal-100 text-light-green rounded-full p-2 mr-3">
+                  <span className="bg-teal-100 text-teal-800 rounded-full p-2 mr-3">
                     📅
                   </span>
                   <span>
@@ -74,13 +74,13 @@ const UpcomingContent: React.FC = () => {
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-teal-100 text-light-green rounded-full p-2 mr-3">
+                  <span className="bg-teal-100 text-teal-800 rounded-full p-2 mr-3">
                     📝
                   </span>
                   <span>Workshop on Research Methodology - May 22, 2024</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-teal-100 text-light-green rounded-full p-2 mr-3">
+                  <span className="bg-teal-100 text-teal-800 rounded-full p-2 mr-3">
                     🌍
                   </span>
                   <span>

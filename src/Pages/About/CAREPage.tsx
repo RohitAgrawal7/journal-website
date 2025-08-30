@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FaShieldAlt, FaGlasses, FaFileAlt, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { FaFileAlt, FaUsers, FaRegFileAlt, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
 const CARE: React.FC = () => {
-  const [activeSection, setActiveSection] = useState('overview');
+  const [activeSection, setActiveSection] = useState('ugc-care');
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['overview', 'ethical-oversight', 'peer-review'];
+      const sections = ['ugc-care', 'peer-review', 'ugc-regulation'];
       const scrollPosition = window.scrollY + 100; // Offset for header
       sections.forEach((section) => {
         const element = document.getElementById(section);
@@ -30,9 +30,9 @@ const CARE: React.FC = () => {
   // Sidebar Component
   const Sidebar = () => {
     const navItems = [
-      { id: 'overview', title: 'Overview', icon: FaFileAlt },
-      { id: 'ethical-oversight', title: 'Ethical Oversight', icon: FaShieldAlt },
-      { id: 'peer-review', title: 'Peer Review Process', icon: FaGlasses },
+      { id: 'ugc-care', title: 'UGC CARE & Ethical Compliance', icon: FaFileAlt },
+      { id: 'peer-review', title: 'Peer Review Process', icon: FaUsers },
+      { id: 'ugc-regulation', title: 'Latest UGC Regulation', icon: FaRegFileAlt },
     ];
 
     return (
@@ -75,32 +75,54 @@ const CARE: React.FC = () => {
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
-          <h1 className="text-3xl font-merriweather font-bold">CARE</h1>
+          <h1 className="text-3xl font-merriweather font-bold">UGC CARE and Ethical Compliance</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
         </div>
         <div className="p-6 space-y-6">
-          <ContentSection id="overview" title="Overview" icon={FaFileAlt}>
+          <ContentSection id="ugc-care" title="UGC CARE & Ethical Compliance" icon={FaFileAlt}>
             <p className="text-gray-700 leading-relaxed">
-              UGC (University Grants Commission, India, <a href="https://www.ugc.ac.in" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">www.ugc.ac.in</a>) established executive board members with eminent research scientists and academic persons to maintain academic and research integrity and publication ethics (<a href="https://ugccare.unipune.ac.in/apps1/home/index" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">UGC-CARE</a>).
+              The University Grants Commission (UGC), India (<a href="https://www.ugc.ac.in" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">www.ugc.ac.in</a>) has established the UGC-CARE List (Consortium for Academic and Research Ethics) to maintain academic and research integrity and uphold publication ethics. The initiative is supported by an executive board consisting of eminent research scientists and academicians. [<a href="https://ugccare.unipune.ac.in/apps1/home/index" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">Reference</a>]
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Since 2021, the Journal’s Executive Members have strictly monitored ethical issues such as fabrication, falsification, and plagiarism. Authors are required to provide a text similarity report (in percentage) at the time of submission. In addition, all manuscripts are double-checked using the Journal’s licensed Turnitin plagiarism detection software.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              The Journal follows a Statement on Publication Ethics & Malpractice, which outlines categories of academic misconduct and the measures taken for prevention.
             </p>
           </ContentSection>
 
-          <ContentSection id="ethical-oversight" title="Ethical Oversight" icon={FaShieldAlt}>
+          <ContentSection id="peer-review" title="Peer Review Process" icon={FaUsers}>
             <p className="text-gray-700 leading-relaxed">
-              From 2021, the Journal’s executive members strictly monitor several ethical issues such as fabrication, falsification, and plagiarism. The journal has requested a write-up from authors in the form of percentages of text similarity. Executive members have now double-checked such similarities with the help of the Journal’s Turnitin plagiarism software.
+              The Journal employs a double-blind peer-review system to ensure:
             </p>
-            <p className="text-gray-700 leading-relaxed">
-              The <a href="#" className="text-eco-gold hover:underline">Statement on Publication Ethics & Malpractice</a> thoroughly explains all other important facts relating to numerous misbehaviour categories.
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li>Highest quality of research evaluation</li>
+              <li>Fairness and transparency in publication decisions</li>
+              <li>Strict avoidance of plagiarism</li>
+            </ul>
+            <p className="text-gray-700 leading-relaxed mt-2">
+              Every submitted article is evaluated by two expert reviewers:
             </p>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Latest Memo:</strong> <a href="#" className="text-eco-gold hover:underline">F. No.:1-1/2018(CARE/JOURNAL) dated 16 July, 2025</a>
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li>One reviewer from India</li>
+              <li>One reviewer from abroad</li>
+            </ul>
+            <p className="text-gray-700 leading-relaxed mt-2">
+              This process ensures academic rigor and international research standards.
             </p>
           </ContentSection>
 
-          <ContentSection id="peer-review" title="Peer Review Process" icon={FaGlasses}>
+          <ContentSection id="ugc-regulation" title="Latest UGC Regulation" icon={FaRegFileAlt}>
             <p className="text-gray-700 leading-relaxed">
-              The double-blind peer-review process is used to ensure the highest quality and fair policy of evaluation and publication process to maintain the highest ethical standards and avoid plagiarism. Submitted research articles are assessed and reviewed by specialist Reviewers (one from India and one from abroad) as invited for specific discipline using the double-blind peer review process to ensure the highest quality and fair policy of evaluation and publication process to maintain the highest ethical standards.
+              As per the latest memorandum:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li><strong>F. No.:</strong> 1-1/2018(CARE/JOURNAL)</li>
+              <li><strong>Date:</strong> 16th July 2025</li>
+            </ul>
+            <p className="text-gray-700 leading-relaxed mt-2">
+              This regulation provides the latest updates on ethical compliance and journal evaluation criteria under UGC-CARE. [<a href="#" className="text-eco-gold hover:underline">Link</a>]
             </p>
           </ContentSection>
         </div>

@@ -83,7 +83,7 @@ const EditorBoards: React.FC = () => {
           <ContentSection id="editor-in-chief" title="Editor-in-Chief" icon={FaUserTie}>
             <div className="flex flex-col md:flex-row md:gap-6">
               <div className="md:w-1/3 mb-4 md:mb-0">
-                <img src="/images/editorial-board.jpg" alt="Editor-in-Chief" className="w-40 h-40 rounded-full shadow-md object-cover" />
+                <img src="/public/pawan.jpeg" alt="Editor-in-Chief" className="w-40 h-40 rounded-full shadow-md object-cover" />
               </div>
               <div className="md:w-2/3">
                 <p className="text-gray-700 leading-relaxed">
@@ -99,7 +99,7 @@ const EditorBoards: React.FC = () => {
           <ContentSection id="managing-editor" title="Managing Editor" icon={FaUsers}>
             <div className="flex flex-col md:flex-row md:gap-6">
               <div className="md:w-1/3 mb-4 md:mb-0">
-                <img src="/images/editorial-board.jpg" alt="Managing Editor" className="w-40 h-40 rounded-full shadow-md object-cover" />
+                <img src="/public/swapnil.jpeg" alt="Managing Editor" className="w-40 h-40 rounded-full shadow-md object-cover" />
               </div>
               <div className="md:w-2/3">
                 <p className="text-gray-700 leading-relaxed">

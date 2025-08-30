@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { FaCheckCircle, FaPaperPlane, FaFileAlt, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { FaFileAlt, FaRobot, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-const PeerReviewProcess: React.FC = () => {
+// Updated AI-Generated Content Policy component for Universal Journal of Green SciTech & Management (UJGSM)
+const AIGeneratedContentPolicy: React.FC = () => {
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['overview', 'review-process', 'post-acceptance'];
+      const sections = ['overview', 'policy-details'];
       const scrollPosition = window.scrollY + 100; // Offset for header
       sections.forEach((section) => {
         const element = document.getElementById(section);
@@ -30,9 +31,8 @@ const PeerReviewProcess: React.FC = () => {
   // Sidebar Component
   const Sidebar = () => {
     const navItems = [
-      { id: 'overview', title: 'Overview', icon: FaCheckCircle },
-      { id: 'review-process', title: 'Review Process', icon: FaPaperPlane },
-      { id: 'post-acceptance', title: 'Post-Acceptance', icon: FaFileAlt },
+      { id: 'overview', title: 'Overview', icon: FaFileAlt },
+      { id: 'policy-details', title: 'Policy Details', icon: FaRobot },
     ];
 
     return (
@@ -75,45 +75,21 @@ const PeerReviewProcess: React.FC = () => {
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
-          <h1 className="text-3xl font-merriweather font-bold">Peer Review Process</h1>
+          <h1 className="text-3xl font-merriweather font-bold">AI-Generated Content Policy</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
         </div>
         <div className="p-6 space-y-6">
-          <ContentSection id="overview" title="Overview" icon={FaCheckCircle}>
+          <ContentSection id="overview" title="Overview" icon={FaFileAlt}>
             <p className="text-gray-700 leading-relaxed">
-              UJGSM follows a <strong>double-blind peer-review system</strong>, ensuring fairness, quality, and scientific rigor. Authors’ identities are hidden from reviewers, and reviewers remain anonymous. The peer-review process is thorough, objective, and designed to maintain the journal’s reputation for high-quality publications.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              UJGSM maintains neutrality on all topics and evaluates manuscripts solely based on scientific merit.
+              The Universal Journal of Green SciTech & Management (UJGSM) maintains strict guidelines on the use of AI-generated content to ensure all research is original, ethical, and of high quality.
             </p>
           </ContentSection>
 
-          <ContentSection id="review-process" title="Review Process" icon={FaPaperPlane}>
-            <p className="text-gray-700 leading-relaxed font-semibold">
-              The peer-review process includes the following steps:
+          <ContentSection id="policy-details" title="Policy Details" icon={FaRobot}>
+            <p className="text-gray-700 leading-relaxed">
+              AI tools cannot be listed as authors; only individuals who have contributed intellectually to the study concept, methodology, analysis, and manuscript preparation are eligible for authorship. AI may assist in writing or formatting, but authors are responsible for verifying and ensuring that no AI-generated content is misrepresented as human work. Any misuse of AI-generated content is the sole responsibility of the authors, and the journal and editorial board are not liable.
             </p>
-            <ul className="list-decimal pl-6 text-gray-700 leading-relaxed">
-              <li>The editorial team performs an initial screening for completeness, formatting, adherence to guidelines, and similarity index. Incomplete or non-compliant manuscripts are rejected immediately.</li>
-              <li>Suitable manuscripts are sent to at least two subject experts for evaluation. Reviewers access the anonymized manuscript and an evaluation form through the online system.</li>
-              <li>Reviewers submit feedback within 2–3 weeks, providing suggestions for improvement and assessing the manuscript’s suitability for publication.</li>
-              <li>The editorial team compiles reviewers’ comments and communicates them to the corresponding author. Authors may revise the manuscript and submit a response detailing changes.</li>
-              <li>Revised manuscripts may be re-evaluated by the same or new reviewers if necessary.</li>
-              <li>The Editor-in-Chief and editorial team make the final decision: accept, request further revisions, or reject.</li>
-            </ul>
-          </ContentSection>
-
-          <ContentSection id="post-acceptance" title="Post-Acceptance" icon={FaFileAlt}>
-            <p className="text-gray-700 leading-relaxed font-semibold">
-              After acceptance, the following steps are taken:
-            </p>
-            <ul className="list-decimal pl-6 text-gray-700 leading-relaxed">
-              <li>Authors provide the Declaration Form after acceptance.</li>
-              <li>The manuscript is formatted according to UJGSM style by the technical team.</li>
-              <li>Copyright transfer and Article Processing Charges (APC) are collected.</li>
-              <li>The corresponding author reviews the final version before online publication.</li>
-              <li>The article is assigned a DOI and indexed online.</li>
-            </ul>
           </ContentSection>
         </div>
       </div>
@@ -162,4 +138,4 @@ const PeerReviewProcess: React.FC = () => {
   );
 };
 
-export default PeerReviewProcess;
+export default AIGeneratedContentPolicy;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaGlasses, FaUnlock, FaClock, FaBook, FaPaperPlane, FaFileAlt, FaShieldAlt, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaMoneyBillWave, FaCompass, FaHome } from 'react-icons/fa';
+import { FaCheckCircle, FaUnlock, FaClock, FaBook, FaPaperPlane, FaFileAlt, FaShieldAlt, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaMoneyBillWave, FaCompass, FaHome } from 'react-icons/fa';
 
 const AuthorsGuidelines: React.FC = () => {
   const [activeSection, setActiveSection] = useState('peer-review');
@@ -30,7 +30,7 @@ const AuthorsGuidelines: React.FC = () => {
   // Sidebar Component
   const Sidebar = () => {
     const navItems = [
-      { id: 'peer-review', title: 'Peer Review', icon: FaGlasses },
+      { id: 'peer-review', title: 'Peer Review', icon: FaCheckCircle },
       { id: 'open-access', title: 'Open Access', icon: FaUnlock },
       { id: 'frequency', title: 'Frequency of Publication', icon: FaClock },
       { id: 'scope', title: 'Scope & Subject Areas', icon: FaBook },
@@ -88,7 +88,7 @@ const AuthorsGuidelines: React.FC = () => {
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated Guidelines – 2025</p>
         </div>
         <div className="p-6 space-y-6">
-          <ContentSection id="peer-review" title="Peer Review" icon={FaGlasses}>
+          <ContentSection id="peer-review" title="Peer Review" icon={FaCheckCircle}>
             <p className="text-gray-700 leading-relaxed">
               All submitted manuscripts undergo a <strong>double-blind peer-review process</strong> by experts from India and abroad to ensure <strong>fairness</strong>, <strong>quality</strong>, and <strong>scientific rigor</strong>. Reviewers remain anonymous, and authors’ identities are hidden from reviewers.
             </p>

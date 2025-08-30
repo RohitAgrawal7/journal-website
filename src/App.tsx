@@ -23,10 +23,12 @@ import CopyrightFormPage from './Pages/Submission/CopyrightFormPage';
 import ManuscriptTemplatePage from './Pages/Submission/ManuscriptTemplatePage';
 import ContactUsPage from './Pages/ContactUsPage';
 import ArticleProcessingCharges from './Pages/View/ArticleProcessingCharges';
-import TimeAndOpenAccess from './Pages/View/TimeOfPublication';
-import TimeOfPublication from './Pages/View/TimeOfPublication';
+// import TimeAndOpenAccess from './Pages/View/TimeAndOpenAccess';
+import TimeOfPublication from './Pages/View/TimeAndOpenAccess';
 import CurrentIssue from './components/CurrentIssue';
 import Archives from './components/Archives';
+import PlagiarismPolicy from './Pages/About/PlagiarismPolicy';
+import AIGeneratedContentPolicy from './Pages/About/AIGeneratedContentPolicy';
 // import Home from './Pages/View/Home';
 function App() {
   return (
@@ -34,7 +36,7 @@ function App() {
       <SiteBranding />
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomeContent />} />
+        <Route path="/" element={<Home />} />
          {/* <Route path="/current" element={<CurrentContent />} />
           <Route path="/archives" element={<Archives />} /> */}
           {/* <Route path="/important-links" element={<ImportantLinks />} /> */}
@@ -44,6 +46,7 @@ function App() {
               <Footer />
             </>
           } />
+          <Route path="/about-the-journal" element={<HomeContent />} />
           <Route path="/author-guidelines" element={<AuthorGuidelines />} />
           <Route path="/reviewer-guidelines" element={<ReviewerGuidelines />} />
           <Route path="/article-processing-charges" element={<ArticleProcessingCharges />} />
@@ -53,8 +56,10 @@ function App() {
             <Route path="/publication-policies" element={<PublicationPoliciesPage />} />
             <Route path="/peer-review-process" element={<PeerReviewProcessPage />} />
             <Route path="/cope" element={<COPEPage />} />
+            <Route path="/plagiarism-policy" element={<PlagiarismPolicy />} />
             <Route path="/care" element={<CAREPage />} />
             <Route path="/privacy-statement" element={<PrivacyStatementPage />} />
+            <Route path="/ai-generated-content-policy" element={<AIGeneratedContentPolicy />} />
           {/* <Route path="/time-of-publication" element={<TimeOfPublication />} /> */}
 
           {/* New submission routes */}

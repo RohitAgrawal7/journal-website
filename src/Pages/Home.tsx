@@ -1,222 +1,160 @@
-import React, { useState } from 'react';
-import { FaBook, FaLeaf, FaChartLine, FaRobot, FaTools, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaBookOpen, FaInfoCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
 const Home: React.FC = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
+  const [activeSection, setActiveSection] = useState('welcome');
 
-  const navItems = [
-    { id: 'about', label: 'About UORA' },
-    { id: 'mission', label: 'Mission & Vision' },
-    { id: 'journals', label: 'Journals' },
-    { id: 'policies', label: 'Editorial Policies' },
-    { id: 'ethics', label: 'Publication Ethics' },
-    { id: 'contact', label: 'Contact' },
-  ];
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['welcome', 'journal-particulars'];
+      const scrollPosition = window.scrollY + 100; // Offset for header
+      sections.forEach((section) => {
+        const element = document.getElementById(section);
+        if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+          setActiveSection(section);
+        }
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  const journals = [
-    { name: 'Universal Journal of Green SciTech & Management (UJGSM)', focus: 'Science, Technology & Management', icon: FaBook },
-    { name: 'GreenTech Innovative Society (GTIS)', focus: 'Science, Technology & Green Innovations', icon: FaLeaf },
-    { name: 'Journal of Management Innovations (JMI)', focus: 'Business & Management', icon: FaChartLine },
-    { name: 'Smart Computing & AI Research (SCAR)', focus: 'Computer Science, AI & Data Science', icon: FaRobot },
-    { name: 'Sustainable Engineering & Materials (SEM)', focus: 'Mechanical, Civil, Materials', icon: FaTools },
-  ];
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simulate form submission
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    setFormData({ name: '', email: '', message: '' });
-  };
+  // Sidebar Component
+  const Sidebar = () => {
+    const navItems = [
+      { id: 'welcome', title: 'Welcome', icon: FaBookOpen },
+      { id: 'journal-particulars', title: 'Journal Particulars', icon: FaInfoCircle },
+    ];
 
-  return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-deep-green to-vibrant-green text-black sticky top-0 z-50 shadow-md">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-7xl">
-          <div className="flex items-center space-x-2">
-            <FaBook className="text-2xl" />
-            <span className="text-xl font-bold">UORA</span>
-          </div>
-          <nav className="space-x-6 hidden md:block">
+    return (
+      <div className="lg:col-span-1">
+        <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
+          <h2 className="text-vibrant-green mb-4 flex items-center">
+            <FaCompass className="mr-2" /> Quick Navigation
+          </h2>
+          <ul className="space-y-2">
             {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className="hover:text-eco-gold transition-colors duration-200"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                {item.label}
-              </a>
+              <li key={item.id}>
+                <button
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${activeSection === item.id ? 'bg-vibrant-green text-white' : 'text-dark-brown hover:bg-gray-100'}`}
+                  onClick={() => scrollToSection(item.id)}
+                >
+                  <item.icon className="mr-2" />
+                  {item.title}
+                </button>
+              </li>
             ))}
-          </nav>
-          <button className="md:hidden text-black focus:outline-none">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </button>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-deep-green to-rich-green text-black py-20 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Universal Oneness in Research Association (UORA)</h1>
-          <p className="text-lg md:text-xl mb-6">Publisher of high-quality peer-reviewed journals in Science, Technology, and Management.</p>
-          <a
-            href="#contact"
-            className="bg-eco-gold text-deep-green font-semibold py-3 px-6 rounded-lg hover:bg-yellow-300 transition-colors duration-200"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            Get in Touch
-          </a>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-vibrant-green mb-6 text-center">About UORA</h2>
-          <p className="text-gray-700 leading-relaxed text-lg">
-            Universal Oneness in Research Association (UORA) is a publishing organization committed to advancing knowledge in Science, Technology, Management, and allied disciplines. UORA ensures ethical publishing, quality peer-review, and open access dissemination of research work.
-          </p>
-        </div>
-      </section>
-
-      {/* Mission & Vision */}
-      <section id="mission" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-vibrant-green mb-6 text-center">Mission & Vision</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-              <h3 className="text-xl font-semibold text-deep-green mb-2">Mission</h3>
-              <p className="text-gray-600">To promote high-quality research publication across multidisciplinary fields with focus on Science, Technology, and Management.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-              <h3 className="text-xl font-semibold text-deep-green mb-2">Vision</h3>
-              <p className="text-gray-600">To become a leading global publisher of peer-reviewed journals, fostering innovation, sustainability, and academic excellence.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Journals Section */}
-      <section id="journals" className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-vibrant-green mb-6 text-center">Journals under UORA</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {journals.map((journal, index) => (
-              <div key={index} className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-                <journal.icon className="text-vibrant-green text-3xl mb-3" />
-                <h3 className="text-lg font-semibold text-deep-green mb-2">{journal.name}</h3>
-                <p className="text-gray-600">{journal.focus}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Editorial Policies */}
-      <section id="policies" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-vibrant-green mb-6 text-center">Editorial Policies</h2>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            <li>Double-blind peer-review for all journals.</li>
-            <li>Mandatory plagiarism check for all submissions.</li>
-            <li>Adherence to COPE-inspired ethical standards.</li>
-            <li>Open access publication to facilitate knowledge dissemination.</li>
           </ul>
         </div>
-      </section>
+      </div>
+    );
+  };
 
-      {/* Publication Ethics */}
-      <section id="ethics" className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-vibrant-green mb-6 text-center">Publication Ethics</h2>
-          <p className="text-gray-700 leading-relaxed text-lg">
-            UORA strictly follows ethical guidelines for academic publishing, ensuring originality, proper citation, and transparency in research. Authors, reviewers, and editors are expected to adhere to these standards.
+  // ContentSection Component
+  const ContentSection: React.FC<{ id: string; title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }> = ({ id, title, icon: Icon, children }) => (
+    <section id={id} className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300">
+      <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
+        <Icon className="mr-3 text-teal-800 bg-vibrant-green rounded-full w-10 h-10 flex items-center justify-center" />
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+
+  // MainContent Component
+  const MainContent = () => (
+    <div className="lg:col-span-3">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-gradient-to-r from-teal-600 to-green-500 text-white p-8">
+          <h1 className="text-4xl font-merriweather font-bold">Welcome to UJGSM</h1>
+          <p className="text-lg mt-4 max-w-2xl">
+            Universal Journal of Green Sci-Tech & Management (UJGSM) is a bi-monthly, peer-reviewed, and open-access online journal dedicated to publishing original, high-quality research across various disciplines.
           </p>
+          <a
+            href="#"
+            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg-eco-gold hover:text-white transition-all duration-300"
+          >
+            Submit Your Manuscript
+          </a>
         </div>
-      </section>
+        <div className="p-6 space-y-6">
+          <ContentSection id="welcome" title="About UJGSM" icon={FaBookOpen}>
+            <p className="text-gray-700 leading-relaxed">
+              Launched in 2025 by the Universal Oneness Research Association (UORA), the Universal Journal of Green Sci-Tech & Management (UJGSM) focuses on bridging the gap between research and practice in science, technology, and management. Our mission is to foster interdisciplinary research that advances knowledge and addresses global challenges through innovative and sustainable solutions.
+            </p>
+          </ContentSection>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-vibrant-green mb-6 text-center">Contact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-deep-green mb-4">Get in Touch</h3>
-              <p className="flex items-center text-gray-600 mb-2"><FaEnvelope className="mr-2" /> Email: contact@uora.org</p>
-              <p className="flex items-center text-gray-600 mb-2"><FaPhone className="mr-2" /> Phone: +91-XXXXXXXXXX</p>
-              <p className="flex items-center text-gray-600"><FaMapMarkerAlt className="mr-2" /> Address: Universal Oneness in Research Association, India</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-deep-green mb-4">Send Us a Message</h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-vibrant-green"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-vibrant-green"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">Message</label>
-                  <textarea
-                    id="message"
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-vibrant-green"
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="bg-vibrant-green text-white font-semibold py-2 px-4 rounded hover:bg-deep-green transition-colors duration-200"
-                >
-                  Send Message
-                </button>
-                {submitted && <p className="text-green-600 mt-2">Message sent successfully!</p>}
-              </form>
-            </div>
+          <ContentSection id="journal-particulars" title="Journal Particulars" icon={FaInfoCircle}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li><strong>Journal Name:</strong> Universal Journal of Green Sci-Tech and Management</li>
+              <li><strong>Frequency:</strong> Bi-monthly (6 issues per year)</li>
+              <li><strong>e-ISSN:</strong> XXXX-XXXX</li>
+              <li><strong>Publisher:</strong> Universal Oneness Research Association (UORA)</li>
+              <li><strong>Chief-in-Editor:</strong> Prof. Pawan Dhanraj Somavanshi</li>
+              <li><strong>Managing-Editor:</strong> Dr. Swapnil Narayan Dhole</li>
+              <li><strong>Starting Year:</strong> 2025</li>
+              <li><strong>Subject:</strong> Science, Technology, and Management</li>
+              <li><strong>Language:</strong> English</li>
+              <li><strong>Publication Format:</strong> Online</li>
+              <li><strong>Copyright:</strong> Authors retain copyright</li>
+              <li><strong>License:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0 International Licence (CC BY 4.0)</a></li>
+              <li><strong>Website:</strong> <a href="https://ujgsm.UORApublications.com" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">https://ujgsm.UORApublications.com</a></li>
+              <li><strong>Registered Address:</strong> E-1/8 Mathura Nagar, N-6, Cidco, Chhatrapati Sambhajinagar, Maharashtra 431003, India</li>
+              <li><strong>Contact Number:</strong> <a href="tel:+919766930707" className="text-eco-gold hover:underline">+91 9766930707</a></li>
+              <li><strong>Email ID:</strong> <a href="mailto:contact@uorapublications.com" className="text-eco-gold hover:underline">contact@uorapublications.com</a></li>
+            </ol>
+          </ContentSection>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Footer Component
+  const Footer = () => (
+    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+      <div className="container mx-auto max-w-6xl">
+        <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
+            <p>A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:ujgsmjournal@gmail.com" className="text-white hover:text-eco-gold">ujgsmjournal@gmail.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9733697736</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
           </div>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gradient-to-r from-deep-green to-vibrant-green text-white py-8">
-        <div className="container mx-auto px-4 max-w-7xl text-center">
-          <p>&copy; 2025 Universal Oneness in Research Association. All rights reserved.</p>
+        <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
+          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
         </div>
-      </footer>
+      </div>
+    </footer>
+  );
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <MainContent />
+          <Sidebar />
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
