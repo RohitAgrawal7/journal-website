@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        #1e40af: '#1E40AF',  // Professional blue
-        #10b981: '#10B981', // Green for CTAs
+        primary: '#1E40AF',  // Professional blue
+       secondary: '#10B981', // Green for CTAs
         accent: '#F59E0B',    // Yellow for highlights
         neutral: '#F3F4F6',   // Light gray for backgrounds
       },

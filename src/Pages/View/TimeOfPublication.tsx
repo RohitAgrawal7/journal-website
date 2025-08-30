@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FaShieldAlt, FaGlasses, FaFileAlt, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { FaClock, FaBook, FaPaperPlane, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-const CARE: React.FC = () => {
-  const [activeSection, setActiveSection] = useState('overview');
+const TimeOfPublication: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('frequency');
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['overview', 'ethical-oversight', 'peer-review'];
+      const sections = ['frequency', 'regular-volumes', 'special-volumes', 'timeline'];
       const scrollPosition = window.scrollY + 100; // Offset for header
       sections.forEach((section) => {
         const element = document.getElementById(section);
@@ -30,9 +30,10 @@ const CARE: React.FC = () => {
   // Sidebar Component
   const Sidebar = () => {
     const navItems = [
-      { id: 'overview', title: 'Overview', icon: FaFileAlt },
-      { id: 'ethical-oversight', title: 'Ethical Oversight', icon: FaShieldAlt },
-      { id: 'peer-review', title: 'Peer Review Process', icon: FaGlasses },
+      { id: 'frequency', title: 'Frequency of Publication', icon: FaClock },
+      { id: 'regular-volumes', title: 'Regular Volumes', icon: FaBook },
+      { id: 'special-volumes', title: 'Special Volumes', icon: FaBook },
+      { id: 'timeline', title: 'Acknowledgement & Decision Timeline', icon: FaPaperPlane },
     ];
 
     return (
@@ -75,32 +76,79 @@ const CARE: React.FC = () => {
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
-          <h1 className="text-3xl font-merriweather font-bold">CARE</h1>
+          <h1 className="text-3xl font-merriweather font-bold">Time of Publication</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
         </div>
         <div className="p-6 space-y-6">
-          <ContentSection id="overview" title="Overview" icon={FaFileAlt}>
-            <p className="text-gray-700 leading-relaxed">
-              UGC (University Grants Commission, India, <a href="https://www.ugc.ac.in" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">www.ugc.ac.in</a>) established executive board members with eminent research scientists and academic persons to maintain academic and research integrity and publication ethics (<a href="https://ugccare.unipune.ac.in/apps1/home/index" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">UGC-CARE</a>).
+          <ContentSection id="frequency" title="Frequency of Publication" icon={FaClock}>
+            <p className="text-gray-700 leading-relaxed font-semibold">
+              UJGSM is published <strong>tri-annually</strong> (three regular volumes per year).
             </p>
           </ContentSection>
 
-          <ContentSection id="ethical-oversight" title="Ethical Oversight" icon={FaShieldAlt}>
-            <p className="text-gray-700 leading-relaxed">
-              From 2021, the Journal’s executive members strictly monitor several ethical issues such as fabrication, falsification, and plagiarism. The journal has requested a write-up from authors in the form of percentages of text similarity. Executive members have now double-checked such similarities with the help of the Journal’s Turnitin plagiarism software.
+          <ContentSection id="regular-volumes" title="Regular Volumes" icon={FaBook}>
+            <p className="text-gray-700 leading-relaxed font-semibold">
+              The journal releases six issues per year with the following schedule:
             </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-gray-700 border-collapse">
+                <thead>
+                  <tr className="bg-teal-800">
+                    <th className="p-3 text-left font-semibold border-b border-gray-300">Issue</th>
+                    <th className="p-3 text-left font-semibold border-b border-gray-300">Publication Date</th>
+                    <th className="p-3 text-left font-semibold border-b border-gray-300">Submission Deadline</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 1</td>
+                    <td className="p-3 border-b border-gray-300">30th August 2025</td>
+                    <td className="p-3 border-b border-gray-300">30th July 2025</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 2</td>
+                    <td className="p-3 border-b border-gray-300">30th October 2025</td>
+                    <td className="p-3 border-b border-gray-300">30th September 2025</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 3</td>
+                    <td className="p-3 border-b border-gray-300">30th December 2025</td>
+                    <td className="p-3 border-b border-gray-300">30th November 2025</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 4</td>
+                    <td className="p-3 border-b border-gray-300">28th February 2026</td>
+                    <td className="p-3 border-b border-gray-300">28th January 2026</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 5</td>
+                    <td className="p-3 border-b border-gray-300">30th April 2026</td>
+                    <td className="p-3 border-b border-gray-300">30th March 2026</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 6</td>
+                    <td className="p-3 border-b border-gray-300">30th June 2026</td>
+                    <td className="p-3 border-b border-gray-300">30th May 2026</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ContentSection>
+
+          <ContentSection id="special-volumes" title="Special Volumes" icon={FaBook}>
             <p className="text-gray-700 leading-relaxed">
-              The <a href="#" className="text-eco-gold hover:underline">Statement on Publication Ethics & Malpractice</a> thoroughly explains all other important facts relating to numerous misbehaviour categories.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Latest Memo:</strong> <a href="#" className="text-eco-gold hover:underline">F. No.:1-1/2018(CARE/JOURNAL) dated 16 July, 2025</a>
+              Special volumes are published as per journal requirements.
             </p>
           </ContentSection>
 
-          <ContentSection id="peer-review" title="Peer Review Process" icon={FaGlasses}>
-            <p className="text-gray-700 leading-relaxed">
-              The double-blind peer-review process is used to ensure the highest quality and fair policy of evaluation and publication process to maintain the highest ethical standards and avoid plagiarism. Submitted research articles are assessed and reviewed by specialist Reviewers (one from India and one from abroad) as invited for specific discipline using the double-blind peer review process to ensure the highest quality and fair policy of evaluation and publication process to maintain the highest ethical standards.
+          <ContentSection id="timeline" title="Acknowledgement & Decision Timeline" icon={FaPaperPlane}>
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li><strong>Acknowledgement of Submission:</strong> Within 7 days of receipt</li>
+              <li><strong>Final Decision (Accepted/Rejected):</strong> Approximately 25+ days from the submission date</li>
+            </ul>
+            <p className="text-gray-700 leading-relaxed mt-4">
+              <strong>Note:</strong> UJGSM strives to provide timely feedback. Due to high submission volume and reviewer availability, some delays may occur. The editorial team ensures a thorough, fair review to maintain high-quality publication standards.
             </p>
           </ContentSection>
         </div>
@@ -150,4 +198,4 @@ const CARE: React.FC = () => {
   );
 };
 
-export default CARE;
+export default TimeOfPublication;

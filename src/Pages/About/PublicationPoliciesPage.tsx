@@ -1,44 +1,150 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { FaUnlock, FaFileAlt, FaArchive, FaCompass, FaHome, FaBook, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-const PublicationPoliciesPage = () => {
-  return (
-    <main className="site-main max-w-6xl mx-auto px-4 py-8">
-      <article className="pb-article pb-singular">
-        <header className="entry-header mb-8">
-          <h1 className="entry-title text-3xl font-bold text-gray-800">Publication Policies</h1>
-        </header>
+const OpenAccessPolicy: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('overview');
 
-        <div className="pb-content">
-          <div className="entry-content space-y-6 text-gray-700">
-            <p>
-              International Journal of Experimental Research and Review follows comprehensive publication policies 
-              to ensure the integrity, quality, and ethical standards of all published content.
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['overview', 'licensing-copyright', 'archiving-accessibility'];
+      const scrollPosition = window.scrollY + 100; // Offset for header
+      sections.forEach((section) => {
+        const element = document.getElementById(section);
+        if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+          setActiveSection(section);
+        }
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Sidebar Component
+  const Sidebar = () => {
+    const navItems = [
+      { id: 'overview', title: 'Overview', icon: FaUnlock },
+      { id: 'licensing-copyright', title: 'Licensing and Copyright', icon: FaFileAlt },
+      { id: 'archiving-accessibility', title: 'Archiving and Accessibility', icon: FaArchive },
+    ];
+
+    return (
+      <div className="lg:col-span-1">
+        <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
+          <h2 className="text-vibrant-green mb-4 flex items-center">
+            <FaCompass className="mr-2" /> Quick Navigation
+          </h2>
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${activeSection === item.id ? 'bg-vibrant-green text-white' : 'text-dark-brown hover:bg-gray-100'}`}
+                  onClick={() => scrollToSection(item.id)}
+                >
+                  <item.icon className="mr-2" />
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
+  // ContentSection Component
+  const ContentSection: React.FC<{ id: string; title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }> = ({ id, title, icon: Icon, children }) => (
+    <section id={id} className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300">
+      <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
+        <Icon className="mr-3 text-teal-800 bg-vibrant-green rounded-full w-10 h-10 flex items-center justify-center" />
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+
+  // MainContent Component
+  const MainContent = () => (
+    <div className="lg:col-span-3">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+          <h1 className="text-3xl font-merriweather font-bold">Open Access Policy</h1>
+          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+        </div>
+        <div className="p-6 space-y-6">
+          <ContentSection id="overview" title="Overview" icon={FaUnlock}>
+            <p className="text-gray-700 leading-relaxed">
+              Universal Journal of Green SciTech & Management (UJGSM) is a fully open-access journal. All articles are freely available online immediately upon publication.
             </p>
-            
-            <h2 className="text-2xl font-semibold text-teal-800 mt-8">Editorial Policies</h2>
-            <p>
-              Our editorial policies are designed to maintain the highest standards of academic publishing. 
-              All submissions undergo a rigorous double-blind peer review process by experts in the field.
+          </ContentSection>
+
+          <ContentSection id="licensing-copyright" title="Licensing and Copyright" icon={FaFileAlt}>
+            <p className="text-gray-700 leading-relaxed">
+              Articles are published under the <a href="https://creativecommons.org/licenses/by/4.0/" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0 International Licence (CC BY 4.0)</a>, allowing users to copy, distribute, transmit, and adapt the work for any purpose, including commercial use, provided the original authors and source are properly credited.
             </p>
-            
-            <h2 className="text-2xl font-semibold text-teal-800 mt-8">Author Responsibilities</h2>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Authors must ensure the originality of their work</li>
-              <li>Proper acknowledgment of others' work must be provided</li>
-              <li>Authors should disclose any conflicts of interest</li>
-              <li>All authors must have significantly contributed to the research</li>
-            </ul>
-            
-            <h2 className="text-2xl font-semibold text-teal-800 mt-8">Peer Review Process</h2>
-            <p>
-              Each manuscript is reviewed by at least two independent experts in the relevant field. 
-              The review process typically takes 4-6 weeks, after which authors receive feedback and a decision.
+            <p className="text-gray-700 leading-relaxed">
+              Authors retain copyright of their work while granting the journal the right to publish and archive the article.
             </p>
+          </ContentSection>
+
+          <ContentSection id="archiving-accessibility" title="Archiving and Accessibility" icon={FaArchive}>
+            <p className="text-gray-700 leading-relaxed">
+              All submissions are stored in UJGSM’s online repository and archived on the publisher’s website to ensure long-term accessibility. Articles may also be indexed in recognized academic repositories and databases.
+            </p>
+          </ContentSection>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Footer Component
+  const Footer = () => (
+    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+      <div className="container mx-auto max-w-6xl">
+        <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
+            <p>A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:ujgsmjournal@gmail.com" className="text-white hover:text-eco-gold">ujgsmjournal@gmail.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9733697736</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
           </div>
         </div>
-      </article>
-    </main>
+        <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
+          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <MainContent />
+          <Sidebar />
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
 
-export default PublicationPoliciesPage;
+export default OpenAccessPolicy;

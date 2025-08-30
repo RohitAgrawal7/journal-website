@@ -1,73 +1,142 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useState, useEffect } from 'react';
+import { FaArchive, FaLink, FaCompass, FaHome, FaBook, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-const archives = [
-  {
-    title: 'Make in India',
-    image: 'https://imgs.search.brave.com/rsFPREILXxltjlP9FhwyFmqWrW4H0AV6CU8aSN8St8s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLm5k/dHZpbWcuY29tL210/LzIwMTQtMDkvTWFr/ZS1Jbi1JbmRpYUxv/Z282NTAuanBnP2Rv/d25zaXplPTc3Mzo0/MzU',
-    number: 'UDYAM: UDYAM-MH-04-0237577',
-    link: '#make-in-india',
-  },
-  {
-    title: 'Digital India',
-    image: 'https://imgs.search.brave.com/S93NEUp2bn2MP2_PeJzCNL8qAucTe8zxsmDzrUidaaE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzBmL2Rk/LzgxLzBmZGQ4MWE1/ZWJkZjc4MTExMjJk/NDUyZmE3NWM4MjYy/LmpwZw',
-    number: 'GSTN: 27AAIFU8304M1ZO',
-    link: '#digital-india',
-  },
-  {
-    title: 'Startup India',
-    image: 'http://imgs.search.brave.com/_gFVcnfwz9eYFcZz6GZb7PWXsQnrMmBNElwXJJbXklw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc2Vla2xvZ28u/Y29tL2xvZ28tcG5n/LzQ5LzEvc3RhcnR1/cC1pbmRpYS1odWIt/bG9nby1wbmdfc2Vl/a2xvZ28tNDk2Njkz/LnBuZw',
-    number: 'Shop Act Number: 2541500320009408',
-    link: '#startup-india',
-  },
-];
+const Archives: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('archives');
 
-const Archives = () => {
-  const { ref, inView } = useInView({ triggerOnce: true });
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['archives', 'accessing-content'];
+      const scrollPosition = window.scrollY + 100; // Offset for header
+      sections.forEach((section) => {
+        const element = document.getElementById(section);
+        if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+          setActiveSection(section);
+        }
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Sidebar Component
+  const Sidebar = () => {
+    const navItems = [
+      { id: 'archives', title: 'Archives', icon: FaArchive },
+      { id: 'accessing-content', title: 'Accessing Archived Content', icon: FaLink },
+    ];
+
+    return (
+      <div className="lg:col-span-1">
+        <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
+          <h2 className="text-vibrant-green mb-4 flex items-center">
+            <FaCompass className="mr-2" /> Quick Navigation
+          </h2>
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${activeSection === item.id ? 'bg-vibrant-green text-white' : 'text-dark-brown hover:bg-gray-100'}`}
+                  onClick={() => scrollToSection(item.id)}
+                >
+                  <item.icon className="mr-2" />
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
+  // ContentSection Component
+  const ContentSection: React.FC<{ id: string; title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }> = ({ id, title, icon: Icon, children }) => (
+    <section id={id} className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300">
+      <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
+        <Icon className="mr-3 text-teal-800 bg-vibrant-green rounded-full w-10 h-10 flex items-center justify-center" />
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+
+  // MainContent Component
+  const MainContent = () => (
+    <div className="lg:col-span-3">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+          <h1 className="text-3xl font-merriweather font-bold">Archives</h1>
+          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+        </div>
+        <div className="p-6 space-y-6">
+          <ContentSection id="archives" title="Archives" icon={FaArchive}>
+            <p className="text-gray-700 leading-relaxed">
+              Archives will be available once issues are published. As of August 30, 2025, the journal is preparing to release its first issue (Issue 1, August 2025). Check back for updates as archived content becomes available.
+            </p>
+          </ContentSection>
+
+          <ContentSection id="accessing-content" title="Accessing Archived Content" icon={FaLink}>
+            <p className="text-gray-700 leading-relaxed">
+              The Universal Journal of Green SciTech & Management (UJGSM) is an open-access journal, and all archived issues will be freely accessible online upon publication. Archived articles will be stored in UJGSM’s online repository and indexed in recognized academic databases, ensuring long-term accessibility for scholars, researchers, and the public.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              For details on the publication schedule, including upcoming issues, refer to the <a href="#" className="text-eco-gold hover:underline">Time of Publication</a> page. To learn more about the journal’s open-access policy, visit the <a href="#" className="text-eco-gold hover:underline">Open Access Policy</a> page.
+            </p>
+          </ContentSection>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Footer Component
+  const Footer = () => (
+    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+      <div className="container mx-auto max-w-6xl">
+        <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
+            <p>A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:ujgsmjournal@gmail.com" className="text-white hover:text-eco-gold">ujgsmjournal@gmail.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9733697736</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
+          </div>
+        </div>
+        <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
+          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
 
   return (
-    <motion.section
-      id="archives"
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8 }}
-      className="py-16 px-6 bg-neutral"
-    >
-      <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-12 text-center text-primary">
-        Archives
-      </h2>
-      <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
-        {archives.map((archive, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: idx * 0.2 }}
-            whileHover={{ scale: 1.03, boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)' }}
-            className="bg-white rounded-xl shadow-md border-l-4 border-secondary hover:shadow-lg transition-all"
-          >
-            <img
-              src={archive.image}
-              alt={archive.title}
-              className="w-full h-64 object-contain rounded-t-xl bg-white p-4"
-            />
-            <div className="p-6 text-center">
-              <h3 className="text-xl font-semibold text-primary mb-2 leading-relaxed">
-                {archive.title}
-              </h3>
-              <p className="text-green-600 mb-4 leading-relaxed">{archive.number}</p>
-              <a
-                href={archive.link}
-                className="text-secondary hover:underline font-medium inline-block"
-              >
-                Learn More
-              </a>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.section>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <MainContent />
+          <Sidebar />
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

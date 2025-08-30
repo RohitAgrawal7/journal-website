@@ -1,126 +1,216 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { FaGlasses, FaUnlock, FaClock, FaBook, FaShieldAlt, FaCompass, FaHome, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-const HomeContent: React.FC = () => {
-  return (
-    <main id="primary" className="site-main max-w-6xl mx-auto px-4 py-8">
-      <article id="post-7" className="pb-article pb-singular post-7 page type-page status-publish hentry">
-        <header className="entry-header mb-8">
-          <h1 className="entry-title text-3xl font-bold text-gray-800">Home</h1>
-        </header>
+const AboutJournal: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('overview');
 
-        <div className="pb-content">
-          <div className="entry-content space-y-6">
-            <div className="wp-block-buttons flex justify-end space-x-4 mb-6">
-              <div className="wp-block-button">
-                <a
-                  className="wp-block-button__link bg-teal-800 text-white font-medium py-4 px-6 rounded-lg hover:bg-teal-700 transition-colors duration-200"
-                  href="https://qtanalytics.in/journals/index.php/IJERR/issue/current"
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['overview', 'scope', 'peer-review', 'publication-schedule', 'commitment'];
+      const scrollPosition = window.scrollY + 100; // Offset for header
+      sections.forEach((section) => {
+        const element = document.getElementById(section);
+        if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+          setActiveSection(section);
+        }
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Sidebar Component
+  const Sidebar = () => {
+    const navItems = [
+      { id: 'overview', title: 'Overview', icon: FaBook },
+      { id: 'scope', title: 'Scope & Subject Areas', icon: FaBookOpen },
+      { id: 'peer-review', title: 'Peer Review', icon: FaGlasses },
+      { id: 'publication-schedule', title: 'Publication Schedule', icon: FaClock },
+      { id: 'commitment', title: 'Our Commitment', icon: FaShieldAlt },
+    ];
+
+    return (
+      <div className="lg:col-span-1">
+        <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
+          <h2 className="text-vibrant-green mb-4 flex items-center">
+            <FaCompass className="mr-2" /> Quick Navigation
+          </h2>
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${activeSection === item.id ? 'bg-vibrant-green text-white' : 'text-dark-brown hover:bg-gray-100'}`}
+                  onClick={() => scrollToSection(item.id)}
                 >
-                  Current
-                </a>
-              </div>
-              <div className="wp-block-button">
-                <a
-                  className="wp-block-button__link bg-teal-800 text-white font-medium py-4 px-6 rounded-lg hover:bg-teal-700 transition-colors duration-200"
-                  href="https://qtanalytics.in/journals/index.php/IJERR/issue/archive"
-                >
-                  Archive
-                </a>
-              </div>
+                  <item.icon className="mr-2" />
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
+  // ContentSection Component
+  const ContentSection: React.FC<{ id: string; title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }> = ({ id, title, icon: Icon, children }) => (
+    <section id={id} className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300">
+      <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
+        <Icon className="mr-3 text-teal-800 bg-vibrant-green rounded-full w-10 h-10 flex items-center justify-center" />
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+
+  // MainContent Component
+  const MainContent = () => (
+    <div className="lg:col-span-3">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+          <h1 className="text-3xl font-merriweather font-bold">About the Journal</h1>
+          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Established – 2025</p>
+        </div>
+        <div className="p-6 space-y-6">
+          <ContentSection id="overview" title="Overview" icon={FaBook}>
+            <p className="text-gray-700 leading-relaxed">
+              Universal Journal of Green SciTech & Management (UJGSM) is a bi-monthly, multidisciplinary, peer-reviewed online journal dedicated to advancing high-quality research across Science, Technology, Management, Arts, Medical Sciences, and allied fields. Launched in 2025, UJGSM is published by Universal Oneness Research Association (UORA), a leading platform committed to promoting ethical scholarly publishing and fostering global knowledge exchange.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              The journal provides a platform for researchers, academicians, and practitioners to disseminate original research, review articles, case studies, short communications, and conference proceedings. With a strong emphasis on sustainability, innovation, and interdisciplinary collaboration, UJGSM encourages contributions from diverse disciplines.
+            </p>
+          </ContentSection>
+
+          <ContentSection id="scope" title="Scope & Subject Areas" icon={FaBookOpen}>
+            <p className="text-gray-700 leading-relaxed">
+              UJGSM welcomes contributions in the following disciplines:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li><strong>Science:</strong> Physics, Chemistry, Mathematics, Materials Science, Biotechnology, Environmental Science, Bioinformatics, Life Sciences</li>
+              <li><strong>Technology:</strong> Mechanical, Civil, Electrical, Electronics, Computer Science, AI, Data Science, Renewable Energy, Robotics, Nanotechnology, Green Technology</li>
+              <li><strong>Management:</strong> Technology Management, Innovation Management, Sustainability Management, Supply Chain, Operations, Entrepreneurship, Project Management</li>
+              <li><strong>Allied Fields:</strong> Arts, Medical Sciences, Social Sciences, and other emerging disciplines</li>
+            </ul>
+          </ContentSection>
+
+          <ContentSection id="peer-review" title="Peer Review" icon={FaGlasses}>
+            <p className="text-gray-700 leading-relaxed">
+              UJGSM follows a <strong>double-blind peer-review process</strong>, ensuring rigorous evaluation of manuscripts by experts from India and abroad. All submissions undergo plagiarism screening using tools such as Turnitin, and authors are required to provide a text similarity report along with a Cover Letter cum Declaration Form.
+            </p>
+          </ContentSection>
+
+          <ContentSection id="publication-schedule" title="Publication Schedule" icon={FaClock}>
+            <p className="text-gray-700 leading-relaxed font-semibold">
+              The journal is published <strong>bi-monthly</strong> (six issues per year):
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-gray-700 border-collapse">
+                <thead>
+                  <tr className="bg-teal-800">
+                    <th className="p-3 text-left font-semibold border-b border-gray-300">Issue</th>
+                    <th className="p-3 text-left font-semibold border-b border-gray-300">Publication Date</th>
+                    <th className="p-3 text-left font-semibold border-b border-gray-300">Submission Deadline</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 1</td>
+                    <td className="p-3 border-b border-gray-300">30th August 2025</td>
+                    <td className="p-3 border-b border-gray-300">30th July 2025</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 2</td>
+                    <td className="p-3 border-b border-gray-300">30th October 2025</td>
+                    <td className="p-3 border-b border-gray-300">30th September 2025</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 3</td>
+                    <td className="p-3 border-b border-gray-300">30th December 2025</td>
+                    <td className="p-3 border-b border-gray-300">30th November 2025</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 4</td>
+                    <td className="p-3 border-b border-gray-300">28th February 2026</td>
+                    <td className="p-3 border-b border-gray-300">28th January 2026</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 5</td>
+                    <td className="p-3 border-b border-gray-300">30th April 2026</td>
+                    <td className="p-3 border-b border-gray-300">30th March 2026</td>
+                  </tr>
+                  <tr className="hover:bg-gray-100">
+                    <td className="p-3 border-b border-gray-300">Issue 6</td>
+                    <td className="p-3 border-b border-gray-300">30th June 2026</td>
+                    <td className="p-3 border-b border-gray-300">30th May 2026</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </ContentSection>
 
+          <ContentSection id="commitment" title="Our Commitment" icon={FaShieldAlt}>
             <p className="text-gray-700 leading-relaxed">
-              For promoting scientific research and science communication among the researchers and enhancing the knowledge base encompassing the latest trends and developments in various disciplines of International Journal of Experimental Research and Review (IJERR) encourages author(s) to submit manuscripts from Basic Sciences (Physics, Chemistry, Mathematics, Earth Science, Astronomy & Life Sciences), Applied Sciences (Engineering, Medicine, Agriculture & Environmental Science) and Allied Disciplines including Computer, Technology, Management, Health and Medical Sciences, Nutrition, Botany, Zoology, Forestry, Fishery, Sericulture, Apiculture, Pharmacology, Bioinformatics, Geography, Educational Statistics and Social Sciences (Psychology, Sociology, Economics, Anthropology).
+              Committed to academic excellence and ethical publishing, UJGSM adheres to COPE-inspired guidelines, ensuring transparency, originality, and credibility in every publication. The journal aims to foster global collaboration, innovation, and the dissemination of impactful knowledge to researchers, institutions, and the broader scholarly community.
             </p>
-
             <p className="text-gray-700 leading-relaxed">
-              International Journal of Experimental Research and Review i.e., IJERR (e-ISSN: 2455-4855; <a href="https://www.iaph.in" className="text-blue-600 hover:underline">www.iaph.in</a>) is a tri-annual multidisciplinary online journal. The journal is published tri-annually and follows double-blind peer-review strategy. The journal accepts good-quality original research articles, review articles, short communications, conference proceedings, seminar papers etc. International Academic Publishing House (IAPH) also publishes theme-based special issues from time to time. IAPH is committed to maintaining ethical standards at all stages of the publication process. Submitted manuscripts are assessed and reviewed by qualified editorial board members and invited expert reviewers (at least one from India and one from abroad each) from the relevant subject area. When submitting the manuscript to the online journal system, it is necessary to provide a Cover letter cum Declaration Form in which the author should focus on the subjects and mention specific research fields. This input is extremely helpful because it enables editors to simplify their responsibility of ensuring appropriate expertise. From a variety of sources and subject-matter experience, editors search for relevant possible reviewer names. Recommendations from subject-matter experts often guide editors in determining whether a submission should be accepted, revised, or rejected. Reviewers could provide significant advice on these decisions.
+              UJGSM is committed to supporting researchers and institutions in generating meaningful contributions, promoting interdisciplinary learning, and advancing global knowledge in science, technology, management, and beyond.
             </p>
+          </ContentSection>
+        </div>
+      </div>
+    </div>
+  );
 
-            <p className="text-gray-700 leading-relaxed">
-              IJERR is not a registered member of the Committee of Publication Ethics (COPE). However, it follows the best practices as defined by COPE and is open to the views and opinions of authors, reviewers and editorial board members. The journal adheres to the highest academic integrity standards as advocated by COPE (<a href="https://publicationethics.org/guidance/Guidelines" className="text-blue-600 hover:underline">https://publicationethics.org/guidance/Guidelines</a>) and upholds the standards of ethical behaviour at all stages of the publication process.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed">
-              From 2021, the IJERR editorial office strictly monitors technical issues including fabrication, falsification, and plagiarism. The journal requests a write-up from the author(s) in the form of percentages of text similarity. Editorial office also checks such similarities with the help of Turnitin software. IJERR's Statement on Publication Ethics & Malpractice thoroughly explains all other important points relating to numerous malpractice categories.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed">
-              The journal sets quality standards for the acceptance of appropriate manuscripts. IJERR welcomes the views and suggestions from author and editorial board members at all times to maintain and improve the overall standard. IJERR's team follows a set of processes, which encourage the accuracy and clarity of manuscripts, including editorial services, if required. All such processing is carried out by a team of experts, including the Co-Editors-in-Chief, Associate Editors and Editorial Members, whose is binding and final.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Subject areas for Publication:</strong> IJERR encourages author(s) to submit manuscripts from Basic Sciences (Physics, Chemistry, Mathematics, Earth Science, Astronomy & Life Sciences), Applied Sciences (Engineering, Medicine, Agriculture & Environmental Science) and Allied Disciplines including Computer, Technology, Management, Health and Medical Sciences, Nutrition, Botany, Zoology, Forestry, Fishery, Sericulture, Apiculture, Pharmacology, Bioinformatics, Geography, Educational Statistics and Social Sciences (Psychology, Sociology, Economics, Anthropology).
-            </p>
-
-            <hr className="wp-block-separator border-gray-300 my-8" />
-
-            <div className="journal-info space-y-4">
-              <p>
-                <strong>Journal Title:</strong> <strong>International Journal of Experimental Research and Review</strong><br />
-                <strong>ISSN:</strong> 2455-4855<br />
-                <strong>Website:</strong> <a href="http://www.iaph.in/" className="text-blue-600 hover:underline">www.iaph.in</a><br />
-                <strong>Publisher:</strong> International Academic Publishing House (IAPH)<br />
-                <strong>Copyright:</strong> International Academic Publishing House (IAPH)<br />
-                <strong>Starting Year:</strong> 2015<br />
-                <strong>Subject:</strong> Multidisciplinary<br />
-                <strong>Language:</strong> English<br />
-                <strong>Publication Format:</strong><br />
-                <a href="https://qtanalytics.in/journals/index.php/IJERR/online-submission-procedure" className="text-blue-600 hover:underline">https://qtanalytics.in/journals/index.php/IJERR/online-submission-procedure</a><br />
-                <strong>Phone No:</strong> +91-9733697736
-              </p>
-
-              <p>
-                <strong>Co-Editor-in-Chief</strong><br />
-                <strong>Shubhadeep Roychoudhury,</strong> Ph.D., Habil.<br />
-                Associate Professor, Department of Life Science & Bioinformatics<br />
-                Assam University, Silchar, India<br />
-                E-mail: shubhadeep1@gmail.com<br />
-                <a href="https://orcid.org/0000-0003-4174-1852" className="text-blue-600 hover:underline"><strong>https://orcid.org/0000-0003-4174-1852</strong></a><br />
-                <a href="https://www.scopus.com/authid/detail.uri?authorId=24067583200" className="text-blue-600 hover:underline"><strong>https://www.scopus.com/authid/detail.uri?authorId=24067583200</strong></a><br />
-                <a href="https://www.researchgate.net/profile/Shubhadeep_Roychoudhury" className="text-blue-600 hover:underline"><strong>https://www.researchgate.net/profile/Shubhadeep_Roychoudhury</strong></a>
-              </p>
-
-              <p>
-                <strong>Co-Editor-in-Chief</strong><br />
-                <strong>Nithar Ranjan Madhu,</strong> Ph.D.<br />
-                Associate Professor, Department of Zoology<br />
-                Acharya Prafulla Chandra College, New Barrackpore, North 24 Parganas, Kolkata, India<br />
-                E-mail: chiefeditoriaph@gmail.com, nithar@apccollege.ac.in<br />
-                <a href="https://orcid.org/0000-0003-4198-5048" className="text-blue-600 hover:underline"><strong>https://orcid.org/0000-0003-4198-5048</strong></a><br />
-                <a href="https://www.scopus.com/authid/detail.uri?authorId=36178099100" className="text-blue-600 hover:underline"><strong>https://www.scopus.com/authid/detail.uri?authorId=36178099100</strong></a>
-              </p>
-
-              <p>
-                <strong>Regular Volumes:</strong><br />
-                (A) Date of Publishing: 30<sup>th</sup> April (Submission Deadline: 20th March)<br />
-                (B) Date of Publishing: 30<sup>th</sup> August (Submission Deadline: 20th July)<br />
-                (C) Date of Publishing: 30<sup>th</sup> December (Submission Deadline: 20th November)
-              </p>
-
-              <p>
-                <strong>Special Volumes:</strong> Based on the needs<br />
-                (*) Acknowledgement of received information: Within Seven (7) days<br />
-                (**) Final Decision (Accepted/ Rejected): Approx. 25+ days from the date of submission of the manuscript
-              </p>
-
-              <p>
-                <strong>Address-1:</strong> Village & Post.: Chikanpara, Thakurnagar, P.S. Gaighata, Dist. North 24 Parganas, West Bengal 743287, India
-              </p>
-
-              <p>
-                <strong>Address-2:</strong> Sarada Sarani, Nibedita Park, Post Office: Hridaypur, Dist- North 24 Parganas, Kolkata, Pin – 700127, West Bengal, India. E-mail: iaphjournal@gmail.com
-              </p>
-
-              <p>
-                <strong>Address-3 (International):</strong> 91 Victoria Road, Swindon, SN13BD, ENGLAND, E-mail: publisher@iaph.co.in
-              </p>
-            </div>
+  // Footer Component
+  const Footer = () => (
+    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+      <div className="container mx-auto max-w-6xl">
+        <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
+            <p>A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:ujgsmjournal@gmail.com" className="text-white hover:text-eco-gold">ujgsmjournal@gmail.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9733697736</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
           </div>
         </div>
-      </article>
-    </main>
+        <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
+          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <MainContent />
+          <Sidebar />
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
 
-export default HomeContent;
+export default AboutJournal;

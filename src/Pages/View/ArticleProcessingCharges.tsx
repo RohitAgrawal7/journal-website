@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FaShieldAlt, FaGlasses, FaFileAlt, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { FaMoneyBillWave, FaFileAlt, FaUnlock, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-const CARE: React.FC = () => {
+const ArticleProcessingCharges: React.FC = () => {
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['overview', 'ethical-oversight', 'peer-review'];
+      const sections = ['overview', 'apc-policy', 'fee-structure', 'waiver-discount'];
       const scrollPosition = window.scrollY + 100; // Offset for header
       sections.forEach((section) => {
         const element = document.getElementById(section);
@@ -30,9 +30,10 @@ const CARE: React.FC = () => {
   // Sidebar Component
   const Sidebar = () => {
     const navItems = [
-      { id: 'overview', title: 'Overview', icon: FaFileAlt },
-      { id: 'ethical-oversight', title: 'Ethical Oversight', icon: FaShieldAlt },
-      { id: 'peer-review', title: 'Peer Review Process', icon: FaGlasses },
+      { id: 'overview', title: 'Overview', icon: FaUnlock },
+      { id: 'apc-policy', title: 'APC Policy', icon: FaFileAlt },
+      { id: 'fee-structure', title: 'Fee Structure', icon: FaMoneyBillWave },
+      { id: 'waiver-discount', title: 'Waiver & Discount Policy', icon: FaMoneyBillWave },
     ];
 
     return (
@@ -75,33 +76,39 @@ const CARE: React.FC = () => {
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
-          <h1 className="text-3xl font-merriweather font-bold">CARE</h1>
+          <h1 className="text-3xl font-merriweather font-bold">Article Processing Charges (APC)</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
         </div>
         <div className="p-6 space-y-6">
-          <ContentSection id="overview" title="Overview" icon={FaFileAlt}>
+          <ContentSection id="overview" title="Overview" icon={FaUnlock}>
             <p className="text-gray-700 leading-relaxed">
-              UGC (University Grants Commission, India, <a href="https://www.ugc.ac.in" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">www.ugc.ac.in</a>) established executive board members with eminent research scientists and academic persons to maintain academic and research integrity and publication ethics (<a href="https://ugccare.unipune.ac.in/apps1/home/index" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">UGC-CARE</a>).
+              Universal Journal of Green SciTech & Management (UJGSM) is an open-access journal. All published articles are freely accessible online immediately after publication.
             </p>
           </ContentSection>
 
-          <ContentSection id="ethical-oversight" title="Ethical Oversight" icon={FaShieldAlt}>
-            <p className="text-gray-700 leading-relaxed">
-              From 2021, the Journal’s executive members strictly monitor several ethical issues such as fabrication, falsification, and plagiarism. The journal has requested a write-up from authors in the form of percentages of text similarity. Executive members have now double-checked such similarities with the help of the Journal’s Turnitin plagiarism software.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              The <a href="#" className="text-eco-gold hover:underline">Statement on Publication Ethics & Malpractice</a> thoroughly explains all other important facts relating to numerous misbehaviour categories.
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Latest Memo:</strong> <a href="#" className="text-eco-gold hover:underline">F. No.:1-1/2018(CARE/JOURNAL) dated 16 July, 2025</a>
-            </p>
+          <ContentSection id="apc-policy" title="APC Policy" icon={FaFileAlt}>
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li>The Article Processing Charge is payable only after a manuscript has been reviewed and accepted for publication.</li>
+              <li>This fee covers editorial handling, peer review, technical production, online hosting, indexing, and customer services.</li>
+              <li><strong>Payment methods:</strong> NEFT, RTGS, PayPal, or Online Transfer.</li>
+            </ul>
           </ContentSection>
 
-          <ContentSection id="peer-review" title="Peer Review Process" icon={FaGlasses}>
-            <p className="text-gray-700 leading-relaxed">
-              The double-blind peer-review process is used to ensure the highest quality and fair policy of evaluation and publication process to maintain the highest ethical standards and avoid plagiarism. Submitted research articles are assessed and reviewed by specialist Reviewers (one from India and one from abroad) as invited for specific discipline using the double-blind peer review process to ensure the highest quality and fair policy of evaluation and publication process to maintain the highest ethical standards.
-            </p>
+          <ContentSection id="fee-structure" title="Fee Structure" icon={FaMoneyBillWave}>
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li><strong>Indian Authors:</strong> ₹15,000</li>
+              <li><strong>Foreign Authors:</strong> $25 USD</li>
+            </ul>
+          </ContentSection>
+
+          <ContentSection id="waiver-discount" title="Waiver & Discount Policy" icon={FaMoneyBillWave}>
+            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
+              <li>Waivers are provided to support high-quality research from authors who cannot afford the APC.</li>
+              <li>Authors from Low-Income Countries may request up to 50% waiver.</li>
+              <li>Authors from Lower-Middle-Income Countries may request up to 40% waiver.</li>
+              <li>Requests must be sent via email to <a href="mailto:contact@uora.com" className="text-eco-gold hover:underline">contact@uora.com</a>.</li>
+            </ul>
           </ContentSection>
         </div>
       </div>
@@ -150,4 +157,4 @@ const CARE: React.FC = () => {
   );
 };
 
-export default CARE;
+export default ArticleProcessingCharges;

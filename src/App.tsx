@@ -7,27 +7,48 @@ import Layout from './components/Layout';
 import HomeContent from './components/Summary';
 import EditorialBoard from './components/EditorialBoard';
 import Home from './Pages/Home';
-import AuthorGuidelines from './Pages/AuthorGuidelines';
-import ReviewerGuidelines from './Pages/ReviewerGuidelines';
+// import Home from './Pages/Home';
+import AuthorGuidelines from './Pages/View/AuthorGuidelines';
+import ReviewerGuidelines from './Pages/View/ReviewerGuidelines';
 import AimsScopePage from './Pages/About/AimsScopePage';
 import CAREPage from './Pages/About/CAREPage';
 import COPEPage from './Pages/About/COPEPage';
 import PeerReviewProcessPage from './Pages/About/PeerReviewProcessPage';
 import PrivacyStatementPage from './Pages/About/PrivacyStatementPage';
 import PublicationPoliciesPage from './Pages/About/PublicationPoliciesPage';
+import Footer from './components/Footer';
+import UpcomingContent from './Pages/UpcomingContent';
+import SubmitPaperPage from './Pages/Submission/SubmitPaperPage';
+import CopyrightFormPage from './Pages/Submission/CopyrightFormPage';
+import ManuscriptTemplatePage from './Pages/Submission/ManuscriptTemplatePage';
+import ContactUsPage from './Pages/ContactUsPage';
+import ArticleProcessingCharges from './Pages/View/ArticleProcessingCharges';
+import TimeAndOpenAccess from './Pages/View/TimeOfPublication';
+import TimeOfPublication from './Pages/View/TimeOfPublication';
+import CurrentIssue from './components/CurrentIssue';
+import Archives from './components/Archives';
+// import Home from './Pages/View/Home';
 function App() {
   return (
     <div className="App">
       <SiteBranding />
       <Navbar />
       <Routes>
-        <Route path="/Home" element={<Home />} />
+        <Route path="/" element={<HomeContent />} />
          {/* <Route path="/current" element={<CurrentContent />} />
           <Route path="/archives" element={<Archives />} /> */}
           {/* <Route path="/important-links" element={<ImportantLinks />} /> */}
-          <Route path="/layout" element={<Layout />} />
+          <Route path="/layout" element={
+            <>
+              <Layout />
+              <Footer />
+            </>
+          } />
           <Route path="/author-guidelines" element={<AuthorGuidelines />} />
           <Route path="/reviewer-guidelines" element={<ReviewerGuidelines />} />
+          <Route path="/article-processing-charges" element={<ArticleProcessingCharges />} />
+          <Route path="/time-of-publication" element={<TimeOfPublication />} />
+
            <Route path="/aims-scope" element={<AimsScopePage />} />
             <Route path="/publication-policies" element={<PublicationPoliciesPage />} />
             <Route path="/peer-review-process" element={<PeerReviewProcessPage />} />
@@ -35,10 +56,18 @@ function App() {
             <Route path="/care" element={<CAREPage />} />
             <Route path="/privacy-statement" element={<PrivacyStatementPage />} />
           {/* <Route path="/time-of-publication" element={<TimeOfPublication />} /> */}
-        {/* <Route path="/current" element={<CurrentContent />} /> */}
+
+          {/* New submission routes */}
+          <Route path="/submit-paper" element={<SubmitPaperPage />} />
+          <Route path="/copyright-form" element={<CopyrightFormPage />} />
+          <Route path="/manuscript-template" element={<ManuscriptTemplatePage />} />
+        <Route path="/current" element={<CurrentIssue />} />
         <Route path="/editorial-board" element={<EditorialBoard />} />
-        {/* <Route path="/archives" element={<Archives />} /> */}
+        <Route path="/archives" element={<Archives />} />
+        <Route path="/contact-us" element={<ContactUsPage />} />
+       
       </Routes>
+     
       {/* <Layout/> */}
     
 
