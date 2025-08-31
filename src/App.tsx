@@ -61,9 +61,10 @@ function App() {
             <Route path="/privacy-statement" element={<PrivacyStatementPage />} />
             <Route path="/ai-generated-content-policy" element={<AIGeneratedContentPolicy />} />
           {/* <Route path="/time-of-publication" element={<TimeOfPublication />} /> */}
+          <Route path="/photo-gallery" element={<UpcomingContent />} />
 
           {/* New submission routes */}
-          <Route path="/submit-paper" element={<SubmitPaperPage />} />
+          {/* <Route path="/submit-paper" element={<SubmitPaperPage />} /> */}
           <Route path="/copyright-form" element={<CopyrightFormPage />} />
           <Route path="/manuscript-template" element={<ManuscriptTemplatePage />} />
         <Route path="/current" element={<CurrentIssue />} />

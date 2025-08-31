@@ -1,6 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { FaBookOpen, FaInfoCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
+const archives = [
+  {
+    title: 'Make in India',
+    image: 'https://imgs.search.brave.com/5QtG9t4eQnqhm0DofIYuJxU1kfGo4XyDg49yC1DZfSk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzZlLzky/LzJkLzZlOTIyZGQx/M2JmMThhYzdlODIx/OTY1OGI0MDFmNjdm/LmpwZw',
+    number: 'UDYAM: UYTFM-NM-33-99887447',
+    link: '#make-in-india',
+  },
+  {
+    title: 'Digital India',
+    image: 'https://imgs.search.brave.com/MtbCbFG1qBJyvomIqAyE3B48yInC0fvYq30VvaX8B94/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzQwLzEy/L2UwLzQwMTJlMGVh/ZTdmOGI4MjMxZmVi/N2E2ZmE0MDNiMWFi/LmpwZw',
+    number: 'GSTN: 564839748O',
+    link: '#digital-india',
+  },
+  {
+    title: 'Startup India',
+    image: 'http://imgs.search.brave.com/_gFVcnfwz9eYFcZz6GZb7PWXsQnrMmBNElwXJJbXklw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc2Vla2xvZ28u/Y29tL2xvZ28tcG5n/LzQ5LzEvc3RhcnR1/cC1pbmRpYS1odWIt/bG9nby1wbmdfc2Vl/a2xvZ28tNDk2Njkz/LnBuZw',
+    number: 'Shop Act Number: 204758638',
+    link: '#startup-india',
+  },
+];
+
 const Home: React.FC = () => {
   const [activeSection, setActiveSection] = useState('welcome');
 
@@ -68,6 +89,28 @@ const Home: React.FC = () => {
       {children}
     </section>
   );
+const InitiativeCard: React.FC<{
+    title: string;
+    image: string;
+    number: string;
+    link: string;
+  }> = ({ title, image, number, link }) => (
+    <div className="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col items-center space-y-3 hover:bg-light-green transition-all duration-300">
+      <img
+        src={image}
+        alt={`${title} logo`}
+        className="w-full h-32 object-contain rounded-md"
+      />
+      <h4 className="text-lg font-semibold text-vibrant-green text-center">{title}</h4>
+      <p className="text-gray-700 text-center"><strong>{number}</strong></p>
+      <a
+        href={link}
+        className="text-eco-gold hover:underline font-montserrat font-medium"
+      >
+        Learn More
+      </a>
+    </div>
+  );
 
   // MainContent Component
   const MainContent = () => (
@@ -111,6 +154,19 @@ const Home: React.FC = () => {
               <li><strong>Contact Number:</strong> <a href="tel:+919766930707" className="text-eco-gold hover:underline">+91 9766930707</a></li>
               <li><strong>Email ID:</strong> <a href="mailto:contact@uorapublications.com" className="text-eco-gold hover:underline">contact@uorapublications.com</a></li>
             </ol>
+          </ContentSection>
+           <ContentSection id="initiatives" title="Our Initiatives" icon={FaCompass}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {archives.map((item) => (
+                <InitiativeCard
+                  key={item.title}
+                  title={item.title}
+                  image={item.image}
+                  number={item.number}
+                  link={item.link}
+                />
+              ))}
+            </div>
           </ContentSection>
         </div>
       </div>

@@ -115,7 +115,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
             ))}
           </ul>
           
-          <div className="mt-6 p-4 bg-teal-900 rounded-lg">
+          <div className="mt-6 p-4 bg-teal-800 rounded-lg">
             <h3 className="text-vibrant-green font-medium mb-2">Need Help?</h3>
             <p className="text-sm text-white">
               Contact us at{" "}
@@ -169,7 +169,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-white p-6">
+              <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
                 <h1 className="text-3xl font-merriweather font-bold flex items-center">
                   <FaPaperPlane className="mr-3" /> Manuscript Submission Form
                 </h1>

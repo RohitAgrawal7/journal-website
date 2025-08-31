@@ -116,7 +116,7 @@ const PrimaryNavbar: React.FC = () => {
       { id: 'menu-item-927', title: 'Current Issue', url: '/current', isInternal: true },
       { id: 'menu-item-928', title: 'Archives', url: '/archives', isInternal: true },
       // { id: 'menu-item-929', title: 'Contact Us', url: '/contact-us', isInternal: true },
-      { id: 'menu-item-929', title: 'Photo Gallery', url: 'https://uora.com' },
+      { id: 'menu-item-929', title: 'Photo Gallery', url: '/photo-gallery', isInternal: true },
       { id: 'menu-item-930', title: 'Contact Us', url: '/contact-us', isInternal: true },
       // { id: 'menu-item-931', title: 'Announcements', url: 'https://uora.com/announcements' },
     ],
