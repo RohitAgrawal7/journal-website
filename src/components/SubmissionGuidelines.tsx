@@ -1,32 +1,32 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-const steps = [
-  {
-    title: 'Manuscript Submission',
-    description: 'Submit your manuscript via our online portal (DOC, DOCX, or RTF formats). Include a Cover Letter cum Declaration Form specifying the research field.',
-  },
-  {
-    title: 'Plagiarism Screening',
-    description: 'All submissions are screened for plagiarism using tools like Turnitin. Authors must provide a text similarity report.',
-  },
-  {
-    title: 'Double-Blind Review',
-    description: 'Manuscripts are evaluated by at least two expert reviewers (one from India, one from abroad) for quality and relevance.',
-  },
-  {
-    title: 'Review Outcome',
-    description: 'Authors receive feedback within 25+ days: accepted, revisions required, or rejected.',
-  },
-  {
-    title: 'Final Submission',
-    description: 'Submit any required revisions and the Author Declaration form for accepted papers.',
-  },
-  {
-    title: 'Online Publication',
-    description: 'Accepted papers are published online in the next available issue, accessible globally.',
-  },
-];
+// const steps = [
+//   {
+//     title: 'Manuscript Submission',
+//     description: 'Submit your manuscript via our online portal (DOC, DOCX, or RTF formats). Include a Cover Letter cum Declaration Form specifying the research field.',
+//   },
+//   {
+//     title: 'Plagiarism Screening',
+//     description: 'All submissions are screened for plagiarism using tools like Turnitin. Authors must provide a text similarity report.',
+//   },
+//   {
+//     title: 'Double-Blind Review',
+//     description: 'Manuscripts are evaluated by at least two expert reviewers (one from India, one from abroad) for quality and relevance.',
+//   },
+//   {
+//     title: 'Review Outcome',
+//     description: 'Authors receive feedback within 25+ days: accepted, revisions required, or rejected.',
+//   },
+//   {
+//     title: 'Final Submission',
+//     description: 'Submit any required revisions and the Author Declaration form for accepted papers.',
+//   },
+//   {
+//     title: 'Online Publication',
+//     description: 'Accepted papers are published online in the next available issue, accessible globally.',
+//   },
+// ];
 
 const schedule = [
   { issue: 'Issue 1 (2025)', date: 'May 15, 2025' },

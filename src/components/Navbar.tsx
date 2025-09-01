@@ -95,6 +95,8 @@ const PrimaryNavbar: React.FC = () => {
         children: [
           // { id: 'menu-item-899', title: 'Authors’ Guidelines', url: '/author-guidelines', isInternal: true },
           { id: 'menu-item-921', title: 'Submit Paper', url: '/submit-paper', isInternal: true },
+          { id: 'menu-item-922', title: 'Track Paper', url: '/track-paper', isInternal: true },
+          { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
           { id: 'menu-item-909', title: 'Aims & Scope', url: '/aims-scope', isInternal: true },
           // { id: 'menu-item-900', title: 'Reviewer Guidelines', url: '/reviewer-guidelines', isInternal: true },
           // { id: 'menu-item-902', title: 'Time of Publication', url: '/time-of-publication', isInternal: true },
@@ -143,7 +145,7 @@ const PrimaryNavbar: React.FC = () => {
       ) : (
         <>
           <button
-            onClick={(e) => {
+            onClick={() => {
               if (item.children) {
                 if (isMobileMenuOpen) {
                   toggleSubMenu(item.id);

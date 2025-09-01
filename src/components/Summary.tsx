@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCheckCircle, FaUnlock, FaClock, FaBook, FaShieldAlt, FaCompass, FaHome, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { FaCheckCircle, FaClock, FaBook, FaShieldAlt, FaCompass, FaHome, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
 const AboutJournal: React.FC = () => {
   const [activeSection, setActiveSection] = useState('overview');

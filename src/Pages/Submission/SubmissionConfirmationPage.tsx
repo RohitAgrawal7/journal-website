@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPaperPlane, FaCheckCircle, FaClock, FaEdit, FaDownload, FaPrint, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaPaperPlane, FaCheckCircle, FaClock, FaDownload, FaPrint, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
 const SubmissionConfirmationPage: React.FC = () => {
   const [submissionData, setSubmissionData] = useState<any>(null);

@@ -14,7 +14,7 @@ const SiteBranding: React.FC = () => {
               className="block"
             >
               <img
-                src="./public/green1.png"
+                src="./scitech.png"
                 alt="Universal Journal of Green SciTech & Management Left Logo"
                 className="w-24 sm:w-32 md:w-50 h-auto border-2 border-white rounded-md"
               />
@@ -33,8 +33,8 @@ const SiteBranding: React.FC = () => {
                 Universal Journal of Green Sci-Tech and Management
               </a>
             </h1>
-            <p className="site-tagline text-sm sm:text-base md:text-lg font-montserrat text-teal-800 mt-2">
-              Publisher of high-quality peer-reviewed journals in Science, Technology, and Management
+            <p className="site-tagline text-sm sm:text-base md:text-md font-montserrat text-teal-800 mt-2">
+              Publisher of high-quality peer-reviewed journals in Engineering, Applied Science, and Management
             </p>
             <p className="site-publisher text-xl sm:text-2xl md:text-3xl lg:text-3xl font-merriweather font-bold text-eco-gold mt-2">
               Universal Oneness Research Association
@@ -44,13 +44,13 @@ const SiteBranding: React.FC = () => {
           {/* Right Logo */}
           <div className="logo-right flex-shrink-0">
             <a
-              href="https://uora.com"
+              href="/home"
               rel="home"
               aria-label="Go to Universal Journal of Green SciTech & Management homepage"
               className="block"
             >
               <img
-                src="./public/oneness1.png"
+                src="./oneness_1.png"
                 alt="Universal Oneness Research Association Right Logo"
                 className="w-24 sm:w-32 md:w-55 h-auto border-2 border-white rounded-xl"
               />

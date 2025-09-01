@@ -1,6 +1,6 @@
 // App.tsx
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SiteBranding from './components/Banner';
 import Layout from './components/Layout';
@@ -29,6 +29,8 @@ import CurrentIssue from './components/CurrentIssue';
 import Archives from './components/Archives';
 import PlagiarismPolicy from './Pages/About/PlagiarismPolicy';
 import AIGeneratedContentPolicy from './Pages/About/AIGeneratedContentPolicy';
+import TrackPaper from './Pages/Submission/TrackPaper';
+import ApplyAsReviewer from './Pages/Submission/ApplyAsReviewer';
 // import Home from './Pages/View/Home';
 function App() {
   return (
@@ -64,7 +66,9 @@ function App() {
           <Route path="/photo-gallery" element={<UpcomingContent />} />
 
           {/* New submission routes */}
-          {/* <Route path="/submit-paper" element={<SubmitPaperPage />} /> */}
+          <Route path="/submit-paper" element={<SubmitPaperPage />} />
+          <Route path="/track-paper" element={<TrackPaper />} />
+          <Route path="/apply-as-reviewer" element={<ApplyAsReviewer />} />
           <Route path="/copyright-form" element={<CopyrightFormPage />} />
           <Route path="/manuscript-template" element={<ManuscriptTemplatePage />} />
         <Route path="/current" element={<CurrentIssue />} />

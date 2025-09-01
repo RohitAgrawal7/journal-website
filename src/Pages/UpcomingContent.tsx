@@ -32,7 +32,7 @@ const UpcomingContent: React.FC = () => {
           {/* Two Columns - Special Issues & Events */}
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Special Issues */}
-            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition">
+            {/* <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition">
               <h3 className="text-xl font-semibold text-teal-800 mb-4">
                 📚 Upcoming Special Issues
               </h3>
@@ -56,7 +56,7 @@ const UpcomingContent: React.FC = () => {
                   <span>AI in Scientific Research - December 2024</span>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             {/* Events */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition">
@@ -93,7 +93,7 @@ const UpcomingContent: React.FC = () => {
           </section>
 
           {/* Table Section */}
-          <section className="bg-gray-50 p-6 rounded-lg shadow-sm">
+          {/* <section className="bg-gray-50 p-6 rounded-lg shadow-sm">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
               📅 Submission Deadlines
             </h2>
@@ -125,7 +125,7 @@ const UpcomingContent: React.FC = () => {
                 </tbody>
               </table>
             </div>
-          </section>
+          </section> */}
 
           {/* Newsletter */}
           <section className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
