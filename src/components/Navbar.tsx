@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaAngleDown, FaBars, FaTimes } from 'react-icons/fa';
+import { FaAngleDown, FaBars, FaTimes, FaPaperPlane, FaSearch, FaUserCheck } from 'react-icons/fa';
 
 interface MenuItem {
   id: string;
@@ -74,61 +74,52 @@ const PrimaryNavbar: React.FC = () => {
         url: '#',
         children: [
           { id: 'menu-item-908', title: 'About the Journal', url: '/about-the-journal', isInternal: true },
-          // { id: 'menu-item-909', title: 'Aims & Scope', url: '/aims-scope', isInternal: true },
-             { id: 'menu-item-912', title: 'Peer Review Process', url: '/peer-review-process', isInternal: true },
-             { id: 'menu-item-914', title: 'COPE', url: '/cope', isInternal: true },
+          { id: 'menu-item-912', title: 'Peer Review Process', url: '/peer-review-process', isInternal: true },
+          { id: 'menu-item-914', title: 'COPE', url: '/cope', isInternal: true },
           { id: 'menu-item-915', title: 'CARE', url: '/care', isInternal: true },
-           { id: 'menu-item-909', title: 'Plagiarism Policy', url: '/plagiarism-policy', isInternal: true },
+          { id: 'menu-item-909', title: 'Plagiarism Policy', url: '/plagiarism-policy', isInternal: true },
           { id: 'menu-item-911', title: 'Open Access Policy', url: '/open-access-policy', isInternal: true },
           { id: 'menu-item-918', title: 'AI-Generated Content Policy', url: '/ai-generated-content-policy', isInternal: true },
           { id: 'menu-item-917', title: 'Privacy & Copyright Statement', url: '/privacy-statement', isInternal: true },
-         
-          
         ],
       },
       { id: 'menu-item-919', title: 'Editorial Board', url: '/editorial-board', isInternal: true },
-     
       {
         id: 'menu-item-897',
-        title: 'Authors’ Guidelines',
+        title: 'Authors',
         url: '#',
         children: [
-          // { id: 'menu-item-899', title: 'Authors’ Guidelines', url: '/author-guidelines', isInternal: true },
           { id: 'menu-item-921', title: 'Submit Paper', url: '/submit-paper', isInternal: true },
           { id: 'menu-item-922', title: 'Track Paper', url: '/track-paper', isInternal: true },
           { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
+        ],
+      },
+      {
+        id: 'menu-item-898',
+        title: 'Guidelines',
+        url: '#',
+        children: [
           { id: 'menu-item-909', title: 'Aims & Scope', url: '/aims-scope', isInternal: true },
-          // { id: 'menu-item-900', title: 'Reviewer Guidelines', url: '/reviewer-guidelines', isInternal: true },
-          // { id: 'menu-item-902', title: 'Time of Publication', url: '/time-of-publication', isInternal: true },
           { id: 'menu-item-903', title: 'Article Processing Charges', url: '/article-processing-charges', isInternal: true },
           { id: 'menu-item-909', title: 'Abstracting & Indexing', url: '/abstracting-indexing', isInternal: true },
           { id: 'menu-item-910', title: 'Announcements', url: '/announcements', isInternal: true },
         ],
       },
-      //  {
-      //   id: 'menu-item-920',
-      //   title: 'Online Submission',
-      //   url: '#',
-      //   children: [
-      //     { id: 'menu-item-921', title: 'Submit Paper', url: '/submit-paper', isInternal: true },
-      //     { id: 'menu-item-923', title: 'Copyright Form', url: '/copyright-form', isInternal: true },
-      //     { id: 'menu-item-925', title: 'Manuscript Template', url: '/manuscript-template', isInternal: true },
-      //   ],
-      // },
       { id: 'menu-item-927', title: 'Current Issue', url: '/current', isInternal: true },
       { id: 'menu-item-928', title: 'Archives', url: '/archives', isInternal: true },
-      // { id: 'menu-item-929', title: 'Contact Us', url: '/contact-us', isInternal: true },
       { id: 'menu-item-929', title: 'Photo Gallery', url: '/photo-gallery', isInternal: true },
       { id: 'menu-item-930', title: 'Contact Us', url: '/contact-us', isInternal: true },
-      // { id: 'menu-item-931', title: 'Announcements', url: 'https://uora.com/announcements' },
     ],
     []
   );
 
-  const mainMenu = useMemo(() => menuItems.slice(0, -1), [menuItems]);
-  const footerMenu = useMemo(() => menuItems.slice(-1), [menuItems]);
+  const authorServices = [
+    { id: 'author-1', title: 'Submit Paper', url: '/submit-paper', icon: <FaPaperPlane className="mr-2" /> },
+    { id: 'author-2', title: 'Track Paper', url: '/track-paper', icon: <FaSearch className="mr-2" /> },
+    { id: 'author-3', title: 'Apply as Reviewer', url: '/apply-as-reviewer', icon: <FaUserCheck className="mr-2" /> },
+  ];
 
-  const MenuItem: React.FC<{ item: MenuItem }> = ({ item }) => (
+  const MenuItemComponent: React.FC<{ item: MenuItem }> = ({ item }) => (
     <li
       key={item.id}
       id={item.id}
@@ -212,9 +203,27 @@ const PrimaryNavbar: React.FC = () => {
   );
 
   return (
-    <div className="primary-navbar bg-gradient-to-r from-teal-800 to-teal-800 shadow-lg sticky top-0 z-50 mr-5 ml-5">
-      <div className="container mx-auto max-w-6xl px-4">
-        <nav id="site-navigation" className="main-navigation py-4" aria-label="Primary Menu" ref={navRef}>
+    <div className="primary-navbar bg-gradient-to-r from-teal-800 to-teal-800 shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto max-w-7xl px-4">
+        <nav id="site-navigation" className="main-navigation" aria-label="Primary Menu" ref={navRef}>
+          {/* Author Services Row - Only on desktop */}
+          <div className="hidden lg:flex justify-center py-2 border-b border-teal-700">
+            <div className="flex space-x-4">
+              {authorServices.map((service) => (
+                <motion.button
+                  key={service.id}
+                  onClick={() => navigateTo(service.url, true)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center bg-eco-gold text-white font-medium py-2 px-4 rounded-full transition-colors duration-200 hover:bg-gradient-to-r from-green-600 to-sky-500"
+                >
+                  {service.icon}
+                  {service.title}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+
           {/* Mobile toggle */}
           <button
             className="primary-menu-toggle lg:hidden p-4 absolute right-4 top-4 z-50 focus:outline-none focus:ring-2 focus:ring-eco-gold rounded"
@@ -239,34 +248,36 @@ const PrimaryNavbar: React.FC = () => {
           )}
 
           {/* Main navigation */}
-          <div className={`lg:flex lg:items-center ${isMobileMenuOpen ? 'block' : 'hidden'} lg:block relative z-50`}>
+          <div className={`lg:flex lg:items-center ${isMobileMenuOpen ? 'block' : 'hidden'} lg:block relative z-50 py-3`}>
             <motion.div
               className="menu-main-menu-container"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              {/* Row 1: Main Menu */}
-              <ul id="primary-menu" className="menu nav-menu flex flex-col lg:flex-row lg:flex-wrap lg:space-x-2 py-4 lg:py-0">
-                {mainMenu.map((item) => (
-                  <MenuItem key={item.id} item={item} />
-                ))}
-              </ul>
+              {/* Mobile Author Services */}
+              {isMobileMenuOpen && (
+                <div className="lg:hidden mb-4 p-4 bg-teal-700 rounded-lg">
+                  <h3 className="text-eco-gold font-bold mb-3 text-center">Author Services</h3>
+                  <div className="space-y-3">
+                    {authorServices.map((service) => (
+                      <button
+                        key={service.id}
+                        onClick={() => navigateTo(service.url, true)}
+                        className="flex items-center justify-center w-full bg-eco-gold text-white font-medium py-2 px-4 rounded-full"
+                      >
+                        {service.icon}
+                        {service.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-              {/* Row 2: Footer Menu (Publishing House & Announcements) */}
-              <ul className="menu nav-menu flex flex-col lg:flex-row lg:flex-wrap lg:space-x-2 lg:mt-2 border-t border-eco-gold/20 lg:border-t-0 pt-2 lg:pt-0">
-                {footerMenu.map((item) => (
-                  <li key={item.id} id={item.id} className="menu-item">
-                    <a
-                      href={item.url}
-                      className="block py-2 px-4 text-white hover:text-eco-gold font-montserrat font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-eco-gold rounded"
-                      target={item.url.startsWith('http') ? '_blank' : undefined}
-                      rel={item.url.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      onClick={closeMobileMenu}
-                    >
-                      {item.title}
-                    </a>
-                  </li>
+              {/* Main Menu */}
+              <ul id="primary-menu" className="menu nav-menu flex flex-col lg:flex-row lg:flex-wrap lg:justify-center lg:space-x-1 py-4 lg:py-0">
+                {menuItems.map((item) => (
+                  <MenuItemComponent key={item.id} item={item} />
                 ))}
               </ul>
             </motion.div>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaBookOpen, FaInfoCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+// import TrackPaper from './Submission/TrackPaper';
 
 const archives = [
   {
@@ -27,7 +29,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['welcome', 'journal-particulars'];
+      const sections = ['welcome', 'journal-particulars', 'registration-and-compliance'];
       const scrollPosition = window.scrollY + 100; // Offset for header
       sections.forEach((section) => {
         const element = document.getElementById(section);
@@ -53,6 +55,7 @@ const Home: React.FC = () => {
     const navItems = [
       { id: 'welcome', title: 'Welcome', icon: FaBookOpen },
       { id: 'journal-particulars', title: 'Journal Particulars', icon: FaInfoCircle },
+      { id: 'registration-and-compliance', title: 'Registration & Compliance', icon: FaCompass },
     ];
 
     return (
@@ -89,7 +92,7 @@ const Home: React.FC = () => {
       {children}
     </section>
   );
-const InitiativeCard: React.FC<{
+  const InitiativeCard: React.FC<{
     title: string;
     image: string;
     number: string;
@@ -121,12 +124,26 @@ const InitiativeCard: React.FC<{
           <p className="text-lg mt-4 max-w-2xl">
             Universal Journal of Green Sci-Tech & Management (UJGSM) is a bi-monthly, peer-reviewed, and open-access online journal dedicated to publishing original, high-quality research across various disciplines.
           </p>
-          <a
-            href="#"
+          <Link
+            to="/submit-paper"
             className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg-eco-gold hover:text-white transition-all duration-300"
           >
             Submit Your Manuscript
-          </a>
+          </Link>
+
+          <Link
+            to="/track-paper"
+            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg-eco-gold hover:text-white transition-all duration-300"
+          >
+            Track Paper
+          </Link>
+
+          <Link
+            to="/apply-as-reviewer"
+            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg-eco-gold hover:text-white transition-all duration-300"
+          >
+            Apply As Reviewer
+          </Link>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="welcome" title="About UJGSM" icon={FaBookOpen}>
@@ -155,7 +172,7 @@ const InitiativeCard: React.FC<{
               <li><strong>Email ID:</strong> <a href="mailto:contact@uorapublications.com" className="text-eco-gold hover:underline">contact@uorapublications.com</a></li>
             </ol>
           </ContentSection>
-           <ContentSection id="initiatives" title="Our Initiatives" icon={FaCompass}>
+          <ContentSection id="registration-and-compliance" title="Registration & Compliance" icon={FaCompass}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {archives.map((item) => (
                 <InitiativeCard
@@ -180,19 +197,19 @@ const InitiativeCard: React.FC<{
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
-            <p>A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+            <p>A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
-            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
-            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
-            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <Link to="./home" className="text-white hover:text-eco-gold">Home</Link></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <Link to="./current" className="text-white hover:text-eco-gold">Current Issue</Link></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <Link to="./archives" className="text-white hover:text-eco-gold">Archives</Link></p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:ujgsmjournal@gmail.com" className="text-white hover:text-eco-gold">ujgsmjournal@gmail.com</a></p>
-            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9733697736</p>
-            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">

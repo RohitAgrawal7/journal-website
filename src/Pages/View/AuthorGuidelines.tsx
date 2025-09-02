@@ -247,7 +247,7 @@ const AuthorsGuidelines: React.FC = () => {
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
-            <p>A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+            <p>A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
@@ -257,9 +257,9 @@ const AuthorsGuidelines: React.FC = () => {
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:ujgsmjournal@gmail.com" className="text-white hover:text-eco-gold">ujgsmjournal@gmail.com</a></p>
-            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9733697736</p>
-            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">

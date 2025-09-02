@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { FaUserCheck, FaCheckCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
 interface FormData {
@@ -68,8 +68,10 @@ const ApplyAsReviewer: React.FC = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [activeSection, setActiveSection] = useState('apply-as-reviewer');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const validateForm = (): boolean => {
+  // Memoized validation function
+  const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
     
     const requiredFields: (keyof FormData)[] = [
@@ -119,9 +121,10 @@ const ApplyAsReviewer: React.FC = () => {
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [formData]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  // Optimized input change handler
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     
     if (type === 'checkbox') {
@@ -129,28 +132,33 @@ const ApplyAsReviewer: React.FC = () => {
       setFormData(prev => ({ ...prev, [name]: checked }));
     } else if (name.startsWith('researchArea-')) {
       const index = parseInt(name.split('-')[1]);
-      const newResearchAreas = [...formData.researchAreas];
-      newResearchAreas[index] = value;
-      setFormData(prev => ({ ...prev, researchAreas: newResearchAreas }));
+      setFormData(prev => {
+        const newResearchAreas = [...prev.researchAreas];
+        newResearchAreas[index] = value;
+        return { ...prev, researchAreas: newResearchAreas };
+      });
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
     
+    // Clear error for this field if it exists
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
-  };
+  }, [errors]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Optimized file change handler
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFormData(prev => ({ ...prev, cv: e.target.files![0] }));
       if (errors.cv) {
         setErrors(prev => ({ ...prev, cv: '' }));
       }
     }
-  };
+  }, [errors.cv]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Optimized form submission
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     
     if (validateForm()) {
@@ -198,7 +206,7 @@ const ApplyAsReviewer: React.FC = () => {
         }, 3000);
       }, 1500);
     }
-  };
+  }, [formData, validateForm]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -211,16 +219,16 @@ const ApplyAsReviewer: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = useCallback((sectionId: string) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }, []);
 
-  // Sidebar Component
-  const Sidebar = () => {
+  // Memoized Sidebar Component
+  const Sidebar = useMemo(() => {
     const navItems = [
       { id: 'apply-as-reviewer', title: 'Apply as Reviewer', icon: FaUserCheck },
     ];
@@ -247,646 +255,523 @@ const ApplyAsReviewer: React.FC = () => {
         </div>
       </div>
     );
-  };
+  }, [activeSection, scrollToSection]);
 
-  // MainContent Component
-  const MainContent = () => (
-    <div className="lg:col-span-3">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
-          <h1 className="text-3xl font-merriweather font-bold flex items-center">
-            <FaUserCheck className="mr-3" /> Apply as Reviewer
-          </h1>
-          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
-          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
-        </div>
-        <div className="p-6">
-          <section id="apply-as-reviewer" className="guideline-section p-6 rounded-lg bg-white hover:bg-green-100 transition-all duration-300">
-            {submitSuccess ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="p-6 bg-teal-800/30 border border-eco-gold/20 rounded-xl text-center"
-              >
-                <FaCheckCircle className="text-4xl text-vibrant-green mb-4" />
-                <h3 className="text-xl font-merriweather font-semibold text-vibrant-green mb-2">Application Submitted!</h3>
-                <p className="text-gray-700 font-montserrat">
-                  Thank you for applying to become a reviewer. We'll review your application and get back to you shortly.
-                </p>
-              </motion.div>
-            ) : (
-              <motion.form
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                onSubmit={handleSubmit}
-                className="space-y-8"
-              >
-                {/* Personal Information Section */}
-                <div className="space-y-6">
-                  <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
-                    Personal Information
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Salutation <span className="text-eco-gold">*</span>
-                      </label>
-                      <select
+  // Form Input Component for better performance
+  const FormInput = useCallback(({ 
+    label, name, type = 'text', value, onChange, error, placeholder, required = false, 
+    options, textarea = false, ...props 
+  }: {
+    label: string;
+    name: string;
+    type?: string;
+    value: any;
+    onChange: (e: any) => void;
+    error?: string;
+    placeholder?: string;
+    required?: boolean;
+    options?: { value: string; label: string }[];
+    textarea?: boolean;
+    [key: string]: any;
+  }) => {
+    const InputComponent = textarea ? 'textarea' : 'input';
+    
+    return (
+      <div>
+        <label className="block text-dark-brown font-merriweather font-medium mb-2">
+          {label} {required && <span className="text-eco-gold">*</span>}
+        </label>
+        {options ? (
+          <select
+            name={name}
+            value={value}
+            onChange={onChange}
+            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
+              error ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
+            } text-gray-700`}
+            {...props}
+          >
+            <option value="">Select {label}</option>
+            {options.map(option => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        ) : (
+          <InputComponent
+            type={type}
+            name={name}
+            value={value}
+            onChange={onChange}
+            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
+              error ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
+            } text-gray-700`}
+            placeholder={placeholder}
+            rows={textarea ? 3 : undefined}
+            {...props}
+          />
+        )}
+        {error && (
+          <p className="mt-1 text-eco-gold text-sm font-montserrat">{error}</p>
+        )}
+      </div>
+    );
+  }, []);
+
+  // Memoized MainContent Component
+  const MainContent = useMemo(() => {
+    return (
+      <div className="lg:col-span-3">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+            <h1 className="text-3xl font-merriweather font-bold flex items-center">
+              <FaUserCheck className="mr-3" /> Apply as Reviewer
+            </h1>
+            <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+            <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+          </div>
+          <div className="p-6">
+            <section id="apply-as-reviewer" className="guideline-section p-6 rounded-lg bg-white hover:bg-green-100 transition-all duration-300">
+              {submitSuccess ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="p-6 bg-teal-800/30 border border-eco-gold/20 rounded-xl text-center"
+                >
+                  <FaCheckCircle className="text-4xl text-vibrant-green mb-4" />
+                  <h3 className="text-xl font-merriweather font-semibold text-vibrant-green mb-2">Application Submitted!</h3>
+                  <p className="text-gray-700 font-montserrat">
+                    Thank you for applying to become a reviewer. We'll review your application and get back to you shortly.
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.form
+                  ref={formRef}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  onSubmit={handleSubmit}
+                  className="space-y-8"
+                >
+                  {/* Personal Information Section */}
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                      Personal Information
+                    </h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormInput
+                        label="Salutation"
                         name="salutation"
                         value={formData.salutation}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.salutation ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
-                      >
-                        <option value="">Select Salutation</option>
-                        <option value="Dr.">Dr.</option>
-                        <option value="Mr.">Mr.</option>
-                        <option value="Mrs.">Mrs.</option>
-                        <option value="Ms.">Ms.</option>
-                      </select>
-                      {errors.salutation && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.salutation}</p>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Full Name <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="text"
+                        error={errors.salutation}
+                        options={[
+                          { value: 'Dr.', label: 'Dr.' },
+                          { value: 'Mr.', label: 'Mr.' },
+                          { value: 'Mrs.', label: 'Mrs.' },
+                          { value: 'Ms.', label: 'Ms.' },
+                        ]}
+                        required
+                      />
+                      
+                      <FormInput
+                        label="Full Name"
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.fullName ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        error={errors.fullName}
                         placeholder="Enter your full name"
+                        required
                       />
-                      {errors.fullName && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.fullName}</p>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
+                        Gender <span className="text-eco-gold">*</span>
+                      </label>
+                      <div className="flex space-x-4">
+                        {['Male', 'Female', 'Other'].map(gender => (
+                          <label key={gender} className="flex items-center text-gray-700 font-montserrat">
+                            <input
+                              type="radio"
+                              name="gender"
+                              value={gender}
+                              checked={formData.gender === gender}
+                              onChange={handleChange}
+                              className="mr-2 form-radio text-vibrant-green focus:ring-vibrant-green"
+                            />
+                            {gender}
+                          </label>
+                        ))}
+                      </div>
+                      {errors.gender && (
+                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.gender}</p>
                       )}
                     </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                      Gender <span className="text-eco-gold">*</span>
-                    </label>
-                    <div className="flex space-x-4">
-                      {['Male', 'Female', 'Other'].map(gender => (
-                        <label key={gender} className="flex items-center text-gray-700 font-montserrat">
-                          <input
-                            type="radio"
-                            name="gender"
-                            value={gender}
-                            checked={formData.gender === gender}
-                            onChange={handleChange}
-                            className="mr-2 form-radio text-vibrant-green focus:ring-vibrant-green"
-                          />
-                          {gender}
-                        </label>
-                      ))}
-                    </div>
-                    {errors.gender && (
-                      <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.gender}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                      Current Employment (College/University/Organization) <span className="text-eco-gold">*</span>
-                    </label>
-                    <input
-                      type="text"
+                    
+                    <FormInput
+                      label="Current Employment (College/University/Organization)"
                       name="currentEmployment"
                       value={formData.currentEmployment}
                       onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                        errors.currentEmployment ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                      } text-gray-700`}
+                      error={errors.currentEmployment}
                       placeholder="Enter your current employment"
+                      required
                     />
-                    {errors.currentEmployment && (
-                      <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.currentEmployment}</p>
-                    )}
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Total Experience (Years) <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="number"
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormInput
+                        label="Total Experience (Years)"
                         name="totalExperience"
+                        type="number"
                         value={formData.totalExperience}
                         onChange={handleChange}
+                        error={errors.totalExperience}
                         min="0"
                         max="50"
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.totalExperience ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        required
                       />
-                      {errors.totalExperience && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.totalExperience}</p>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        International Publications <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="number"
+                      
+                      <FormInput
+                        label="International Publications"
                         name="internationalPublications"
+                        type="number"
                         value={formData.internationalPublications}
                         onChange={handleChange}
+                        error={errors.internationalPublications}
                         min="0"
                         max="100"
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.internationalPublications ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        required
                       />
-                      {errors.internationalPublications && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.internationalPublications}</p>
-                      )}
                     </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                      Educational Qualifications <span className="text-eco-gold">*</span>
-                    </label>
-                    <textarea
+                    
+                    <FormInput
+                      label="Educational Qualifications"
                       name="educationalQualifications"
                       value={formData.educationalQualifications}
                       onChange={handleChange}
-                      rows={3}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                        errors.educationalQualifications ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                      } text-gray-700`}
+                      error={errors.educationalQualifications}
                       placeholder="Enter your educational qualifications"
+                      textarea
+                      required
                     />
-                    {errors.educationalQualifications && (
-                      <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.educationalQualifications}</p>
-                    )}
                   </div>
-                </div>
 
-                {/* Research Area Section */}
-                <div className="space-y-6">
-                  <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
-                    Research Areas
-                  </h3>
-                  <p className="text-gray-700 text-sm font-montserrat">
-                    You can mention multiple research areas in which you are willing to review the paper
-                  </p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {formData.researchAreas.map((area, index) => (
-                      <div key={index}>
-                        <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                          Research Area {index + 1} {index < 4 && <span className="text-eco-gold">*</span>}
-                        </label>
-                        <input
-                          type="text"
+                  {/* Research Area Section */}
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                      Research Areas
+                    </h3>
+                    <p className="text-gray-700 text-sm font-montserrat">
+                      You can mention multiple research areas in which you are willing to review the paper
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {formData.researchAreas.map((area, index) => (
+                        <FormInput
+                          key={index}
+                          label={`Research Area ${index + 1}`}
                           name={`researchArea-${index}`}
                           value={area}
                           onChange={handleChange}
-                          className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                            errors[`researchArea-${index}`] ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                          } text-gray-700`}
+                          error={errors[`researchArea-${index}`]}
                           placeholder={`Research area ${index + 1}`}
+                          required={index < 4}
                         />
-                        {errors[`researchArea-${index}`] && (
-                          <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors[`researchArea-${index}`]}</p>
-                        )}
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Contact Information Section */}
-                <div className="space-y-6">
-                  <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
-                    Contact Information
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Institutional/Work Email <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="email"
+                  {/* Contact Information Section */}
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                      Contact Information
+                    </h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormInput
+                        label="Institutional/Work Email"
                         name="institutionalEmail"
+                        type="email"
                         value={formData.institutionalEmail}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.institutionalEmail ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        error={errors.institutionalEmail}
                         placeholder="Enter your work email"
+                        required
                       />
-                      {errors.institutionalEmail && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.institutionalEmail}</p>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Secondary/Personal Email <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="email"
+                      
+                      <FormInput
+                        label="Secondary/Personal Email"
                         name="personalEmail"
+                        type="email"
                         value={formData.personalEmail}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.personalEmail ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        error={errors.personalEmail}
                         placeholder="Enter your personal email"
+                        required
                       />
-                      {errors.personalEmail && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.personalEmail}</p>
-                      )}
                     </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Mobile No. <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="text"
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormInput
+                        label="Mobile No."
                         name="mobileNo"
                         value={formData.mobileNo}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.mobileNo ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        error={errors.mobileNo}
                         placeholder="E.g. +91 9876543210"
+                        required
                       />
-                      {errors.mobileNo && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.mobileNo}</p>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        WhatsApp No. <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="text"
+                      
+                      <FormInput
+                        label="WhatsApp No."
                         name="whatsappNo"
                         value={formData.whatsappNo}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.whatsappNo ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        error={errors.whatsappNo}
                         placeholder="E.g. +91 9876543210"
+                        required
                       />
-                      {errors.whatsappNo && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.whatsappNo}</p>
-                      )}
                     </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        City <span className="text-eco-gold">*</span>
-                      </label>
-                      <input
-                        type="text"
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormInput
+                        label="City"
                         name="city"
                         value={formData.city}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.city ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
+                        error={errors.city}
                         placeholder="E.g. Mumbai"
+                        required
                       />
-                      {errors.city && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.city}</p>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Country <span className="text-eco-gold">*</span>
-                      </label>
-                      <select
+                      
+                      <FormInput
+                        label="Country"
                         name="country"
                         value={formData.country}
                         onChange={handleChange}
-                        className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                          errors.country ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                        } text-gray-700`}
-                      >
-                        <option value="">Select Country</option>
-                        <option value="India">India</option>
-                        <option value="United States">United States</option>
-                        <option value="United Kingdom">United Kingdom</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Australia">Australia</option>
-                        <option value="Germany">Germany</option>
-                        <option value="France">France</option>
-                        <option value="Japan">Japan</option>
-                        <option value="China">China</option>
-                        <option value="Brazil">Brazil</option>
-                      </select>
-                      {errors.country && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.country}</p>
-                      )}
+                        error={errors.country}
+                        options={[
+                          { value: 'India', label: 'India' },
+                          { value: 'United States', label: 'United States' },
+                          { value: 'United Kingdom', label: 'United Kingdom' },
+                          { value: 'Canada', label: 'Canada' },
+                          { value: 'Australia', label: 'Australia' },
+                          { value: 'Germany', label: 'Germany' },
+                          { value: 'France', label: 'France' },
+                          { value: 'Japan', label: 'Japan' },
+                          { value: 'China', label: 'China' },
+                          { value: 'Brazil', label: 'Brazil' },
+                        ]}
+                        required
+                      />
                     </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                      How Did You Find Us? <span className="text-eco-gold">*</span>
-                    </label>
-                    <input
-                      type="text"
+                    
+                    <FormInput
+                      label="How Did You Find Us?"
                       name="howFoundUs"
                       value={formData.howFoundUs}
                       onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                        errors.howFoundUs ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                      } text-gray-700`}
+                      error={errors.howFoundUs}
                       placeholder="How did you hear about us?"
+                      required
                     />
-                    {errors.howFoundUs && (
-                      <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.howFoundUs}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                      CV <span className="text-eco-gold">*</span>
-                    </label>
-                    <div className="flex items-center">
-                      <label className="bg-vibrant-green hover:bg-eco-gold text-teal-800 hover:text-white font-montserrat font-medium py-2 px-4 rounded-lg cursor-pointer mr-4 transition-all duration-300">
-                        Choose File
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          name="cv"
-                          onChange={handleFileChange}
-                          accept=".doc,.docx,.pdf,.rtf"
-                          className="hidden"
-                        />
+                    
+                    <div>
+                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
+                        CV <span className="text-eco-gold">*</span>
                       </label>
-                      <span className="text-gray-700 font-montserrat">{formData.cv ? formData.cv.name : 'No file chosen'}</span>
-                    </div>
-                    <p className="text-sm text-gray-500 mt-1 font-montserrat">Format Allowed (doc, docx, PDF, rtf)</p>
-                    {errors.cv && (
-                      <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.cv}</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* References Section */}
-                <div className="space-y-6">
-                  <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
-                    References
-                  </h3>
-                  
-                  <div className="space-y-8">
-                    <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                      <h4 className="text-lg font-merriweather font-medium text-vibrant-green">First Reference</h4>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Name <span className="text-eco-gold">*</span>
-                          </label>
+                      <div className="flex items-center">
+                        <label className="bg-vibrant-green hover:bg-eco-gold text-teal-800 hover:text-white font-montserrat font-medium py-2 px-4 rounded-lg cursor-pointer mr-4 transition-all duration-300">
+                          Choose File
                           <input
-                            type="text"
+                            ref={fileInputRef}
+                            type="file"
+                            name="cv"
+                            onChange={handleFileChange}
+                            accept=".doc,.docx,.pdf,.rtf"
+                            className="hidden"
+                          />
+                        </label>
+                        <span className="text-gray-700 font-montserrat">{formData.cv ? formData.cv.name : 'No file chosen'}</span>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1 font-montserrat">Format Allowed (doc, docx, PDF, rtf)</p>
+                      {errors.cv && (
+                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.cv}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* References Section */}
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                      References
+                    </h3>
+                    
+                    <div className="space-y-8">
+                      <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+                        <h4 className="text-lg font-merriweather font-medium text-vibrant-green">First Reference</h4>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormInput
+                            label="Name"
                             name="firstReferenceName"
                             value={formData.firstReferenceName}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                              errors.firstReferenceName ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                            } text-gray-700`}
+                            error={errors.firstReferenceName}
                             placeholder="E.g. John Doe"
+                            required
                           />
-                          {errors.firstReferenceName && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.firstReferenceName}</p>
-                          )}
-                        </div>
-                        
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Email Address <span className="text-eco-gold">*</span>
-                          </label>
-                          <input
-                            type="email"
+                          
+                          <FormInput
+                            label="Email Address"
                             name="firstReferenceEmail"
+                            type="email"
                             value={formData.firstReferenceEmail}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                              errors.firstReferenceEmail ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                            } text-gray-700`}
+                            error={errors.firstReferenceEmail}
                             placeholder="E.g. john@doe.com"
+                            required
                           />
-                          {errors.firstReferenceEmail && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.firstReferenceEmail}</p>
-                          )}
                         </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            College/University/Organization <span className="text-eco-gold">*</span>
-                          </label>
-                          <input
-                            type="text"
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormInput
+                            label="College/University/Organization"
                             name="firstReferenceOrg"
                             value={formData.firstReferenceOrg}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                              errors.firstReferenceOrg ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                            } text-gray-700`}
+                            error={errors.firstReferenceOrg}
                             placeholder="Enter organization"
+                            required
                           />
-                          {errors.firstReferenceOrg && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.firstReferenceOrg}</p>
-                          )}
-                        </div>
-                        
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Mobile No. <span className="text-eco-gold">*</span>
-                          </label>
-                          <input
-                            type="text"
+                          
+                          <FormInput
+                            label="Mobile No."
                             name="firstReferenceMobile"
                             value={formData.firstReferenceMobile}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                              errors.firstReferenceMobile ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                            } text-gray-700`}
+                            error={errors.firstReferenceMobile}
                             placeholder="E.g. +91 9876543210"
+                            required
                           />
-                          {errors.firstReferenceMobile && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.firstReferenceMobile}</p>
-                          )}
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                      <h4 className="text-lg font-merriweather font-medium text-vibrant-green">Second Reference</h4>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Name <span className="text-eco-gold">*</span>
-                          </label>
-                          <input
-                            type="text"
+                      <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+                        <h4 className="text-lg font-merriweather font-medium text-vibrant-green">Second Reference</h4>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormInput
+                            label="Name"
                             name="secondReferenceName"
                             value={formData.secondReferenceName}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${errors.secondReferenceName ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'} text-gray-700`}
+                            error={errors.secondReferenceName}
                             placeholder="E.g. John Doe"
+                            required
                           />
-                          {errors.secondReferenceName && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.secondReferenceName}</p>
-                          )}
-                        </div>
-                        
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Email Address <span className="text-eco-gold">*</span>
-                          </label>
-                          <input
-                            type="email"
+                          
+                          <FormInput
+                            label="Email Address"
                             name="secondReferenceEmail"
+                            type="email"
                             value={formData.secondReferenceEmail}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                              errors.secondReferenceEmail ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                            } text-gray-700`}
+                            error={errors.secondReferenceEmail}
                             placeholder="E.g. john@doe.com"
+                            required
                           />
-                          {errors.secondReferenceEmail && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.secondReferenceEmail}</p>
-                          )}
                         </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            College/University/Organization <span className="text-eco-gold">*</span>
-                          </label>
-                          <input
-                            type="text"
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <FormInput
+                            label="College/University/Organization"
                             name="secondReferenceOrg"
                             value={formData.secondReferenceOrg}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                              errors.secondReferenceOrg ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                            } text-gray-700`}
+                            error={errors.secondReferenceOrg}
                             placeholder="Enter organization"
+                            required
                           />
-                          {errors.secondReferenceOrg && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.secondReferenceOrg}</p>
-                          )}
-                        </div>
-                        
-                        <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Mobile No. <span className="text-eco-gold">*</span>
-                          </label>
-                          <input
-                            type="text"
+                          
+                          <FormInput
+                            label="Mobile No."
                             name="secondReferenceMobile"
                             value={formData.secondReferenceMobile}
                             onChange={handleChange}
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-                              errors.secondReferenceMobile ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
-                            } text-gray-700`}
+                            error={errors.secondReferenceMobile}
                             placeholder="E.g. +91 9876543210"
+                            required
                           />
-                          {errors.secondReferenceMobile && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.secondReferenceMobile}</p>
-                          )}
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Terms Agreement */}
-                <div>
-                  <label className="flex items-start text-gray-700 font-montserrat">
-                    <input
-                      type="checkbox"
-                      name="agreeToTerms"
-                      checked={formData.agreeToTerms}
-                      onChange={handleChange}
-                      className="mt-1 mr-2 form-checkbox h-5 w-5 text-vibrant-green focus:ring-vibrant-green"
-                    />
-                    <span>
-                      I agree to the Universal Journal of Green SciTech & Management (UJGSM) terms and conditions. <span className="text-eco-gold">*</span>
-                    </span>
-                  </label>
-                  {errors.agreeToTerms && (
-                    <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.agreeToTerms}</p>
-                  )}
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-4">
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
-                    whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-                    className={`w-full py-3 px-6 rounded-lg font-montserrat font-medium transition-all ${
-                      isSubmitting
-                        ? 'bg-gray-600 cursor-not-allowed'
-                        : 'bg-vibrant-green hover:bg-eco-gold text-teal-800 hover:text-white'
-                    }`}
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center justify-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Processing...
-                      </div>
-                    ) : (
-                      'Submit Application'
+                  {/* Terms Agreement */}
+                  <div>
+                    <label className="flex items-start text-gray-700 font-montserrat">
+                      <input
+                        type="checkbox"
+                        name="agreeToTerms"
+                        checked={formData.agreeToTerms}
+                        onChange={handleChange}
+                        className="mt-1 mr-2 form-checkbox h-5 w-5 text-vibrant-green focus:ring-vibrant-green"
+                      />
+                      <span>
+                        I agree to the Universal Journal of Green SciTech & Management (UJGSM) terms and conditions. <span className="text-eco-gold">*</span>
+                      </span>
+                    </label>
+                    {errors.agreeToTerms && (
+                      <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.agreeToTerms}</p>
                     )}
-                  </motion.button>
-                </div>
-              </motion.form>
-            )}
-          </section>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-4">
+                    <motion.button
+                      type="submit"
+                      disabled={isSubmitting}
+                      whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
+                      whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
+                      className={`w-full py-3 px-6 rounded-lg font-montserrat font-medium transition-all ${
+                        isSubmitting
+                          ? 'bg-gray-600 cursor-not-allowed'
+                          : 'bg-vibrant-green hover:bg-eco-gold text-teal-800 hover:text-white'
+                      }`}
+                    >
+                      {isSubmitting ? (
+                        <div className="flex items-center justify-center">
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Processing...
+                        </div>
+                      ) : (
+                        'Submit Application'
+                      )}
+                    </motion.button>
+                  </div>
+                </motion.form>
+              )}
+            </section>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }, [formData, errors, isSubmitting, submitSuccess, handleChange, handleFileChange, handleSubmit, FormInput]);
 
-  // Footer Component
-  const Footer = () => (
+  // Memoized Footer Component
+  const Footer = useMemo(() => (
     <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
       <div className="container mx-auto max-w-6xl">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
-            <p>A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+            <p>A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
@@ -898,7 +783,7 @@ const ApplyAsReviewer: React.FC = () => {
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
             <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
             <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9766930707</p>
-            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
@@ -906,17 +791,17 @@ const ApplyAsReviewer: React.FC = () => {
         </div>
       </div>
     </footer>
-  );
+  ), []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <MainContent />
-          <Sidebar />
+          {MainContent}
+          {Sidebar}
         </div>
       </main>
-      <Footer />
+      {Footer}
     </div>
   );
 };

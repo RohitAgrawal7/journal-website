@@ -263,7 +263,7 @@ const SubmissionConfirmationPage: React.FC = () => {
                     <FaPhone className="mr-2 text-eco-gold" /> +91-9766930707
                   </p>
                   <p className="flex items-center text-white">
-                    <FaMapMarkerAlt className="mr-2 text-eco-gold" /> West Bengal, India
+                    <FaMapMarkerAlt className="mr-2 text-eco-gold" /> Chhatrapati Sambhajinagar, Maharashtra, India
                   </p>
                 </div>
               </div>
@@ -337,7 +337,7 @@ const SubmissionConfirmationPage: React.FC = () => {
           <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
             <div className="footer-section">
               <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">About UJGSM</h3>
-              <p className="text-sm">A peer-reviewed, open-access journal publishing quality research across Science, Technology, Management, and allied disciplines.</p>
+              <p className="text-sm">A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
             </div>
             <div className="footer-section">
               <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">Quick Links</h3>
@@ -352,7 +352,7 @@ const SubmissionConfirmationPage: React.FC = () => {
               <div className="space-y-2">
                 <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold transition-colors">contact@uorapublications.com</a></p>
                 <p className="flex items-center"><FaPhone className="mr-2" /> +91-9766930707</p>
-                <p className="flex items-center"><FaMapMarkerAlt className="mr-2" /> West Bengal, India</p>
+                <p className="flex items-center"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
               </div>
             </div>
           </div>

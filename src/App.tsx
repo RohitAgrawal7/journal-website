@@ -64,6 +64,8 @@ function App() {
             <Route path="/ai-generated-content-policy" element={<AIGeneratedContentPolicy />} />
           {/* <Route path="/time-of-publication" element={<TimeOfPublication />} /> */}
           <Route path="/photo-gallery" element={<UpcomingContent />} />
+          <Route path="/abstracting-indexing" element={<UpcomingContent />} />
+          <Route path="/announcements" element={<UpcomingContent />} />
 
           {/* New submission routes */}
           <Route path="/submit-paper" element={<SubmitPaperPage />} />
