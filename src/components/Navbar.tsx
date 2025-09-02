@@ -84,16 +84,16 @@ const PrimaryNavbar: React.FC = () => {
         ],
       },
       { id: 'menu-item-919', title: 'Editorial Board', url: '/editorial-board', isInternal: true },
-      {
-        id: 'menu-item-897',
-        title: 'Authors',
-        url: '#',
-        children: [
-          { id: 'menu-item-921', title: 'Submit Paper', url: '/submit-paper', isInternal: true },
-          { id: 'menu-item-922', title: 'Track Paper', url: '/track-paper', isInternal: true },
-          { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
-        ],
-      },
+      // {
+      //   id: 'menu-item-897',
+      //   title: 'Authors',
+      //   url: '#',
+      //   children: [
+      //     { id: 'menu-item-921', title: 'Submit Paper', url: '/submit-paper', isInternal: true },
+      //     { id: 'menu-item-922', title: 'Track Paper', url: '/track-paper', isInternal: true },
+      //     { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
+      //   ],
+      // },
       {
         id: 'menu-item-898',
         title: 'Guidelines',
