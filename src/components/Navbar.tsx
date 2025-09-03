@@ -128,7 +128,7 @@ const PrimaryNavbar: React.FC = () => {
       {item.isInternal && !item.children ? (
         <button
           onClick={() => navigateTo(item.url, true)}
-          className="flex items-center py-3 px-4 text-white hover:text-eco-gold font-merriweather font-semibold transition-colors duration-200 w-full text-left focus:outline-none focus:ring-2 focus:ring-eco-gold rounded"
+          className="flex items-center py-3 px-4 text-white hover:text--teal-800 font-merriweather font-semibold transition-colors duration-200 w-full text-left focus:outline-none focus:ring-2 focus:ring--teal-800 rounded"
           aria-current={item.current ? 'page' : undefined}
         >
           {item.title}
@@ -145,7 +145,7 @@ const PrimaryNavbar: React.FC = () => {
                 navigateTo(item.url, item.isInternal);
               }
             }}
-            className="flex items-center py-3 px-4 text-white hover:text-eco-gold font-merriweather font-semibold transition-colors duration-200 w-full text-left focus:outline-none focus:ring-2 focus:ring-eco-gold rounded"
+            className="flex items-center py-3 px-4 text-white hover:text--teal-800 font-merriweather font-semibold transition-colors duration-200 w-full text-left focus:outline-none focus:ring-2 focus:ring--teal-800 rounded"
             aria-expanded={item.children ? expandedItems[item.id] : undefined}
             aria-haspopup={item.children ? 'true' : 'false'}
           >
@@ -176,14 +176,14 @@ const PrimaryNavbar: React.FC = () => {
                               toggleSubMenu(item.id);
                             }
                           }}
-                          className="block py-2 px-6 text-white hover:bg-white hover:text-teal-700 transition-colors duration-200 w-full text-left font-montserrat font-medium focus:outline-none focus:ring-2 focus:ring-eco-gold rounded"
+                          className="block py-2 px-6 text-white hover:bg-white hover:text-teal-700 transition-colors duration-200 w-full text-left font-montserrat font-medium focus:outline-none focus:ring-2 focus:ring--teal-800 rounded"
                         >
                           {child.title}
                         </button>
                       ) : (
                         <a
                           href={child.url}
-                          className="block py-2 px-6 text-white hover:bg-vibrant-green hover:text-eco-gold transition-colors duration-200 font-montserrat font-medium"
+                          className="block py-2 px-6 text-white hover:bg-vibrant-green hover:text--teal-800 transition-colors duration-200 font-montserrat font-medium"
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={closeMobileMenu}
@@ -215,7 +215,7 @@ const PrimaryNavbar: React.FC = () => {
                   onClick={() => navigateTo(service.url, true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center bg-eco-gold text-white font-medium py-2 px-4 rounded-full transition-colors duration-200 hover:bg-gradient-to-r from-green-600 to-sky-500"
+                  className="flex items-center bg--teal-800 text-white font-medium py-2 px-4 rounded-full transition-colors duration-200 hover:bg-gradient-to-r from-green-600 to-sky-500"
                 >
                   {service.icon}
                   {service.title}
@@ -226,16 +226,16 @@ const PrimaryNavbar: React.FC = () => {
 
           {/* Mobile toggle */}
           <button
-            className="primary-menu-toggle lg:hidden p-4 absolute right-4 top-4 z-50 focus:outline-none focus:ring-2 focus:ring-eco-gold rounded"
+            className="primary-menu-toggle lg:hidden p-4 absolute right-4 top-4 z-50 focus:outline-none focus:ring-2 focus:ring--teal-800 rounded"
             aria-controls="primary-menu"
             aria-expanded={isMobileMenuOpen}
             aria-label="Toggle Primary Menu"
             onClick={toggleMobileMenu}
           >
             {isMobileMenuOpen ? (
-              <FaTimes className="text-eco-gold text-2xl" />
+              <FaTimes className="text--teal-800 text-2xl" />
             ) : (
-              <FaBars className="text-eco-gold text-2xl" />
+              <FaBars className="text--teal-800 text-2xl" />
             )}
           </button>
 
@@ -258,13 +258,13 @@ const PrimaryNavbar: React.FC = () => {
               {/* Mobile Author Services */}
               {isMobileMenuOpen && (
                 <div className="lg:hidden mb-4 p-4 bg-teal-700 rounded-lg">
-                  <h3 className="text-eco-gold font-bold mb-3 text-center">Author Services</h3>
+                  <h3 className="text--teal-800 font-bold mb-3 text-center">Author Services</h3>
                   <div className="space-y-3">
                     {authorServices.map((service) => (
                       <button
                         key={service.id}
                         onClick={() => navigateTo(service.url, true)}
-                        className="flex items-center justify-center w-full bg-eco-gold text-white font-medium py-2 px-4 rounded-full"
+                        className="flex items-center justify-center w-full bg--teal-800 text-white font-medium py-2 px-4 rounded-full"
                       >
                         {service.icon}
                         {service.title}

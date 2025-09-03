@@ -65,7 +65,7 @@ const SubmissionConfirmationPage: React.FC = () => {
           <p className="text-gray-700 font-montserrat mb-6">We couldn't find any manuscript submission data.</p>
           <button 
             onClick={() => window.location.href = '/submit-manuscript'}
-            className="bg-vibrant-green hover:bg-eco-gold text-white font-montserrat font-bold py-2 px-6 rounded-lg transition-colors"
+            className="bg-vibrant-green hover:bg--teal-800 text-white font-montserrat font-bold py-2 px-6 rounded-lg transition-colors"
           >
             Submit a Manuscript
           </button>
@@ -93,7 +93,7 @@ const SubmissionConfirmationPage: React.FC = () => {
       <div className="container mx-auto max-w-6xl px-4">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-white p-6">
+          <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
                 <h1 className="text-3xl font-merriweather font-bold flex items-center">
@@ -112,11 +112,11 @@ const SubmissionConfirmationPage: React.FC = () => {
           <div className="p-4 bg-teal-50 border-b border-teal-200">
             <div className="flex items-center">
               {submissionData.status === 'Under Review' ? (
-                <FaClock className="text-eco-gold text-xl mr-2" />
+                <FaClock className="text--teal-800 text-xl mr-2" />
               ) : (
                 <FaCheckCircle className="text-vibrant-green text-xl mr-2" />
               )}
-              <span className={`font-montserrat font-medium ${submissionData.status === 'Under Review' ? 'text-eco-gold' : 'text-vibrant-green'}`}>
+              <span className={`font-montserrat font-medium ${submissionData.status === 'Under Review' ? 'text--teal-800' : 'text-vibrant-green'}`}>
                 Status: {submissionData.status}
               </span>
             </div>
@@ -188,7 +188,7 @@ const SubmissionConfirmationPage: React.FC = () => {
                       <p className="font-medium">{submissionData.fileName}</p>
                       <p className="text-sm text-gray-600">{submissionData.fileSize}</p>
                     </div>
-                    <button className="bg-vibrant-green hover:bg-eco-gold text-white font-montserrat font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
+                    <button className="bg-vibrant-green hover:bg--teal-800 text-white font-montserrat font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
                       <FaDownload className="mr-2" /> Download
                     </button>
                   </div>
@@ -227,7 +227,7 @@ const SubmissionConfirmationPage: React.FC = () => {
               </h2>
               
               <div className="mb-6">
-                <div className={`p-3 rounded-lg mb-2 ${submissionData.status === 'Under Review' ? 'bg-eco-gold/20 text-eco-gold' : 'bg-vibrant-green/20 text-vibrant-green'}`}>
+                <div className={`p-3 rounded-lg mb-2 ${submissionData.status === 'Under Review' ? 'bg--teal-800/20 text--teal-800' : 'bg-vibrant-green/20 text-vibrant-green'}`}>
                   <p className="font-medium">Current Stage</p>
                   <p className="text-lg font-bold">{submissionData.status}</p>
                 </div>
@@ -257,13 +257,13 @@ const SubmissionConfirmationPage: React.FC = () => {
                 <p className="text-white text-sm mb-3">Contact our editorial team for assistance:</p>
                 <div className="space-y-2 text-sm">
                   <p className="flex items-center text-white">
-                    <FaEnvelope className="mr-2 text-eco-gold" /> contact@uorapublications.com
+                    <FaEnvelope className="mr-2 text--teal-800" /> contact@uorapublications.com
                   </p>
                   <p className="flex items-center text-white">
-                    <FaPhone className="mr-2 text-eco-gold" /> +91-9766930707
+                    <FaPhone className="mr-2 text--teal-800" /> +91-9766930707
                   </p>
                   <p className="flex items-center text-white">
-                    <FaMapMarkerAlt className="mr-2 text-eco-gold" /> Chhatrapati Sambhajinagar, Maharashtra, India
+                    <FaMapMarkerAlt className="mr-2 text--teal-800" /> Chhatrapati Sambhajinagar, Maharashtra, India
                   </p>
                 </div>
               </div>
@@ -332,25 +332,25 @@ const SubmissionConfirmationPage: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+      <footer className="bg-gradient-to-r from--teal-800 to-teal-800 text-white p-10 mt-10">
         <div className="container mx-auto max-w-6xl">
           <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
             <div className="footer-section">
-              <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">About UJGSM</h3>
+              <h3 className="text-xl mb-5 border-b-2 border--teal-800 pb-2 inline-block">About UJGSM</h3>
               <p className="text-sm">A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
             </div>
             <div className="footer-section">
-              <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">Quick Links</h3>
+              <h3 className="text-xl mb-5 border-b-2 border--teal-800 pb-2 inline-block">Quick Links</h3>
               <div className="space-y-2">
-                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold transition-colors">Home</a></p>
-                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold transition-colors">Current Issue</a></p>
-                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold transition-colors">Archives</a></p>
+                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="#" className="text-white hover:text--teal-800 transition-colors">Home</a></p>
+                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="#" className="text-white hover:text--teal-800 transition-colors">Current Issue</a></p>
+                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="#" className="text-white hover:text--teal-800 transition-colors">Archives</a></p>
               </div>
             </div>
             <div className="footer-section">
-              <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">Contact Us</h3>
+              <h3 className="text-xl mb-5 border-b-2 border--teal-800 pb-2 inline-block">Contact Us</h3>
               <div className="space-y-2">
-                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold transition-colors">contact@uorapublications.com</a></p>
+                <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800 transition-colors">contact@uorapublications.com</a></p>
                 <p className="flex items-center"><FaPhone className="mr-2" /> +91-9766930707</p>
                 <p className="flex items-center"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
               </div>

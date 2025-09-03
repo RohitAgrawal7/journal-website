@@ -23,12 +23,12 @@ const SiteBranding: React.FC = () => {
 
           {/* Title and Tagline */}
           <div className="site-title-tagline text-center flex-grow">
-            <h1 className="site-title text-xl sm:text-2xl md:text-3xl lg:text-3xl font-merriweather font-bold text-eco-gold hover:text-black transition-colors duration-200">
+            <h1 className="site-title text-xl sm:text-2xl md:text-3xl lg:text-3xl font-merriweather font-bold text--teal-800 hover:text-black transition-colors duration-200">
               <a
                 href="https://uorapublications.com"
                 rel="home"
                 aria-label="Go to Universal Journal of Green Sci-Tech and Management homepage"
-                className="focus:outline-none focus:ring-2 focus:ring-eco-gold rounded"
+                className="focus:outline-none focus:ring-2 focus:ring--teal-800 rounded"
               >
                 Universal Journal of Green Sci-Tech and Management
               </a>
@@ -36,7 +36,7 @@ const SiteBranding: React.FC = () => {
             <p className="site-tagline text-sm sm:text-base md:text-md font-montserrat text-teal-800 mt-2">
               Publisher of high-quality peer-reviewed journals in Engineering, Applied Science, and Management
             </p>
-            <p className="site-publisher text-xl sm:text-2xl md:text-3xl lg:text-3xl font-merriweather font-bold text-eco-gold mt-2">
+            <p className="site-publisher text-xl sm:text-2xl md:text-3xl lg:text-3xl font-merriweather font-bold text--teal-800 mt-2">
               Universal Oneness Research Association
             </p>
           </div>

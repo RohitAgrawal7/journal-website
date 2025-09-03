@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaPaperPlane, FaFileUpload, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import axios from 'axios';
 
 interface FormData {
   desiredIssue: string;
@@ -22,7 +23,7 @@ interface FormData {
   authorType: string;
   authorCategory: string;
   numberOfPages: string;
-  agreeToTerms: boolean;
+  agreeToTerms: string;
 }
 
 interface FormErrors {
@@ -48,14 +49,17 @@ const ManuscriptSubmissionForm: React.FC = () => {
     authorType: '',
     authorCategory: '',
     numberOfPages: '',
-    agreeToTerms: false,
+    agreeToTerms: 'false',
   });
 
   const [file, setFile] = useState<File | null>(null);
   const [activeSection, setActiveSection] = useState('manuscript-submission');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
@@ -68,7 +72,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
     ];
     
     requiredFields.forEach(field => {
-      if (!formData[field] || (typeof formData[field] === 'string' && formData[field].trim() === '')) {
+      if (!formData[field] || formData[field].trim() === '') {
         newErrors[field] = 'This field is required';
       }
     });
@@ -86,7 +90,14 @@ const ManuscriptSubmissionForm: React.FC = () => {
       newErrors.whatsappNumber = 'Invalid WhatsApp number format (e.g., +919876543210)';
     }
     
-    if (!formData.agreeToTerms) {
+    if (formData.totalAuthors && !/^\d+$/.test(formData.totalAuthors)) {
+      newErrors.totalAuthors = 'Must be a number';
+    }
+    if (formData.numberOfPages && !/^\d+$/.test(formData.numberOfPages)) {
+      newErrors.numberOfPages = 'Must be a number';
+    }
+    
+    if (formData.agreeToTerms !== 'true') {
       newErrors.agreeToTerms = 'You must agree to the terms and conditions';
     }
     
@@ -104,7 +115,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
     
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? (checked ? 'true' : 'false') : value,
     }));
     
     if (errors[name]) {
@@ -114,7 +125,16 @@ const ManuscriptSubmissionForm: React.FC = () => {
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      if (!selectedFile.name.match(/\.(doc|docx|rtf)$/i)) {
+        toast.error('Only .doc, .docx, .rtf files allowed!');
+        return;
+      }
+      if (selectedFile.size > 10 * 1024 * 1024) {
+        toast.error('File size exceeds 10MB limit!');
+        return;
+      }
+      setFile(selectedFile);
       if (errors.file) {
         setErrors(prev => ({ ...prev, file: '' }));
       }
@@ -127,7 +147,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
     if (!validateForm()) {
       toast.error(
         <div className="flex items-center">
-          <FaExclamationCircle className="mr-2 text-eco-gold" />
+          <FaExclamationCircle className="mr-2 text-red-800" />
           Please fill all required fields correctly.
         </div>,
         {
@@ -137,31 +157,35 @@ const ManuscriptSubmissionForm: React.FC = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          className: 'bg-red-900/30 text-eco-gold font-montserrat',
+          className: 'bg-red-900/30 text-red-800 font-montserrat',
         }
       );
-      setIsSubmitting(false);
       return;
     }
     
     setIsSubmitting(true);
+    setUploadProgress(0);
 
     const formDataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      formDataToSend.append(key, value as string);
+      formDataToSend.append(key, value);
     });
     if (file) formDataToSend.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:3000/submission', {
-        method: 'POST',
-        body: formDataToSend,
+      const response = await axios.post(`${API_URL}/submission`, formDataToSend, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setUploadProgress(percent);
+          }
+        },
       });
-      if (!response.ok) throw new Error('Failed');
       toast.success(
         <div className="flex items-center">
-          <FaCheckCircle className="mr-2 text-teal-800" />
-          Submission successful!
+          <FaCheckCircle className="mr-2 text-green-800" />
+          Submission successful! ID: {response.data.submission.id}
         </div>,
         {
           position: 'top-right',
@@ -170,11 +194,10 @@ const ManuscriptSubmissionForm: React.FC = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          className: 'bg-vibrant-green text-teal-800 font-montserrat',
+          className: 'bg-green-900/30 text-green-800 font-montserrat',
         }
       );
       
-      // Reset form after successful submission
       setFormData({
         desiredIssue: '',
         manuscriptTitle: '',
@@ -193,32 +216,32 @@ const ManuscriptSubmissionForm: React.FC = () => {
         authorType: '',
         authorCategory: '',
         numberOfPages: '',
-        agreeToTerms: false,
+        agreeToTerms: 'false',
       });
       setFile(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    } catch (error) {
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'Submission failed. Please try again.';
       toast.error(
         <div className="flex items-center">
-          <FaExclamationCircle className="mr-2 text-eco-gold" />
-          Submission failed. Please try again or contact support.
+          <FaExclamationCircle className="mr-2 text-red-800" />
+          {errorMessage}
         </div>,
         {
           position: 'top-right',
-          autoClose: 3000,
+          autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          className: 'bg-red-900/30 text-eco-gold font-montserrat',
+          className: 'bg-red-900/30 text-red-800 font-montserrat',
         }
       );
     } finally {
       setIsSubmitting(false);
+      setUploadProgress(0);
     }
-  }, [formData, file, validateForm]);
+  }, [formData, file, validateForm, API_URL]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -252,7 +275,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
     return (
       <div className="lg:col-span-1">
         <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
-          <h2 className="text-vibrant-green mb-4 flex items-center">
+          <h2 className="text-green-500 mb-4 flex items-center">
             <FaCompass className="mr-2" /> Quick Navigation
           </h2>
           <ul className="space-y-2">
@@ -261,8 +284,8 @@ const ManuscriptSubmissionForm: React.FC = () => {
                 <button
                   className={`w-full text-left py-2 px-3 rounded-md flex items-center transition-colors ${
                     activeSection === item.id 
-                      ? 'bg-vibrant-green text-white' 
-                      : 'text-dark-brown hover:bg-teal-700 hover:text-white'
+                      ? 'bg-green-500 text-white' 
+                      : 'text-teal-100 hover:bg-teal-700 hover:text-white'
                   }`}
                   onClick={() => scrollToSection(item.id)}
                 >
@@ -273,11 +296,11 @@ const ManuscriptSubmissionForm: React.FC = () => {
             ))}
           </ul>
           
-          <div className="mt-6 p-4 bg-teal-800 rounded-lg">
-            <h3 className="text-vibrant-green font-medium mb-2">Need Help?</h3>
-            <p className="text-sm text-white">
+          <div className="mt-6 p-4 bg-teal-900 rounded-lg">
+            <h3 className="text-green-500 font-medium mb-2">Need Help?</h3>
+            <p className="text-sm text-teal-100">
               Contact us at{" "}
-              <a href="mailto:contact@uorapublications.com" className="text-eco-gold hover:underline">
+              <a href="mailto:contact@uorapublications.com" className="text-green-500 hover:underline">
                 contact@uorapublications.com
               </a>
             </p>
@@ -288,25 +311,25 @@ const ManuscriptSubmissionForm: React.FC = () => {
   }, [activeSection, scrollToSection]);
 
   const Footer = useCallback(() => (
-    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+    <footer className="bg-gradient-to-r from-teal-800 to-teal-800 text-white p-10 mt-10">
       <div className="container mx-auto max-w-6xl">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
-            <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">About UJGSM</h3>
+            <h3 className="text-xl mb-5 border-b-2 border-teal-900 pb-2 inline-block">About UJGSM</h3>
             <p className="text-sm">A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
           </div>
           <div className="footer-section">
-            <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">Quick Links</h3>
+            <h3 className="text-xl mb-5 border-b-2 border-teal-900 pb-2 inline-block">Quick Links</h3>
             <div className="space-y-2">
-              <p className="flex items-center"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold transition-colors">Home</a></p>
-              <p className="flex items-center"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold transition-colors">Current Issue</a></p>
-              <p className="flex items-center"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold transition-colors">Archives</a></p>
+              <p className="flex items-center"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-green-500 transition-colors">Home</a></p>
+              <p className="flex items-center"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-green-500 transition-colors">Current Issue</a></p>
+              <p className="flex items-center"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-green-500 transition-colors">Archives</a></p>
             </div>
           </div>
           <div className="footer-section">
-            <h3 className="text-xl mb-5 border-b-2 border-eco-gold pb-2 inline-block">Contact Us</h3>
+            <h3 className="text-xl mb-5 border-b-2 border-teal-900 pb-2 inline-block">Contact Us</h3>
             <div className="space-y-2">
-              <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold transition-colors">contact@uorapublications.com</a></p>
+              <p className="flex items-center"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-green-500 transition-colors">contact@uorapublications.com</a></p>
               <p className="flex items-center"><FaPhone className="mr-2" /> +91-9766930707</p>
               <p className="flex items-center"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
             </div>
@@ -326,7 +349,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+              <div className="bg-gradient-to-r from-teal-800 to-green-500 text-white p-6">
                 <h1 className="text-3xl font-merriweather font-bold flex items-center">
                   <FaPaperPlane className="mr-3" /> Manuscript Submission Form
                 </h1>
@@ -344,29 +367,31 @@ const ManuscriptSubmissionForm: React.FC = () => {
                     className="space-y-6"
                   >
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Desired Issue <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Desired Issue <span className="text-red-600">*</span>
                       </label>
                       <select
                         name="desiredIssue"
                         value={formData.desiredIssue}
                         onChange={handleInputChange}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.desiredIssue ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.desiredIssue ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         required
+                        disabled={isSubmitting}
                       >
                         <option value="">Select Desired Issue</option>
                         <option value="Volume XIV Issue VII- July 2025-Open">Volume XIV Issue VII- July 2025-Open</option>
+                        <option value="Volume XIV Issue IX- September 2025-Open">Volume XIV Issue IX- September 2025-Open</option>
                       </select>
                       {errors.desiredIssue && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.desiredIssue}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.desiredIssue}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Manuscript Title <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Manuscript Title <span className="text-red-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -374,18 +399,19 @@ const ManuscriptSubmissionForm: React.FC = () => {
                         value={formData.manuscriptTitle}
                         onChange={handleInputChange}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.manuscriptTitle ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.manuscriptTitle ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         required
+                        disabled={isSubmitting}
                       />
                       {errors.manuscriptTitle && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.manuscriptTitle}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.manuscriptTitle}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Abstract <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Abstract <span className="text-red-600">*</span>
                       </label>
                       <textarea
                         name="abstract"
@@ -393,19 +419,20 @@ const ManuscriptSubmissionForm: React.FC = () => {
                         onChange={handleInputChange}
                         rows={6}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.abstract ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.abstract ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         placeholder="Add the abstract here"
                         required
+                        disabled={isSubmitting}
                       ></textarea>
                       {errors.abstract && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.abstract}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.abstract}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Subject Area <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Subject Area <span className="text-red-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -413,45 +440,45 @@ const ManuscriptSubmissionForm: React.FC = () => {
                         value={formData.subjectArea}
                         onChange={handleInputChange}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.subjectArea ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.subjectArea ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         required
+                        disabled={isSubmitting}
                       />
                       {errors.subjectArea && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.subjectArea}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.subjectArea}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Total Authors <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Total Authors <span className="text-red-600">*</span>
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         name="totalAuthors"
                         value={formData.totalAuthors}
                         onChange={handleInputChange}
-                        min="1"
-                        max="10"
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.totalAuthors ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.totalAuthors ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         required
+                        disabled={isSubmitting}
                       />
                       {errors.totalAuthors && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.totalAuthors}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.totalAuthors}</p>
                       )}
                     </div>
 
-                    <div id="author-details" className="border-t border-eco-gold/20 pt-6 mt-6">
-                      <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
+                    <div id="author-details" className="border-t border-teal-200 pt-6 mt-6">
+                      <h2 className="text-xl font-merriweather text-green-500 mb-4 flex items-center">
                         <FaCompass className="mr-2" /> Corresponding Author Details
                       </h2>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Corresponding Author Name <span className="text-eco-gold">*</span>
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                            Corresponding Author Name <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -459,17 +486,18 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             value={formData.correspondingAuthorName}
                             onChange={handleInputChange}
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.correspondingAuthorName ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                              errors.correspondingAuthorName ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                             }`}
                             required
+                            disabled={isSubmitting}
                           />
                           {errors.correspondingAuthorName && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.correspondingAuthorName}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.correspondingAuthorName}</p>
                           )}
                         </div>
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Corresponding Author Mobile No. <span className="text-eco-gold">*</span>
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                            Corresponding Author Mobile No. <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -479,21 +507,22 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             placeholder="(Country Code)(Mobile No.)"
                             maxLength={15}
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.correspondingAuthorMobile ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                              errors.correspondingAuthorMobile ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                             }`}
                             required
+                            disabled={isSubmitting}
                           />
                           <p className="text-sm text-gray-500 mt-1">{formData.correspondingAuthorMobile.length} / 15</p>
                           {errors.correspondingAuthorMobile && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.correspondingAuthorMobile}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.correspondingAuthorMobile}</p>
                           )}
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Corresponding Author Email <span className="text-eco-gold">*</span>
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                            Corresponding Author Email <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="email"
@@ -501,17 +530,18 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             value={formData.correspondingAuthorEmail}
                             onChange={handleInputChange}
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.correspondingAuthorEmail ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                              errors.correspondingAuthorEmail ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                             }`}
                             required
+                            disabled={isSubmitting}
                           />
                           {errors.correspondingAuthorEmail && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.correspondingAuthorEmail}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.correspondingAuthorEmail}</p>
                           )}
                         </div>
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Corresponding Author Department <span className="text-eco-gold">*</span>
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                            Corresponding Author Department <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -519,20 +549,21 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             value={formData.correspondingAuthorDepartment}
                             onChange={handleInputChange}
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.correspondingAuthorDepartment ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                              errors.correspondingAuthorDepartment ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                             }`}
                             required
+                            disabled={isSubmitting}
                           />
                           {errors.correspondingAuthorDepartment && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.correspondingAuthorDepartment}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.correspondingAuthorDepartment}</p>
                           )}
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            Corresponding Author's Organisation/College/University <span className="text-eco-gold">*</span>
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                            Corresponding Author's Organisation/College/University <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -540,17 +571,18 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             value={formData.correspondingAuthorOrganization}
                             onChange={handleInputChange}
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.correspondingAuthorOrganization ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                              errors.correspondingAuthorOrganization ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                             }`}
                             required
+                            disabled={isSubmitting}
                           />
                           {errors.correspondingAuthorOrganization && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.correspondingAuthorOrganization}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.correspondingAuthorOrganization}</p>
                           )}
                         </div>
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            WhatsApp No. <span className="text-eco-gold">*</span>
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                            WhatsApp No. <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -560,21 +592,22 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             placeholder="(Country Code)(Mobile No.)"
                             maxLength={15}
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.whatsappNumber ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                              errors.whatsappNumber ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                             }`}
                             required
+                            disabled={isSubmitting}
                           />
                           <p className="text-sm text-gray-500 mt-1">{formData.whatsappNumber.length} / 15</p>
                           {errors.whatsappNumber && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.whatsappNumber}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.whatsappNumber}</p>
                           )}
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                            City <span className="text-eco-gold">*</span>
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                            City <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -583,16 +616,17 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             onChange={handleInputChange}
                             placeholder="E.g. Mumbai"
                             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.city ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                              errors.city ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                             }`}
                             required
+                            disabled={isSubmitting}
                           />
                           {errors.city && (
-                            <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.city}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.city}</p>
                           )}
                         </div>
                         <div>
-                          <label className="block text-dark-brown font-merriweather font-medium mb-2">
+                          <label className="block text-teal-900 font-merriweather font-medium mb-2">
                             State/Province
                           </label>
                           <input
@@ -601,23 +635,25 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             value={formData.state}
                             onChange={handleInputChange}
                             placeholder="E.g. Maharashtra"
-                            className="w-full px-4 py-2 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vibrant-green hover:border-eco-gold font-montserrat transition-colors"
+                            className="w-full px-4 py-2 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 hover:border-teal-800 font-montserrat transition-colors"
+                            disabled={isSubmitting}
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                          Country <span className="text-eco-gold">*</span>
+                        <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                          Country <span className="text-red-600">*</span>
                         </label>
                         <select
                           name="country"
                           value={formData.country}
                           onChange={handleInputChange}
                           className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                            errors.country ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                            errors.country ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                           }`}
                           required
+                          disabled={isSubmitting}
                         >
                           <option value="">Select country</option>
                           <option value="India">India</option>
@@ -630,23 +666,24 @@ const ManuscriptSubmissionForm: React.FC = () => {
                           <option value="Japan">Japan</option>
                         </select>
                         {errors.country && (
-                          <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.country}</p>
+                          <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.country}</p>
                         )}
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Qualification <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Author Type <span className="text-red-600">*</span>
                       </label>
                       <select
                         name="authorType"
                         value={formData.authorType}
                         onChange={handleInputChange}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.authorType ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.authorType ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         required
+                        disabled={isSubmitting}
                       >
                         <option value="">Select Author Type</option>
                         <option value="Post Graduate Student">Post Graduate Student</option>
@@ -656,22 +693,23 @@ const ManuscriptSubmissionForm: React.FC = () => {
                         <option value="Industry Professional">Industry Professional</option>
                       </select>
                       {errors.authorType && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.authorType}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.authorType}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Author Category <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Author Category <span className="text-red-600">*</span>
                       </label>
                       <select
                         name="authorCategory"
                         value={formData.authorCategory}
                         onChange={handleInputChange}
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.authorCategory ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.authorCategory ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         required
+                        disabled={isSubmitting}
                       >
                         <option value="">Select Author Category</option>
                         <option value="New Author">New Author</option>
@@ -680,38 +718,37 @@ const ManuscriptSubmissionForm: React.FC = () => {
                         <option value="IJLTEMAS Reviewer">IJLTEMAS Reviewer</option>
                       </select>
                       {errors.authorCategory && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.authorCategory}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.authorCategory}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        No. of Pages <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        No. of Pages <span className="text-red-600">*</span>
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         name="numberOfPages"
                         value={formData.numberOfPages}
                         onChange={handleInputChange}
-                        min="1"
-                        max="100"
                         placeholder="No. of Pages"
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                          errors.numberOfPages ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-300 focus:ring-vibrant-green hover:border-eco-gold'
+                          errors.numberOfPages ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                         }`}
                         required
+                        disabled={isSubmitting}
                       />
                       {errors.numberOfPages && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.numberOfPages}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.numberOfPages}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Upload Manuscript <span className="text-eco-gold">*</span>
+                      <label className="block text-teal-900 font-merriweather font-medium mb-2">
+                        Upload Manuscript <span className="text-red-600">*</span>
                       </label>
                       <div className="flex items-center">
-                        <label className="bg-vibrant-green hover:bg-eco-gold text-teal-800 hover:text-white font-montserrat font-medium py-2 px-4 rounded-lg cursor-pointer mr-4 transition-all duration-300">
+                        <label className="bg-green-500 hover:bg-teal-800 text-white hover:text-white font-montserrat font-medium py-2 px-4 rounded-lg cursor-pointer mr-4 transition-all duration-300">
                           <span className="flex items-center">
                             <FaFileUpload className="mr-2" /> Choose File
                           </span>
@@ -722,6 +759,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
                             className="hidden"
                             accept=".doc,.docx,.rtf"
                             required
+                            disabled={isSubmitting}
                           />
                         </label>
                         <span className="text-gray-700 font-montserrat truncate max-w-xs">
@@ -730,7 +768,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
                       </div>
                       <p className="text-sm text-gray-500 mt-2 font-montserrat">Format Allowed (doc, docx, rtf)</p>
                       {errors.file && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.file}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.file}</p>
                       )}
                     </div>
 
@@ -739,19 +777,29 @@ const ManuscriptSubmissionForm: React.FC = () => {
                         <input
                           type="checkbox"
                           name="agreeToTerms"
-                          checked={formData.agreeToTerms}
+                          checked={formData.agreeToTerms === 'true'}
                           onChange={handleInputChange}
-                          className="form-checkbox h-5 w-5 text-vibrant-green focus:ring-vibrant-green mt-1"
+                          className="form-checkbox h-5 w-5 text-green-500 focus:ring-green-500 mt-1"
                           required
+                          disabled={isSubmitting}
                         />
                         <span className="ml-2 text-gray-700 font-montserrat">
-                          I agree with the Authors Declaration and to receive information regarding my submitted paper by signing up on UJGSM <span className="text-eco-gold">*</span>
+                          I agree with the Authors Declaration and to receive information regarding my submitted paper by signing up on UJGSM <span className="text-red-600">*</span>
                         </span>
                       </label>
                       {errors.agreeToTerms && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.agreeToTerms}</p>
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.agreeToTerms}</p>
                       )}
                     </div>
+
+                    {isSubmitting && uploadProgress > 0 && (
+                      <div className="mt-4">
+                        <div className="bg-gray-200 rounded-full h-2.5">
+                          <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${uploadProgress}%` }}></div>
+                        </div>
+                        <p className="text-sm text-gray-600 mt-1">Uploading: {uploadProgress}%</p>
+                      </div>
+                    )}
 
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4">
                       <motion.button
@@ -759,13 +807,13 @@ const ManuscriptSubmissionForm: React.FC = () => {
                         disabled={isSubmitting}
                         whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
                         whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-                        className={`bg-green-200 hover:bg-eco-gold text-teal-800 font-montserrat font-bold py-3 px-8 rounded-lg transition-all duration-300 flex items-center ${
+                        className={`bg-green-500 hover:bg-teal-800 text-white font-montserrat font-bold py-3 px-8 rounded-lg transition-all duration-300 flex items-center ${
                           isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
                         }`}
                       >
                         {isSubmitting ? (
                           <>
-                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-teal-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
@@ -779,7 +827,8 @@ const ManuscriptSubmissionForm: React.FC = () => {
                       </motion.button>
                       <button
                         type="button"
-                        className="text-vibrant-green hover:text-eco-gold font-montserrat font-medium transition-colors duration-200"
+                        className="text-green-500 hover:text-teal-800 font-montserrat font-medium transition-colors duration-200"
+                        disabled={isSubmitting}
                       >
                         Save as Draft
                       </button>

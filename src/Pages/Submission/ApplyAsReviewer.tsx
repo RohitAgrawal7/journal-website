@@ -279,7 +279,7 @@ const ApplyAsReviewer: React.FC = () => {
     return (
       <div>
         <label className="block text-dark-brown font-merriweather font-medium mb-2">
-          {label} {required && <span className="text-eco-gold">*</span>}
+          {label} {required && <span className="text--teal-800">*</span>}
         </label>
         {options ? (
           <select
@@ -287,7 +287,7 @@ const ApplyAsReviewer: React.FC = () => {
             value={value}
             onChange={onChange}
             className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-              error ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
+              error ? 'border--teal-800 focus:ring--teal-800/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border--teal-800'
             } text-gray-700`}
             {...props}
           >
@@ -303,7 +303,7 @@ const ApplyAsReviewer: React.FC = () => {
             value={value}
             onChange={onChange}
             className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat ${
-              error ? 'border-eco-gold focus:ring-eco-gold/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border-eco-gold'
+              error ? 'border--teal-800 focus:ring--teal-800/30' : 'border-teal-800 focus:ring-vibrant-green/30 hover:border--teal-800'
             } text-gray-700`}
             placeholder={placeholder}
             rows={textarea ? 3 : undefined}
@@ -311,7 +311,7 @@ const ApplyAsReviewer: React.FC = () => {
           />
         )}
         {error && (
-          <p className="mt-1 text-eco-gold text-sm font-montserrat">{error}</p>
+          <p className="mt-1 text--teal-800 text-sm font-montserrat">{error}</p>
         )}
       </div>
     );
@@ -322,7 +322,7 @@ const ApplyAsReviewer: React.FC = () => {
     return (
       <div className="lg:col-span-3">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+          <div className="bg-gradient-to-r from-teal-500 to-green-500 text-teal-800 p-6">
             <h1 className="text-3xl font-merriweather font-bold flex items-center">
               <FaUserCheck className="mr-3" /> Apply as Reviewer
             </h1>
@@ -336,7 +336,7 @@ const ApplyAsReviewer: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="p-6 bg-teal-800/30 border border-eco-gold/20 rounded-xl text-center"
+                  className="p-6 bg-teal-800/30 border border--teal-800/20 rounded-xl text-center"
                 >
                   <FaCheckCircle className="text-4xl text-vibrant-green mb-4" />
                   <h3 className="text-xl font-merriweather font-semibold text-vibrant-green mb-2">Application Submitted!</h3>
@@ -355,7 +355,7 @@ const ApplyAsReviewer: React.FC = () => {
                 >
                   {/* Personal Information Section */}
                   <div className="space-y-6">
-                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border--teal-800/20 pb-2">
                       Personal Information
                     </h3>
                     
@@ -388,7 +388,7 @@ const ApplyAsReviewer: React.FC = () => {
                     
                     <div>
                       <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        Gender <span className="text-eco-gold">*</span>
+                        Gender <span className="text--teal-800">*</span>
                       </label>
                       <div className="flex space-x-4">
                         {['Male', 'Female', 'Other'].map(gender => (
@@ -406,7 +406,7 @@ const ApplyAsReviewer: React.FC = () => {
                         ))}
                       </div>
                       {errors.gender && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.gender}</p>
+                        <p className="mt-1 text--teal-800 text-sm font-montserrat">{errors.gender}</p>
                       )}
                     </div>
                     
@@ -460,7 +460,7 @@ const ApplyAsReviewer: React.FC = () => {
 
                   {/* Research Area Section */}
                   <div className="space-y-6">
-                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border--teal-800/20 pb-2">
                       Research Areas
                     </h3>
                     <p className="text-gray-700 text-sm font-montserrat">
@@ -485,7 +485,7 @@ const ApplyAsReviewer: React.FC = () => {
 
                   {/* Contact Information Section */}
                   <div className="space-y-6">
-                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border--teal-800/20 pb-2">
                       Contact Information
                     </h3>
                     
@@ -580,10 +580,10 @@ const ApplyAsReviewer: React.FC = () => {
                     
                     <div>
                       <label className="block text-dark-brown font-merriweather font-medium mb-2">
-                        CV <span className="text-eco-gold">*</span>
+                        CV <span className="text--teal-800">*</span>
                       </label>
                       <div className="flex items-center">
-                        <label className="bg-vibrant-green hover:bg-eco-gold text-teal-800 hover:text-white font-montserrat font-medium py-2 px-4 rounded-lg cursor-pointer mr-4 transition-all duration-300">
+                        <label className="bg-vibrant-green hover:bg--teal-800 text-teal-800 hover:text-white font-montserrat font-medium py-2 px-4 rounded-lg cursor-pointer mr-4 transition-all duration-300">
                           Choose File
                           <input
                             ref={fileInputRef}
@@ -598,14 +598,14 @@ const ApplyAsReviewer: React.FC = () => {
                       </div>
                       <p className="text-sm text-gray-500 mt-1 font-montserrat">Format Allowed (doc, docx, PDF, rtf)</p>
                       {errors.cv && (
-                        <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.cv}</p>
+                        <p className="mt-1 text--teal-800 text-sm font-montserrat">{errors.cv}</p>
                       )}
                     </div>
                   </div>
 
                   {/* References Section */}
                   <div className="space-y-6">
-                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border-eco-gold/20 pb-2">
+                    <h3 className="text-xl font-merriweather font-semibold text-vibrant-green border-b border--teal-800/20 pb-2">
                       References
                     </h3>
                     
@@ -721,11 +721,11 @@ const ApplyAsReviewer: React.FC = () => {
                         className="mt-1 mr-2 form-checkbox h-5 w-5 text-vibrant-green focus:ring-vibrant-green"
                       />
                       <span>
-                        I agree to the Universal Journal of Green SciTech & Management (UJGSM) terms and conditions. <span className="text-eco-gold">*</span>
+                        I agree to the Universal Journal of Green SciTech & Management (UJGSM) terms and conditions. <span className="text--teal-800">*</span>
                       </span>
                     </label>
                     {errors.agreeToTerms && (
-                      <p className="mt-1 text-eco-gold text-sm font-montserrat">{errors.agreeToTerms}</p>
+                      <p className="mt-1 text--teal-800 text-sm font-montserrat">{errors.agreeToTerms}</p>
                     )}
                   </div>
 
@@ -739,7 +739,7 @@ const ApplyAsReviewer: React.FC = () => {
                       className={`w-full py-3 px-6 rounded-lg font-montserrat font-medium transition-all ${
                         isSubmitting
                           ? 'bg-gray-600 cursor-not-allowed'
-                          : 'bg-vibrant-green hover:bg-eco-gold text-teal-800 hover:text-white'
+                          : 'bg-vibrant-green hover:bg--teal-800 text-teal-800 hover:text-white'
                       }`}
                     >
                       {isSubmitting ? (
@@ -766,7 +766,7 @@ const ApplyAsReviewer: React.FC = () => {
 
   // Memoized Footer Component
   const Footer = useMemo(() => (
-    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+    <footer className="bg-gradient-to-r from--teal-800 to-teal-800 text-white p-10 mt-10">
       <div className="container mx-auto max-w-6xl">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
@@ -775,13 +775,13 @@ const ApplyAsReviewer: React.FC = () => {
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
-            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
-            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
-            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Archives</a></p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
             <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9766930707</p>
             <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>

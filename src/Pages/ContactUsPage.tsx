@@ -73,7 +73,7 @@ const Publisher: React.FC = () => {
   const MainContent = () => (
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-teal-800 p-6">
           <h1 className="text-3xl font-merriweather font-bold">Publisher</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
@@ -85,8 +85,8 @@ const Publisher: React.FC = () => {
             </p>
             <p className="text-gray-700 leading-relaxed">
               <strong>Office Address:</strong> E-1/8 Mathura Nagar, N-6, Cidco, Chhatrapati Sambhajinagar, Maharashtra 431003, India<br />
-              <strong>Phone:</strong> <a href="tel:+919766930707" className="text-eco-gold hover:underline">+91 97669 30707</a><br />
-              <strong>Email:</strong> <a href="mailto:contact@uorapublications.com" className="text-eco-gold hover:underline">contact@uorapublications.com</a>
+              <strong>Phone:</strong> <a href="tel:+919766930707" className="text--teal-800 hover:underline">+91 97669 30707</a><br />
+              <strong>Email:</strong> <a href="mailto:contact@uorapublications.com" className="text--teal-800 hover:underline">contact@uorapublications.com</a>
             </p>
           </ContentSection>
 
@@ -96,15 +96,15 @@ const Publisher: React.FC = () => {
               <p>
                 <strong>Prof. Pawan D. Somavanshi (Ph.D. Mechanical)</strong><br />
                 Research Scholar, Government College of Engineering, Aurangabad<br />
-                <strong>Email:</strong> <a href="mailto:pawansomavanshi.PhD@geca.ac.in" className="text-eco-gold hover:underline">pawansomavanshi.PhD@geca.ac.in</a>, <a href="mailto:pawansomavanshi5jan@gmail.com" className="text-eco-gold hover:underline">pawansomavanshi5jan@gmail.com</a><br />
-                <strong>Phone:</strong> <a href="tel:+919096499989" className="text-eco-gold hover:underline">+91 90964 99989</a>
+                <strong>Email:</strong> <a href="mailto:pawansomavanshi.PhD@geca.ac.in" className="text--teal-800 hover:underline">pawansomavanshi.PhD@geca.ac.in</a>, <a href="mailto:pawansomavanshi5jan@gmail.com" className="text--teal-800 hover:underline">pawansomavanshi5jan@gmail.com</a><br />
+                <strong>Phone:</strong> <a href="tel:+919096499989" className="text--teal-800 hover:underline">+91 90964 99989</a>
               </p>
               <h3 className="text-lg font-semibold text-vibrant-green mt-4 mb-2">Managing Editor</h3>
               <p>
                 <strong>Dr. Swapnil N. Dhole (Ph.D. Mechanical)</strong><br />
                 TPO, MSS's College of Engineering and Technology & MBA, Jalna<br />
-                <strong>Email:</strong> <a href="mailto:dholeswapnil25@gmail.com" className="text-eco-gold hover:underline">dholeswapnil25@gmail.com</a><br />
-                <strong>Phone:</strong> <a href="tel:+918983245607" className="text-eco-gold hover:underline">+91 89832 45607</a>
+                <strong>Email:</strong> <a href="mailto:dholeswapnil25@gmail.com" className="text--teal-800 hover:underline">dholeswapnil25@gmail.com</a><br />
+                <strong>Phone:</strong> <a href="tel:+918983245607" className="text--teal-800 hover:underline">+91 89832 45607</a>
               </p>
             </div>
           </ContentSection>
@@ -115,7 +115,7 @@ const Publisher: React.FC = () => {
 
   // Footer Component
   const Footer = () => (
-    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+    <footer className="bg-gradient-to-r from--teal-800 to-teal-800 text-white p-10 mt-10">
       <div className="container mx-auto max-w-6xl">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
@@ -124,13 +124,13 @@ const Publisher: React.FC = () => {
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
-            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
-            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
-            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Archives</a></p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
             <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9766930707</p>
             <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>

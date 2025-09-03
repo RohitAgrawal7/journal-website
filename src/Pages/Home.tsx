@@ -108,7 +108,7 @@ const Home: React.FC = () => {
       <p className="text-gray-700 text-center"><strong>{number}</strong></p>
       <a
         href={link}
-        className="text-eco-gold hover:underline font-montserrat font-medium"
+        className="text--teal-800 hover:underline font-montserrat font-medium"
       >
         Learn More
       </a>
@@ -119,28 +119,28 @@ const Home: React.FC = () => {
   const MainContent = () => (
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="bg-gradient-to-r from-teal-600 to-green-500 text-white p-8">
+        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-8">
           <h1 className="text-4xl font-merriweather font-bold">Welcome to UJGSM</h1>
           <p className="text-lg mt-4 max-w-2xl">
             Universal Journal of Green Sci-Tech & Management (UJGSM) is a bi-monthly, peer-reviewed, and open-access online journal dedicated to publishing original, high-quality research across various disciplines.
           </p>
           <Link
             to="/submit-paper"
-            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg-eco-gold hover:text-white transition-all duration-300"
+            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg--teal-800 hover:text-white transition-all duration-300"
           >
             Submit Your Manuscript
           </Link>
 
           <Link
             to="/track-paper"
-            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg-eco-gold hover:text-white transition-all duration-300"
+            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg--teal-800 hover:text-white transition-all duration-300"
           >
             Track Paper
           </Link>
 
           <Link
             to="/apply-as-reviewer"
-            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg-eco-gold hover:text-white transition-all duration-300"
+            className="mt-6 inline-block bg-vibrant-green text-teal-800 font-semibold py-3 px-6 rounded-lg hover:bg--teal-800 hover:text-white transition-all duration-300"
           >
             Apply As Reviewer
           </Link>
@@ -165,11 +165,11 @@ const Home: React.FC = () => {
               <li><strong>Language:</strong> English</li>
               <li><strong>Publication Format:</strong> Online</li>
               <li><strong>Copyright:</strong> Authors retain copyright</li>
-              <li><strong>License:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0 International Licence (CC BY 4.0)</a></li>
-              <li><strong>Website:</strong> <a href="https://ujgsm.UORApublications.com" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">https://ujgsm.UORApublications.com</a></li>
+              <li><strong>License:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0 International Licence (CC BY 4.0)</a></li>
+              <li><strong>Website:</strong> <a href="https://ujgsm.UORApublications.com" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">https://ujgsm.UORApublications.com</a></li>
               <li><strong>Registered Address:</strong> E-1/8 Mathura Nagar, N-6, Cidco, Chhatrapati Sambhajinagar, Maharashtra 431003, India</li>
-              <li><strong>Contact Number:</strong> <a href="tel:+919766930707" className="text-eco-gold hover:underline">+91 9766930707</a></li>
-              <li><strong>Email ID:</strong> <a href="mailto:contact@uorapublications.com" className="text-eco-gold hover:underline">contact@uorapublications.com</a></li>
+              <li><strong>Contact Number:</strong> <a href="tel:+919766930707" className="text--teal-800 hover:underline">+91 9766930707</a></li>
+              <li><strong>Email ID:</strong> <a href="mailto:contact@uorapublications.com" className="text--teal-800 hover:underline">contact@uorapublications.com</a></li>
             </ol>
           </ContentSection>
           <ContentSection id="registration-and-compliance" title="Registration & Compliance" icon={FaCompass}>
@@ -201,13 +201,13 @@ const Home: React.FC = () => {
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
-            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <Link to="./home" className="text-white hover:text-eco-gold">Home</Link></p>
-            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <Link to="./current" className="text-white hover:text-eco-gold">Current Issue</Link></p>
-            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <Link to="./archives" className="text-white hover:text-eco-gold">Archives</Link></p>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <Link to="./home" className="text-white hover:text--teal-800">Home</Link></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <Link to="./current" className="text-white hover:text--teal-800">Current Issue</Link></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <Link to="./archives" className="text-white hover:text--teal-800">Archives</Link></p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
             <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
             <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>

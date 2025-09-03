@@ -73,7 +73,7 @@ const PlagiarismPolicy: React.FC = () => {
   const MainContent = () => (
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-teal-800 p-6">
           <h1 className="text-3xl font-merriweather font-bold">Plagiarism Policy</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
@@ -97,7 +97,7 @@ const PlagiarismPolicy: React.FC = () => {
                 <strong>Major Plagiarism:</strong> If significant plagiarism is detected (similarity above 20% or unethical copying of content), the manuscript will be rejected immediately.
               </li>
               <li>
-                <strong>Ethical Standards:</strong> UJGSM follows the ethical guidelines laid down by the <a href="https://publicationethics.org/search?query=guidance+Guidelines&urlfield=" className="text-eco-gold hover:underline" target="_blank" rel="noopener noreferrer">Committee on Publication Ethics (COPE)</a> and the best practices followed by reputed international journals.
+                <strong>Ethical Standards:</strong> UJGSM follows the ethical guidelines laid down by the <a href="https://publicationethics.org/search?query=guidance+Guidelines&urlfield=" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">Committee on Publication Ethics (COPE)</a> and the best practices followed by reputed international journals.
               </li>
             </ol>
             <p className="text-gray-700 leading-relaxed mt-4">
@@ -111,7 +111,7 @@ const PlagiarismPolicy: React.FC = () => {
 
   // Footer Component
   const Footer = () => (
-    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+    <footer className="bg-gradient-to-r from--teal-800 to-teal-800 text-white p-10 mt-10">
       <div className="container mx-auto max-w-6xl">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
@@ -120,13 +120,13 @@ const PlagiarismPolicy: React.FC = () => {
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
-            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
-            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
-            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Archives</a></p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
             <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
             <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>

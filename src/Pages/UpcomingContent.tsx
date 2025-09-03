@@ -142,7 +142,7 @@ const UpcomingContent: React.FC = () => {
                 placeholder="Enter your email address"
                 className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
-              <button className="bg-teal-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-600 transition">
+              <button className="bg-teal-700 text-white px-6 py-3 rounded-lg font-medium hover:bg--teal-800 transition">
                 Subscribe
               </button>
             </div>
