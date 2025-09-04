@@ -1,124 +1,143 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { FaBook, FaUser, FaCalendarAlt, FaFileAlt } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { FaBook, FaHourglassHalf, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-interface Submission {
-  id: number;
-  desiredIssue: string;
-  manuscriptTitle: string;
-  abstract: string;
-  subjectArea: string;
-  totalAuthors: number;
-  correspondingAuthorName: string;
-  correspondingAuthorMobile: string;
-  correspondingAuthorEmail: string;
-  correspondingAuthorDepartment: string;
-  correspondingAuthorOrganization: string;
-  whatsappNumber: string;
-  city: string;
-  state: string;
-  country: string;
-  authorType: string;
-  authorCategory: string;
-  numberOfPages: number;
-  manuscriptFilePath: string;
-  agreeToTerms: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-const SubmissionsList: React.FC = () => {
-  const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const CurrentIssue: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('current-issue');
 
   useEffect(() => {
-    const fetchSubmissions = async () => {
-      try {
-        const response = await axios.get<Submission[]>(`${API_URL}/submission`);
-        setSubmissions(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch submissions. Please try again.');
-        setLoading(false);
-        toast.error('Failed to load submissions');
-      }
+    const handleScroll = () => {
+      const sections = ['current-issue', 'upcoming-content'];
+      const scrollPosition = window.scrollY + 100; // Offset for header
+      sections.forEach((section) => {
+        const element = document.getElementById(section);
+        if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+          setActiveSection(section);
+        }
+      });
     };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    fetchSubmissions();
-  }, [API_URL]);
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-  if (loading) {
+  // Sidebar Component
+  const Sidebar = () => {
+    const navItems = [
+      { id: 'current-issue', title: 'Current Issue', icon: FaBook },
+      { id: 'upcoming-content', title: 'Upcoming Content', icon: FaHourglassHalf },
+    ];
+
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      <div className="lg:col-span-1">
+        <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
+          <h2 className="text-vibrant-green mb-4 flex items-center">
+            <FaCompass className="mr-2" /> Quick Navigation
+          </h2>
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${activeSection === item.id ? 'bg-vibrant-green text-white' : 'text-dark-brown hover:bg-gray-100'}`}
+                  onClick={() => scrollToSection(item.id)}
+                >
+                  <item.icon className="mr-2" />
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
-  }
+  };
 
-  if (error) {
-    return <div className="text-red-600 text-center mt-8">{error}</div>;
-  }
+  // ContentSection Component
+  const ContentSection: React.FC<{ id: string; title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }> = ({ id, title, icon: Icon, children }) => (
+    <section id={id} className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300">
+      <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
+        <Icon className="mr-3 text-teal-800 bg-vibrant-green rounded-full w-10 h-10 flex items-center justify-center" />
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+
+  // MainContent Component
+  const MainContent = () => (
+    <div className="lg:col-span-3">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-teal-800 p-6">
+          <h1 className="text-3xl font-merriweather font-bold">Current Issue</h1>
+          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+        </div>
+        <div className="p-6 space-y-6">
+          <ContentSection id="current-issue" title="Current Issue" icon={FaBook}>
+            <p className="text-gray-700 leading-relaxed">
+              Links to the current issue (Issue 1, published August 30, 2025) will be available upon publication. Please check back for access to the full articles once they are released.
+            </p>
+          </ContentSection>
+
+          <ContentSection id="upcoming-content" title="Upcoming Content" icon={FaHourglassHalf}>
+            <p className="text-gray-700 leading-relaxed">
+              The Universal Journal of Green SciTech & Management (UJGSM) is currently processing manuscripts for upcoming issues. Submitted articles undergo a rigorous double-blind peer-review process to ensure high-quality, original research. Accepted manuscripts will be formatted, assigned DOIs, and published in upcoming issues according to the journal’s tri-annual schedule (Issues 2–6, October 2025 to June 2026).
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Authors can submit their work by the respective deadlines (e.g., September 30, 2025, for Issue 2). For more details on submission deadlines, refer to the <a href="#" className="text--teal-800 hover:underline">Time of Publication</a> page. Stay tuned for updates on forthcoming articles and special issues.
+            </p>
+          </ContentSection>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Footer Component
+  const Footer = () => (
+    <footer className="bg-gradient-to-r from--teal-800 to-teal-800 text-white p-10 mt-10">
+      <div className="container mx-auto max-w-6xl">
+        <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
+            <p>A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Archives</a></p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
+          </div>
+        </div>
+        <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
+          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <ToastContainer />
-      <div className="container mx-auto max-w-6xl px-4">
-        <h1 className="text-3xl font-merriweather font-bold text-teal-800 mb-6 flex items-center">
-          <FaBook className="mr-3" /> Submissions List
-        </h1>
-        {submissions.length === 0 ? (
-          <p className="text-gray-600 text-center">No submissions found.</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-teal-200 rounded-lg shadow-md">
-              <thead className="bg-teal-800 text-white">
-                <tr>
-                  <th className="py-3 px-4 text-left">ID</th>
-                  <th className="py-3 px-4 text-left">Title</th>
-                  <th className="py-3 px-4 text-left">Author</th>
-                  <th className="py-3 px-4 text-left">Issue</th>
-                  <th className="py-3 px-4 text-left">Created At</th>
-                  <th className="py-3 px-4 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {submissions.map((submission) => (
-                  <tr key={submission.id} className="border-b hover:bg-teal-50 transition-colors">
-                    <td className="py-3 px-4">{submission.id}</td>
-                    <td className="py-3 px-4">{submission.manuscriptTitle}</td>
-                    <td className="py-3 px-4 flex items-center">
-                      <FaUser className="mr-2 text-teal-600" />
-                      {submission.correspondingAuthorName}
-                    </td>
-                    <td className="py-3 px-4">{submission.desiredIssue}</td>
-                    <td className="py-3 px-4 flex items-center">
-                      <FaCalendarAlt className="mr-2 text-teal-600" />
-                      {new Date(submission.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="py-3 px-4">
-                      <a
-                        href={submission.manuscriptFilePath}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-green-500 hover:text-teal-800 flex items-center"
-                      >
-                        <FaFileAlt className="mr-1" /> View File
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <MainContent />
+          <Sidebar />
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
 
-export default SubmissionsList;
+export default CurrentIssue;

@@ -84,16 +84,7 @@ const PrimaryNavbar: React.FC = () => {
         ],
       },
       { id: 'menu-item-919', title: 'Editorial Board', url: '/editorial-board', isInternal: true },
-      // {
-      //   id: 'menu-item-897',
-      //   title: 'Authors',
-      //   url: '#',
-      //   children: [
-      //     { id: 'menu-item-921', title: 'Submit Paper', url: '/submit-paper', isInternal: true },
-      //     { id: 'menu-item-922', title: 'Track Paper', url: '/track-paper', isInternal: true },
-      //     { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
-      //   ],
-      // },
+      
       {
         id: 'menu-item-898',
         title: 'Guidelines',
@@ -109,6 +100,17 @@ const PrimaryNavbar: React.FC = () => {
       { id: 'menu-item-928', title: 'Archives', url: '/archives', isInternal: true },
       { id: 'menu-item-929', title: 'Photo Gallery', url: '/photo-gallery', isInternal: true },
       { id: 'menu-item-930', title: 'Contact Us', url: '/contact-us', isInternal: true },
+
+      {
+        id: 'menu-item-897',
+        title: 'Submissions data',
+        url: '#',
+        children: [
+          { id: 'menu-item-921', title: 'Submissions List', url: '/submissions-list', isInternal: true },
+          { id: 'menu-item-922', title: 'Reviewer Applications List', url: '/reviewer-applications-list', isInternal: true },
+          { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
+        ],
+      },
     ],
     []
   );
