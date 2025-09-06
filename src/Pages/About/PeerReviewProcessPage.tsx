@@ -25,7 +25,7 @@ const PeerReviewProcess: React.FC = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }
 
   // Sidebar Component
   const Sidebar = () => {
@@ -96,7 +96,7 @@ const PeerReviewProcess: React.FC = () => {
             <ul className="list-decimal pl-6 text-gray-700 leading-relaxed">
               <li>The editorial team performs an initial screening for completeness, formatting, adherence to guidelines, and similarity index. Incomplete or non-compliant manuscripts are rejected immediately.</li>
               <li>Suitable manuscripts are sent to at least two subject experts for evaluation. Reviewers access the anonymized manuscript and an evaluation form through the online system.</li>
-              <li>Reviewers submit feedback within 2–3 weeks, providing suggestions for improvement and assessing the manuscript’s suitability for publication.</li>
+              <li>Reviewers submit feedback within 1–2 weeks, providing suggestions for improvement and assessing the manuscript’s suitability for publication.</li>
               <li>The editorial team compiles reviewers’ comments and communicates them to the corresponding author. Authors may revise the manuscript and submit a response detailing changes.</li>
               <li>Revised manuscripts may be re-evaluated by the same or new reviewers if necessary.</li>
               <li>The Editor-in-Chief and editorial team make the final decision: accept, request further revisions, or reject.</li>

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaSearch, FaCheckCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaExclamationCircle } from 'react-icons/fa';
+import { FaSearch, FaCheckCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaExclamationCircle, FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 
 interface FormData {
@@ -19,7 +19,7 @@ interface TrackData {
   name: string;
   email: string;
   status: string;
-  remarks: string;
+  adminRemarks: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -42,6 +42,7 @@ const TrackPaper: React.FC = () => {
   const [trackData, setTrackData] = useState<TrackData | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [activeSection, setActiveSection] = useState('track-paper');
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -73,12 +74,63 @@ const TrackPaper: React.FC = () => {
 
   const fetchTrackStatus = useCallback(async () => {
     if (!formData.manuscriptId || !formData.email) return;
+    
+    setIsLoading(true);
     try {
-      const response = await axios.get<TrackData>(
-        `${API_URL}/submission/manuscript/${formData.manuscriptId}/${encodeURIComponent(formData.email)}`
+      // First try to find by manuscript ID and email
+      const response = await axios.get<TrackData[]>(
+        `${API_URL}/submission?manuscriptId=${formData.manuscriptId}&email=${encodeURIComponent(formData.email)}`
       );
-      setTrackData(response.data);
-      setSubmitSuccess(true);
+      
+      if (response.data && response.data.length > 0) {
+        setTrackData(response.data[0]);
+        setSubmitSuccess(true);
+        toast.success(
+          <div className="flex items-center">
+            <FaCheckCircle className="mr-2 text-green-500" />
+            Tracking information found!
+          </div>,
+          {
+            position: 'top-right',
+            autoClose: 3000,
+            className: 'bg-green-100 text-teal-800 font-montserrat',
+          }
+        );
+      } else {
+        // If not found, try with just the manuscript ID (for older submissions)
+        const altResponse = await axios.get<TrackData>(
+          `${API_URL}/submission/${formData.manuscriptId}`
+        ).catch(() => null);
+        
+        if (altResponse && altResponse.data) {
+          setTrackData(altResponse.data);
+          setSubmitSuccess(true);
+          toast.success(
+            <div className="flex items-center">
+              <FaCheckCircle className="mr-2 text-green-500" />
+              Tracking information found!
+            </div>,
+            {
+              position: 'top-right',
+              autoClose: 3000,
+              className: 'bg-green-100 text-teal-800 font-montserrat',
+            }
+          );
+        } else {
+          setTrackData(null);
+          toast.error(
+            <div className="flex items-center">
+              <FaExclamationCircle className="mr-2 text-red-600" />
+              No submission found with these details
+            </div>,
+            {
+              position: 'top-right',
+              autoClose: 3000,
+              className: 'bg-red-100 text-teal-800 font-montserrat',
+            }
+          );
+        }
+      }
     } catch (error: any) {
       setTrackData(null);
       if (error.response?.status !== 404) {
@@ -90,14 +142,12 @@ const TrackPaper: React.FC = () => {
           {
             position: 'top-right',
             autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
             className: 'bg-red-100 text-teal-800 font-montserrat',
           }
         );
       }
+    } finally {
+      setIsLoading(false);
     }
   }, [formData.manuscriptId, formData.email, API_URL]);
 
@@ -113,10 +163,6 @@ const TrackPaper: React.FC = () => {
         {
           position: 'top-right',
           autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
           className: 'bg-red-100 text-teal-800 font-montserrat',
         }
       );
@@ -125,30 +171,9 @@ const TrackPaper: React.FC = () => {
     
     setIsSubmitting(true);
     try {
-      const response = await axios.post<{ message: string; track: TrackData }>(
-        `${API_URL}/submission`,
-        formData,
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      setTrackData(response.data.track);
-      toast.success(
-        <div className="flex items-center">
-          <FaCheckCircle className="mr-2 text-green-500" />
-          {response.data.message}
-        </div>,
-        {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          className: 'bg-green-100 text-teal-800 font-montserrat',
-        }
-      );
-      setSubmitSuccess(true);
+      await fetchTrackStatus();
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Failed to submit track request. Please try again.';
+      const errorMessage = error.response?.data?.message || 'Failed to track manuscript. Please try again.';
       toast.error(
         <div className="flex items-center">
           <FaExclamationCircle className="mr-2 text-red-600" />
@@ -157,17 +182,13 @@ const TrackPaper: React.FC = () => {
         {
           position: 'top-right',
           autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
           className: 'bg-red-100 text-teal-800 font-montserrat',
         }
       );
     } finally {
       setIsSubmitting(false);
     }
-  }, [formData, validateForm, API_URL]);
+  }, [formData, validateForm, fetchTrackStatus]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -232,6 +253,28 @@ const TrackPaper: React.FC = () => {
     setSubmitSuccess(false);
   }, []);
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'submitted': return 'text-blue-600';
+      case 'under_review': return 'text-yellow-600';
+      case 'revision_required': return 'text-orange-600';
+      case 'accepted': return 'text-green-600';
+      case 'rejected': return 'text-red-600';
+      default: return 'text-gray-600';
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'submitted': return 'Submitted';
+      case 'under_review': return 'Under Review';
+      case 'revision_required': return 'Revision Required';
+      case 'accepted': return 'Accepted';
+      case 'rejected': return 'Rejected';
+      default: return status;
+    }
+  };
+
   const MainContent = useMemo(() => {
     return (
       <div className="lg:col-span-3">
@@ -250,37 +293,54 @@ const TrackPaper: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="p-6 bg-teal-100 border border-teal-200 rounded-xl text-center"
+                  className="p-6 bg-teal-100 border border-teal-200 rounded-xl"
                 >
-                  <FaCheckCircle className="text-4xl text-green-500 mb-4" />
-                  <h3 className="text-xl font-merriweather fontlaw-semibold text-green-500 mb-2">Track Request Status</h3>
-                  <p className="text-gray-700 font-montserrat mb-2">
-                    Manuscript ID: <strong>{trackData.id}</strong>
-                  </p>
-                  <p className="text-gray-700 font-montserrat mb-2">
-                    Title: <strong>{trackData.manuscriptTitle}</strong>
-                  </p>
-                  <p className="text-gray-700 font-montserrat mb-2">
-                    Status: <strong className={
-                      trackData.status === 'Received' ? 'text-green-500' :
-                      trackData.status === 'Rejected' ? 'text-red-600' :
-                      trackData.status === 'Revision' ? 'text-yellow-500' :
-                      trackData.status === 'Correction' ? 'text-orange-500' :
-                      trackData.status === "Under Review" ? 'text-shadow-sky-600' :
-                      'text-blue-500'
-                    }>{trackData.status}</strong>
-                  </p>
-                  {trackData.remarks && (
-                    <p className="text-gray-700 font-montserrat mb-2">
-                      Admin Remarks: <strong>{trackData.remarks}</strong>
-                    </p>
+                  <div className="text-center mb-4">
+                    <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-2" />
+                    <h3 className="text-xl font-merriweather font-semibold text-green-500">Manuscript Tracking Status</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <p className="text-gray-700 font-montserrat">
+                        <span className="font-semibold">Manuscript ID:</span> UJGSM-{trackData.id.toString().padStart(3, '0')}
+                      </p>
+                      <p className="text-gray-700 font-montserrat">
+                        <span className="font-semibold">Title:</span> {trackData.manuscriptTitle}
+                      </p>
+                      <p className="text-gray-700 font-montserrat">
+                        <span className="font-semibold">Author:</span> {trackData.name}
+                      </p>
+                      <p className="text-gray-700 font-montserrat">
+                        <span className="font-semibold">Email:</span> {trackData.email}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-700 font-montserrat">
+                        <span className="font-semibold">Status:</span>{" "}
+                        <span className={`font-bold ${getStatusColor(trackData.status)}`}>
+                          {getStatusText(trackData.status)}
+                        </span>
+                      </p>
+                      <p className="text-gray-700 font-montserrat">
+                        <span className="font-semibold">Submitted:</span> {new Date(trackData.createdAt).toLocaleDateString()}
+                      </p>
+                      <p className="text-gray-700 font-montserrat">
+                        <span className="font-semibold">Last Updated:</span> {new Date(trackData.updatedAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {trackData.adminRemarks && (
+                    <div className="mt-4 p-4 bg-white rounded-lg border border-teal-200">
+                      <h4 className="font-semibold text-teal-800 mb-2">Admin Remarks:</h4>
+                      <p className="text-gray-700 font-montserrat">{trackData.adminRemarks}</p>
+                    </div>
                   )}
-                  <p className="text-gray-700 font-montserrat">
-                    Last Updated: <strong>{new Date(trackData.updatedAt).toLocaleDateString()}</strong>
-                  </p>
+                  
                   <button
                     onClick={handleReset}
-                    className="mt-4 py-2 px-4 rounded-lg font-montserrat font-medium text-green-500 hover:text-teal-800 transition-colors"
+                    className="mt-6 w-full py-2 px-4 bg-teal-600 text-white rounded-lg font-montserrat font-medium hover:bg-teal-700 transition-colors"
                   >
                     Track Another Paper
                   </button>
@@ -303,11 +363,10 @@ const TrackPaper: React.FC = () => {
                       name="manuscriptId"
                       value={formData.manuscriptId}
                       onChange={handleChange}
-                      onBlur={fetchTrackStatus}
                       className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
                         errors.manuscriptId ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                       } text-gray-700`}
-                      placeholder="Enter your manuscript ID"
+                      placeholder="Enter your manuscript ID (e.g., UJGSM-001)"
                       disabled={isSubmitting}
                     />
                     {errors.manuscriptId && (
@@ -367,7 +426,6 @@ const TrackPaper: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      onBlur={fetchTrackStatus}
                       className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
                         errors.email ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                       } text-gray-700`}
@@ -391,17 +449,14 @@ const TrackPaper: React.FC = () => {
                           : 'bg-green-500 hover:bg-teal-800 text-white'
                       }`}
                     >
-                      {isSubmitting ? (
+                      {isSubmitting || isLoading ? (
                         <div className="flex items-center justify-center">
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Processing...
+                          <FaSpinner className="animate-spin mr-2" />
+                          {isLoading ? 'Searching...' : 'Processing...'}
                         </div>
                       ) : (
                         <span className="flex items-center justify-center">
-                          <FaSearch className="mr-2" /> Submit
+                          <FaSearch className="mr-2" /> Track Paper
                         </span>
                       )}
                     </motion.button>
@@ -421,7 +476,7 @@ const TrackPaper: React.FC = () => {
         </div>
       </div>
     );
-  }, [formData, errors, isSubmitting, submitSuccess, trackData, handleChange, handleSubmit, handleReset, fetchTrackStatus]);
+  }, [formData, errors, isSubmitting, isLoading, submitSuccess, trackData, handleChange, handleSubmit, handleReset]);
 
   const Footer = useMemo(() => {
     return (

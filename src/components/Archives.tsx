@@ -1,130 +1,143 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { FaUserCheck, FaEnvelope, FaFileAlt, FaCalendarAlt } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { FaArchive, FaLink, FaCompass, FaHome, FaBook, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-interface ReviewerApplication {
-  id: number;
-  salutation: string;
-  fullName: string;
-  gender: string;
-  currentEmployment: string;
-  totalExperience: number;
-  educationalQualifications: string;
-  researchAreas: string[];
-  institutionalEmail: string;
-  personalEmail: string;
-  mobileNo: string;
-  whatsappNo: string;
-  city: string;
-  country: string;
-  internationalPublications: number;
-  howFoundUs: string;
-  cvPath: string;
-  firstReferenceName: string;
-  firstReferenceEmail: string;
-  firstReferenceOrg: string;
-  firstReferenceMobile: string;
-  secondReferenceName: string;
-  secondReferenceEmail: string;
-  secondReferenceOrg: string;
-  secondReferenceMobile: string;
-  agreeToTerms: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-const ReviewerApplicationsList: React.FC = () => {
-  const [applications, setApplications] = useState<ReviewerApplication[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const Archives: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('archives');
 
   useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        const response = await axios.get<ReviewerApplication[]>(`${API_URL}/reviewer`);
-        setApplications(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch reviewer applications. Please try again.');
-        setLoading(false);
-        toast.error('Failed to load reviewer applications');
-      }
+    const handleScroll = () => {
+      const sections = ['archives', 'accessing-content'];
+      const scrollPosition = window.scrollY + 100; // Offset for header
+      sections.forEach((section) => {
+        const element = document.getElementById(section);
+        if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+          setActiveSection(section);
+        }
+      });
     };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    fetchApplications();
-  }, [API_URL]);
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-  if (loading) {
+  // Sidebar Component
+  const Sidebar = () => {
+    const navItems = [
+      { id: 'archives', title: 'Archives', icon: FaArchive },
+      { id: 'accessing-content', title: 'Accessing Archived Content', icon: FaLink },
+    ];
+
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      <div className="lg:col-span-1">
+        <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
+          <h2 className="text-vibrant-green mb-4 flex items-center">
+            <FaCompass className="mr-2" /> Quick Navigation
+          </h2>
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${activeSection === item.id ? 'bg-vibrant-green text-white' : 'text-dark-brown hover:bg-gray-100'}`}
+                  onClick={() => scrollToSection(item.id)}
+                >
+                  <item.icon className="mr-2" />
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
-  }
+  };
 
-  if (error) {
-    return <div className="text-red-600 text-center mt-8">{error}</div>;
-  }
+  // ContentSection Component
+  const ContentSection: React.FC<{ id: string; title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }> = ({ id, title, icon: Icon, children }) => (
+    <section id={id} className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300">
+      <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
+        <Icon className="mr-3 text-teal-800 bg-vibrant-green rounded-full w-10 h-10 flex items-center justify-center" />
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+
+  // MainContent Component
+  const MainContent = () => (
+    <div className="lg:col-span-3">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-gradient-to-r from-deep-green to-vibrant-green text-teal-800 p-6">
+          <h1 className="text-3xl font-merriweather font-bold">Archives</h1>
+          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+        </div>
+        <div className="p-6 space-y-6">
+          <ContentSection id="archives" title="Archives" icon={FaArchive}>
+            <p className="text-gray-700 leading-relaxed">
+              Archives will be available once issues are published. As of August 30, 2025, the journal is preparing to release its first issue (Issue 1, August 2025). Check back for updates as archived content becomes available.
+            </p>
+          </ContentSection>
+
+          <ContentSection id="accessing-content" title="Accessing Archived Content" icon={FaLink}>
+            <p className="text-gray-700 leading-relaxed">
+              The Universal Journal of Green SciTech & Management (UJGSM) is an open-access journal, and all archived issues will be freely accessible online upon publication. Archived articles will be stored in UJGSM’s online repository and indexed in recognized academic databases, ensuring long-term accessibility for scholars, researchers, and the public.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              For details on the publication schedule, including upcoming issues, refer to the <a href="#" className="text-eco-gold hover:underline">Time of Publication</a> page. To learn more about the journal’s open-access policy, visit the <a href="#" className="text-eco-gold hover:underline">Open Access Policy</a> page.
+            </p>
+          </ContentSection>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Footer Component
+  const Footer = () => (
+    <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
+      <div className="container mx-auto max-w-6xl">
+        <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
+            <p>A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
+            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Home</a></p>
+            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Current Issue</a></p>
+            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text-eco-gold">Archives</a></p>
+          </div>
+          <div className="footer-section">
+            <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
+            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text-eco-gold">contact@uorapublications.com</a></p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
+            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
+          </div>
+        </div>
+        <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
+          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <ToastContainer />
-      <div className="container mx-auto max-w-6xl px-4">
-        <h1 className="text-3xl font-merriweather font-bold text-teal-800 mb-6 flex items-center">
-          <FaUserCheck className="mr-3" /> Reviewer Applications List
-        </h1>
-        {applications.length === 0 ? (
-          <p className="text-gray-600 text-center">No applications found.</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-teal-200 rounded-lg shadow-md">
-              <thead className="bg-teal-800 text-white">
-                <tr>
-                  <th className="py-3 px-4 text-left">ID</th>
-                  <th className="py-3 px-4 text-left">Name</th>
-                  <th className="py-3 px-4 text-left">Email</th>
-                  <th className="py-3 px-4 text-left">Country</th>
-                  <th className="py-3 px-4 text-left">Created At</th>
-                  <th className="py-3 px-4 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {applications.map((application) => (
-                  <tr key={application.id} className="border-b hover:bg-teal-50 transition-colors">
-                    <td className="py-3 px-4">{application.id}</td>
-                    <td className="py-3 px-4">{application.salutation} {application.fullName}</td>
-                    <td className="py-3 px-4 flex items-center">
-                      <FaEnvelope className="mr-2 text-teal-600" />
-                      {application.institutionalEmail}
-                    </td>
-                    <td className="py-3 px-4">{application.country}</td>
-                    <td className="py-3 px-4 flex items-center">
-                      <FaCalendarAlt className="mr-2 text-teal-600" />
-                      {new Date(application.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="py-3 px-4">
-                      <a
-                        href={application.cvPath}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-green-500 hover:text-teal-800 flex items-center"
-                      >
-                        <FaFileAlt className="mr-1" /> View CV
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <MainContent />
+          <Sidebar />
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
 
-export default ReviewerApplicationsList;
+export default Archives;

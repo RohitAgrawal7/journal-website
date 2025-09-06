@@ -122,7 +122,7 @@ const CARE: React.FC = () => {
               <li><strong>Date:</strong> 16th July 2025</li>
             </ul>
             <p className="text-gray-700 leading-relaxed mt-2">
-              This regulation provides the latest updates on ethical compliance and journal evaluation criteria under UGC-CARE. [<a href="#" className="text--teal-800 hover:underline">Link</a>]
+              This regulation provides the latest updates on ethical compliance and journal evaluation criteria under UGC-CARE. [<a href="https://iaph.in/wp-content/uploads/2025/07/UGC-Parameters-for-Peer-Reviewed-Journals.pdf" rel="noopener noreferrer" target="_blank" className="text--teal-800 hover:underline">Link</a>]
             </p>
           </ContentSection>
         </div>

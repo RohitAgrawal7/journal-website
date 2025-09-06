@@ -76,7 +76,7 @@ const PrimaryNavbar: React.FC = () => {
           { id: 'menu-item-908', title: 'About the Journal', url: '/about-the-journal', isInternal: true },
           { id: 'menu-item-912', title: 'Peer Review Process', url: '/peer-review-process', isInternal: true },
           { id: 'menu-item-914', title: 'COPE', url: '/cope', isInternal: true },
-          { id: 'menu-item-915', title: 'CARE', url: '/care', isInternal: true },
+          { id: 'menu-item-915', title: 'UGC-CARE', url: '/care', isInternal: true },
           { id: 'menu-item-909', title: 'Plagiarism Policy', url: '/plagiarism-policy', isInternal: true },
           { id: 'menu-item-911', title: 'Open Access Policy', url: '/open-access-policy', isInternal: true },
           { id: 'menu-item-918', title: 'AI-Generated Content Policy', url: '/ai-generated-content-policy', isInternal: true },
@@ -101,16 +101,16 @@ const PrimaryNavbar: React.FC = () => {
       { id: 'menu-item-929', title: 'Photo Gallery', url: '/photo-gallery', isInternal: true },
       { id: 'menu-item-930', title: 'Contact Us', url: '/contact-us', isInternal: true },
 
-      {
-        id: 'menu-item-897',
-        title: 'Submissions data',
-        url: '#',
-        children: [
-          { id: 'menu-item-921', title: 'Submissions List', url: '/submissions-list', isInternal: true },
-          { id: 'menu-item-922', title: 'Reviewer Applications List', url: '/reviewer-applications-list', isInternal: true },
-          { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
-        ],
-      },
+      // {
+      //   id: 'menu-item-897',
+      //   title: 'Submissions data',
+      //   url: '#',
+      //   children: [
+      //     { id: 'menu-item-921', title: 'Submissions List', url: '/submissions-list', isInternal: true },
+      //     { id: 'menu-item-922', title: 'Reviewer Applications List', url: '/reviewer-applications-list', isInternal: true },
+      //     { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
+      //   ],
+      // },
     ],
     []
   );

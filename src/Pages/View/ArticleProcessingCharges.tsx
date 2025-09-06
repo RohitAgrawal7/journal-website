@@ -97,7 +97,7 @@ const ArticleProcessingCharges: React.FC = () => {
 
           <ContentSection id="fee-structure" title="Fee Structure" icon={FaMoneyBillWave}>
             <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li><strong>Indian Authors:</strong> ₹15,000</li>
+              <li><strong>Indian Authors:</strong> ₹1,500</li>
               <li><strong>Foreign Authors:</strong> $25 USD</li>
             </ul>
           </ContentSection>

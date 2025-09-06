@@ -83,11 +83,11 @@ const EditorBoards: React.FC = () => {
           <ContentSection id="editor-in-chief" title="Editor-in-Chief" icon={FaUserTie}>
             <div className="flex flex-col md:flex-row md:gap-6">
               <div className="md:w-1/3 mb-4 md:mb-0">
-                <img src="journal-website/pawan_1.jpeg" alt="Editor-in-Chief" className="w-40 h-40 rounded-full shadow-md object-cover" />
+                <img src="./pawan_1.jpeg" alt="Editor-in-Chief" className="w-40 h-40 rounded-full shadow-md object-cover" />
               </div>
               <div className="md:w-2/3">
                 <p className="text-gray-700 leading-relaxed">
-                  <strong>Name:</strong> Prof. Pawan D. Somavanshi (Ph.D. Mechanical)<br />
+                  <strong>Name:</strong> Prof. Pawan Dhanraj Somavanshi (Ph.D. Mechanical)<br />
                   <strong>Affiliation:</strong> Research Scholar, Government College of Engineering, Aurangabad<br />
                   <strong>Email:</strong> <a href="mailto:pawansomavanshi.PhD@geca.ac.in" className="text--teal-800 hover:underline">pawansomavanshi.PhD@geca.ac.in</a>, <a href="mailto:pawansomavanshi5jan@gmail.com" className="text--teal-800 hover:underline">pawansomavanshi5jan@gmail.com</a><br />
                   <strong>Mobile:</strong> <a href="tel:+919096499989" className="text--teal-800 hover:underline">+91 90964 99989</a>
@@ -99,11 +99,11 @@ const EditorBoards: React.FC = () => {
           <ContentSection id="managing-editor" title="Managing Editor" icon={FaUsers}>
             <div className="flex flex-col md:flex-row md:gap-6">
               <div className="md:w-1/3 mb-4 md:mb-0">
-                <img src="journal-website/Swapnil.jpeg" alt="Managing Editor" className="w-40 h-40 rounded-full shadow-md object-cover" />
+                <img src="./Swapnil.jpeg" alt="Managing Editor" className="w-40 h-40 rounded-full shadow-md object-cover" />
               </div>
               <div className="md:w-2/3">
                 <p className="text-gray-700 leading-relaxed">
-                  <strong>Name:</strong> Dr. Swapnil N. Dhole (Ph.D. Mechanical)<br />
+                  <strong>Name:</strong> Dr. Swapnil Narayan Dhole (Ph.D. Mechanical)<br />
                   <strong>Affiliation:</strong> TPO, MSS's College of Engineering and Technology & MBA, Jalna<br />
                   <strong>Email:</strong> <a href="mailto:dholeswapnil25@gmail.com" className="text--teal-800 hover:underline">dholeswapnil25@gmail.com</a><br />
                   <strong>Mobile:</strong> <a href="tel:+918983245607" className="text--teal-800 hover:underline">+91 89832 45607</a>
@@ -119,22 +119,36 @@ const EditorBoards: React.FC = () => {
               </div> */}
               <div className="md:w-2/3">
                 <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+                 
+                 <li>
+                    <strong>Dr. Satish B Bhalerao</strong><br />
+                    Sr. Manager (Research and Development), Siemens Limited, Aurangabad<br />
+                    <strong>Contact:</strong> <a href="mailto:satish.bhalerao@siemens.com" className="text--teal-800 hover:underline">satish.bhalerao@siemens.com</a>, <a href="tel:+919096792217" className="text--teal-800 hover:underline">9096792217</a>
+                  </li>
+                   <li>
+                    <strong>Dr. Vaibhav V. Nemane</strong><br />
+                    IIT, Bombay<br />
+                    <strong>Contact:</strong> <a href="mailto:vaibhavn@iitb.ac.in" className="text--teal-800 hover:underline">vaibhavn@iitb.ac.in</a>, <a href="tel:+919623474818" className="text--teal-800 hover:underline">9623474818</a>
+                  </li>
+                   <li>
+                    <strong>Dr. Rohit R. Garbade</strong><br />
+                    Manager Metallurgy (Research and Development), Varroc Engineering Limited, Aurangabad<br />
+                    <strong>Contact:</strong> <a href="mailto:Rohit.Garbade@varroc.com" className="text--teal-800 hover:underline">Rohit.Garbade@varroc.com</a>, <a href="tel:+917020818373" className="text--teal-800 hover:underline">7020818373</a>
+                  </li>
+                  <li>
+                    <strong>Dr.Umeshkumar H. Chavan </strong><br />
+                    TPO,  Maharashtra Institute of Technology, Rotegaon, Chatrapati Sambhajinagar, Maharashtra <br />
+                    <strong>Subject:</strong> Commerce and Management<br />
+                    <strong>Contact:</strong> <a href="mailto:manoharwankhade@gmail.com" className="text--teal-800 hover:underline">umeshkumar.chavan@mit.asia</a>, <a href="tel:+918888526181" className="text--teal-800 hover:underline">8888526181</a>
+                  </li>
                   <li>
                     <strong>Dr. Manohar S Wankhade</strong><br />
                     Principal, Siddharth Library & Information Science College, Chhatrapati Sambhajinagar<br />
                     <strong>Subject:</strong> Commerce and Management<br />
                     <strong>Contact:</strong> <a href="mailto:manoharwankhade@gmail.com" className="text--teal-800 hover:underline">manoharwankhade@gmail.com</a>, <a href="tel:+919850141764" className="text--teal-800 hover:underline">9850141764</a>
                   </li>
-                  <li>
-                    <strong>Dr. Satish B Bhalerao</strong><br />
-                    Sr. Manager (Research and Development), Siemens Limited, Aurangabad<br />
-                    <strong>Contact:</strong> <a href="mailto:satish.bhalerao@siemens.com" className="text--teal-800 hover:underline">satish.bhalerao@siemens.com</a>, <a href="tel:+919096792217" className="text--teal-800 hover:underline">9096792217</a>
-                  </li>
-                  <li>
-                    <strong>Dr. Rohit R. Garbade</strong><br />
-                    Manager Metallurgy (Research and Development), Varroc Engineering Limited, Aurangabad<br />
-                    <strong>Contact:</strong> <a href="mailto:Rohit.Garbade@varroc.com" className="text--teal-800 hover:underline">Rohit.Garbade@varroc.com</a>, <a href="tel:+917020818373" className="text--teal-800 hover:underline">7020818373</a>
-                  </li>
+                  
+                 
                   <li>
                     <strong>Dr. Vikram Bhutekar</strong><br />
                     Associate Professor, Sant Dnyaneshwar College of Arts and Science, Soygaon<br />
@@ -183,11 +197,7 @@ const EditorBoards: React.FC = () => {
                     <strong>Subject:</strong> Marathi<br />
                     <strong>Contact:</strong> <a href="mailto:yuvrajdhabadge@gmail.com" className="text--teal-800 hover:underline">yuvrajdhabadge@gmail.com</a>, <a href="tel:+919823208074" className="text--teal-800 hover:underline">9823208074</a>
                   </li>
-                  <li>
-                    <strong>Dr. Vaibhav V. Nemane</strong><br />
-                    IIT, Bombay<br />
-                    <strong>Contact:</strong> <a href="mailto:vaibhavnemane15@gmail.com" className="text--teal-800 hover:underline">vaibhavnemane15@gmail.com</a>, <a href="tel:+919623474818" className="text--teal-800 hover:underline">9623474818</a>
-                  </li>
+                  
                 </ol>
               </div>
             </div>

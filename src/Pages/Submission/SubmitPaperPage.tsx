@@ -713,9 +713,9 @@ const ManuscriptSubmissionForm: React.FC = () => {
                       >
                         <option value="">Select Author Category</option>
                         <option value="New Author">New Author</option>
-                        <option value="Ex IJLTEMAS Author">Ex IJLTEMAS Author</option>
+                        <option value="Ex IJLTEMAS Author">UJGSM Author</option>
                         <option value="Editorial Board Member">Editorial Board Member</option>
-                        <option value="IJLTEMAS Reviewer">IJLTEMAS Reviewer</option>
+                        <option value="IJLTEMAS Reviewer">UJGSM Reviewer</option>
                       </select>
                       {errors.authorCategory && (
                         <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.authorCategory}</p>

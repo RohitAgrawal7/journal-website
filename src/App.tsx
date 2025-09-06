@@ -33,7 +33,7 @@ import TrackPaper from './Pages/Submission/TrackPaper';
 import ApplyAsReviewer from './Pages/Submission/ApplyAsReviewer';
 import SubmissionConfirmationPage from './Pages/Submission/SubmissionConfirmationPage';
 import SubmissionsList from './Pages/Submission/SubmissionsList';
-import ReviewerApplicationsList from './Pages/UpcomingContent';
+import ReviewerApplicationsList from './Pages/Submission/ReviewerApplicationsList';
 // import Home from './Pages/View/Home';
 function App() {
   return (
@@ -82,7 +82,7 @@ function App() {
         <Route path="/contact-us" element={<ContactUsPage />} />
 
         <Route path="/submissions-list" element={<SubmissionsList/>} />
-        <Route path="/reviewer-applications-list" element={<ReviewerApplicationsList/>} />
+        <Route path="/reviewer-applications-list" element={<ReviewerApplicationsList />} />
       </Routes>
      
       {/* <Layout/> */}
