@@ -52,7 +52,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
     agreeToTerms: 'false',
   });
 
-  const [file, setFile] = useState<File | null>(null);
+  const [manuscript, setFile] = useState<File | null>(null);
   const [activeSection, setActiveSection] = useState('manuscript-submission');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -101,13 +101,13 @@ const ManuscriptSubmissionForm: React.FC = () => {
       newErrors.agreeToTerms = 'You must agree to the terms and conditions';
     }
     
-    if (!file) {
-      newErrors.file = 'Manuscript file is required';
+    if (!manuscript) {
+      newErrors.manuscript = 'Manuscript file is required';
     }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }, [formData, file]);
+  }, [formData, manuscript]);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -170,7 +170,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
     Object.entries(formData).forEach(([key, value]) => {
       formDataToSend.append(key, value);
     });
-    if (file) formDataToSend.append('file', file);
+    if (manuscript) formDataToSend.append('manuscript', manuscript);
 
     try {
       const response = await axios.post(`${API_URL}/submission`, formDataToSend, {
@@ -241,7 +241,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
       setIsSubmitting(false);
       setUploadProgress(0);
     }
-  }, [formData, file, validateForm, API_URL]);
+  }, [formData, manuscript, validateForm, API_URL]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -763,12 +763,12 @@ const ManuscriptSubmissionForm: React.FC = () => {
                           />
                         </label>
                         <span className="text-gray-700 font-montserrat truncate max-w-xs">
-                          {file ? file.name : 'No file chosen'}
+                          {manuscript ? manuscript.name : 'No file chosen'}
                         </span>
                       </div>
                       <p className="text-sm text-gray-500 mt-2 font-montserrat">Format Allowed (doc, docx, rtf)</p>
-                      {errors.file && (
-                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.file}</p>
+                      {errors.manuscript && (
+                        <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.manuscript}</p>
                       )}
                     </div>
 

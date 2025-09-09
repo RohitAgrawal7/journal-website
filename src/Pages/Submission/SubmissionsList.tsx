@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 interface Submission {
   id: number;
+  trackingId: string;
   desiredIssue: string;
   manuscriptTitle: string;
   abstract: string;
@@ -40,14 +41,26 @@ const SubmissionsList: React.FC = () => {
   const [newRemarks, setNewRemarks] = useState('');
   const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const response = await axios.get<Submission[]>(`${API_URL}/submission`);
-        setSubmissions(response.data);
+        const response = await axios.get<{
+          data: Submission[];
+          count: number;
+          page: number;
+          totalPages: number;
+        }>(`${API_URL}/submission`, {
+          params: {
+            status: statusFilter !== 'all' ? statusFilter : undefined,
+            search: searchTerm || undefined
+          }
+        });
+        setSubmissions(response.data.data);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch submissions. Please try again.');
@@ -57,7 +70,7 @@ const SubmissionsList: React.FC = () => {
     };
 
     fetchSubmissions();
-  }, [API_URL]);
+  }, [API_URL, statusFilter, searchTerm]);
 
   const toggleExpand = (id: number) => {
     if (expandedSubmission === id) {
@@ -71,7 +84,7 @@ const SubmissionsList: React.FC = () => {
   const handleStatusChange = async (id: number, newStatus: string) => {
     setUpdatingStatus(id);
     try {
-      const response = await axios.patch(`${API_URL}/submission/${id}`, {
+      const response = await axios.patch(`${API_URL}/submission/${id}/status`, {
         status: newStatus
       });
       
@@ -117,29 +130,37 @@ const SubmissionsList: React.FC = () => {
     setNewRemarks('');
   };
 
-  const saveRemarks = async (id: number) => {
-    try {
-      const response = await axios.patch(`${API_URL}/submission/${id}`, {
-        adminRemarks: newRemarks
-      });
-      
-      setSubmissions(prev => 
-        prev.map(sub => 
-          sub.id === id ? { ...sub, adminRemarks: newRemarks } : sub
-        )
-      );
-      
-      setEditingRemarks(null);
-      setNewRemarks('');
-      toast.success('Remarks updated successfully');
-    } catch (err) {
-      toast.error('Failed to update remarks');
-    }
+  const saveRemarks = async (id: number, currentStatus: string) => {
+  try {
+    const response = await axios.patch(`${API_URL}/submission/${id}/status`, {
+      status: currentStatus,        // ✅ required field
+      adminRemarks: newRemarks,     // ✅ your remarks
+    });
+
+    setSubmissions(prev =>
+      prev.map(sub =>
+        sub.id === id
+          ? { ...sub, adminRemarks: newRemarks, status: currentStatus }
+          : sub
+      )
+    );
+
+    setEditingRemarks(null);
+    setNewRemarks('');
+    toast.success('Remarks updated successfully');
+  } catch (err: any) {
+    console.error(err.response?.data || err);
+    toast.error('Failed to update remarks');
+  }
+};
+
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
-  // Format ID to UJGSM-XXX format
-  const formatId = (id: number) => {
-    return `UJGSM-${id.toString().padStart(3, '0')}`;
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setStatusFilter(e.target.value);
   };
 
   if (loading) {
@@ -158,7 +179,7 @@ const SubmissionsList: React.FC = () => {
     <div className="min-h-screen bg-gray-100 py-8">
       <ToastContainer />
       <div className="container mx-auto max-w-6xl px-4">
-        <h1 className="text-3xl font-merriweather font-bold text-teal-800 mb-6 flex items-center">
+        <h1 className="text-3xl font-bold text-teal-800 mb-6 flex items-center">
           <FaBook className="mr-3" /> Manuscript Submissions
         </h1>
         
@@ -167,7 +188,11 @@ const SubmissionsList: React.FC = () => {
             {submissions.length} submission(s) found
           </div>
           <div className="flex space-x-2">
-            <select className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <select 
+              value={statusFilter}
+              onChange={handleFilterChange}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            >
               <option value="all">All Statuses</option>
               <option value="submitted">Submitted</option>
               <option value="under_review">Under Review</option>
@@ -178,6 +203,8 @@ const SubmissionsList: React.FC = () => {
             <input 
               type="text" 
               placeholder="Search submissions..." 
+              value={searchTerm}
+              onChange={handleSearch}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
@@ -195,7 +222,7 @@ const SubmissionsList: React.FC = () => {
               <thead className="bg-teal-800 text-white">
                 <tr>
                   <th className="py-3 px-4 text-left w-12"></th>
-                  <th className="py-3 px-4 text-left">ID</th>
+                  <th className="py-3 px-4 text-left">Tracking ID</th>
                   <th className="py-3 px-4 text-left">Title</th>
                   <th className="py-3 px-4 text-left">Author</th>
                   <th className="py-3 px-4 text-left">Issue</th>
@@ -216,7 +243,7 @@ const SubmissionsList: React.FC = () => {
                           {expandedSubmission === submission.id ? <FaChevronUp /> : <FaChevronDown />}
                         </button>
                       </td>
-                      <td className="py-3 px-4 font-mono">{formatId(submission.id)}</td>
+                      <td className="py-3 px-4 font-mono">{submission.trackingId}</td>
                       <td className="py-3 px-4 font-medium">{submission.manuscriptTitle}</td>
                       <td className="py-3 px-4 flex items-center">
                         <FaUser className="mr-2 text-teal-600" />
@@ -293,6 +320,7 @@ const SubmissionsList: React.FC = () => {
                                 <p><span className="font-medium">Pages:</span> {submission.numberOfPages}</p>
                                 <p><span className="font-medium">Authors:</span> {submission.totalAuthors}</p>
                                 <p><span className="font-medium">Desired Issue:</span> {submission.desiredIssue}</p>
+                                <p><span className="font-medium">Abstract:</span> {submission.abstract}</p>
                               </div>
                               
                               <h3 className="font-semibold text-teal-800 mb-3 flex items-center">
@@ -308,7 +336,7 @@ const SubmissionsList: React.FC = () => {
                                   />
                                   <div className="flex space-x-2">
                                     <button 
-                                      onClick={() => saveRemarks(submission.id)}
+                                      onClick={() => saveRemarks(submission.id, submission.status)}
                                       className="px-3 py-1 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700"
                                     >
                                       Save

@@ -6,18 +6,16 @@ import { FaSearch, FaCheckCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelo
 import axios from 'axios';
 
 interface FormData {
-  manuscriptId: string;
-  manuscriptTitle: string;
-  name: string;
+  trackingId: string;
   email: string;
 }
 
 interface TrackData {
   id: number;
-  manuscriptId: string;
+  trackingId: string;
   manuscriptTitle: string;
-  name: string;
-  email: string;
+  correspondingAuthorName: string;
+  correspondingAuthorEmail: string;
   status: string;
   adminRemarks: string;
   createdAt: string;
@@ -25,17 +23,13 @@ interface TrackData {
 }
 
 interface FormErrors {
-  manuscriptId?: string;
-  manuscriptTitle?: string;
-  name?: string;
+  trackingId?: string;
   email?: string;
 }
 
 const TrackPaper: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    manuscriptId: '',
-    manuscriptTitle: '',
-    name: '',
+    trackingId: '',
     email: '',
   });
 
@@ -50,9 +44,7 @@ const TrackPaper: React.FC = () => {
   const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
     
-    if (!formData.manuscriptId.trim()) newErrors.manuscriptId = 'Manuscript ID is required';
-    if (!formData.manuscriptTitle.trim()) newErrors.manuscriptTitle = 'Manuscript title is required';
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.trackingId.trim()) newErrors.trackingId = 'Tracking ID is required';
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -73,17 +65,17 @@ const TrackPaper: React.FC = () => {
   }, [errors]);
 
   const fetchTrackStatus = useCallback(async () => {
-    if (!formData.manuscriptId || !formData.email) return;
+    if (!formData.trackingId || !formData.email) return;
     
     setIsLoading(true);
     try {
-      // First try to find by manuscript ID and email
-      const response = await axios.get<TrackData[]>(
-        `${API_URL}/submission?manuscriptId=${formData.manuscriptId}&email=${encodeURIComponent(formData.email)}`
+      const response = await axios.get<TrackData>(
+        `${API_URL}/submission/track/${formData.trackingId}`
       );
       
-      if (response.data && response.data.length > 0) {
-        setTrackData(response.data[0]);
+      // Verify email matches
+      if (response.data.correspondingAuthorEmail === formData.email) {
+        setTrackData(response.data);
         setSubmitSuccess(true);
         toast.success(
           <div className="flex items-center">
@@ -93,47 +85,38 @@ const TrackPaper: React.FC = () => {
           {
             position: 'top-right',
             autoClose: 3000,
-            className: 'bg-green-100 text-teal-800 font-montserrat',
+            className: 'bg-green-100 text-teal-800',
           }
         );
       } else {
-        // If not found, try with just the manuscript ID (for older submissions)
-        const altResponse = await axios.get<TrackData>(
-          `${API_URL}/submission/${formData.manuscriptId}`
-        ).catch(() => null);
-        
-        if (altResponse && altResponse.data) {
-          setTrackData(altResponse.data);
-          setSubmitSuccess(true);
-          toast.success(
-            <div className="flex items-center">
-              <FaCheckCircle className="mr-2 text-green-500" />
-              Tracking information found!
-            </div>,
-            {
-              position: 'top-right',
-              autoClose: 3000,
-              className: 'bg-green-100 text-teal-800 font-montserrat',
-            }
-          );
-        } else {
-          setTrackData(null);
-          toast.error(
-            <div className="flex items-center">
-              <FaExclamationCircle className="mr-2 text-red-600" />
-              No submission found with these details
-            </div>,
-            {
-              position: 'top-right',
-              autoClose: 3000,
-              className: 'bg-red-100 text-teal-800 font-montserrat',
-            }
-          );
-        }
+        setTrackData(null);
+        toast.error(
+          <div className="flex items-center">
+            <FaExclamationCircle className="mr-2 text-red-600" />
+            Email does not match the submission
+          </div>,
+          {
+            position: 'top-right',
+            autoClose: 3000,
+            className: 'bg-red-100 text-teal-800',
+          }
+        );
       }
     } catch (error: any) {
       setTrackData(null);
-      if (error.response?.status !== 404) {
+      if (error.response?.status === 404) {
+        toast.error(
+          <div className="flex items-center">
+            <FaExclamationCircle className="mr-2 text-red-600" />
+            No submission found with this tracking ID
+          </div>,
+          {
+            position: 'top-right',
+            autoClose: 3000,
+            className: 'bg-red-100 text-teal-800',
+          }
+        );
+      } else {
         toast.error(
           <div className="flex items-center">
             <FaExclamationCircle className="mr-2 text-red-600" />
@@ -142,14 +125,14 @@ const TrackPaper: React.FC = () => {
           {
             position: 'top-right',
             autoClose: 3000,
-            className: 'bg-red-100 text-teal-800 font-montserrat',
+            className: 'bg-red-100 text-teal-800',
           }
         );
       }
     } finally {
       setIsLoading(false);
     }
-  }, [formData.manuscriptId, formData.email, API_URL]);
+  }, [formData.trackingId, formData.email, API_URL]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -163,7 +146,7 @@ const TrackPaper: React.FC = () => {
         {
           position: 'top-right',
           autoClose: 3000,
-          className: 'bg-red-100 text-teal-800 font-montserrat',
+          className: 'bg-red-100 text-teal-800',
         }
       );
       return;
@@ -182,7 +165,7 @@ const TrackPaper: React.FC = () => {
         {
           position: 'top-right',
           autoClose: 3000,
-          className: 'bg-red-100 text-teal-800 font-montserrat',
+          className: 'bg-red-100 text-teal-800',
         }
       );
     } finally {
@@ -247,7 +230,7 @@ const TrackPaper: React.FC = () => {
   }, [activeSection, scrollToSection]);
 
   const handleReset = useCallback(() => {
-    setFormData({ manuscriptId: '', manuscriptTitle: '', name: '', email: '' });
+    setFormData({ trackingId: '', email: '' });
     setErrors({});
     setTrackData(null);
     setSubmitSuccess(false);
@@ -280,14 +263,14 @@ const TrackPaper: React.FC = () => {
       <div className="lg:col-span-3">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
-            <h1 className="text-3xl font-merriweather font-bold flex items-center">
+            <h1 className="text-3xl font-bold flex items-center">
               <FaSearch className="mr-3" /> Track Your Paper
             </h1>
             <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
             <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – September 2025</p>
           </div>
           <div className="p-6">
-            <section id="track-paper" className="guideline-section p-6 rounded-lg bg-white hover:bg-green-50 transition-all duration-300">
+            <section id="track-paper" className="p-6 rounded-lg bg-white hover:bg-green-50 transition-all duration-300">
               {submitSuccess && trackData ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -297,35 +280,35 @@ const TrackPaper: React.FC = () => {
                 >
                   <div className="text-center mb-4">
                     <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-2" />
-                    <h3 className="text-xl font-merriweather font-semibold text-green-500">Manuscript Tracking Status</h3>
+                    <h3 className="text-xl font-semibold text-green-500">Manuscript Tracking Status</h3>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-gray-700 font-montserrat">
-                        <span className="font-semibold">Manuscript ID:</span> UJGSM-{trackData.id.toString().padStart(3, '0')}
+                      <p className="text-gray-700">
+                        <span className="font-semibold">Tracking ID:</span> {trackData.trackingId}
                       </p>
-                      <p className="text-gray-700 font-montserrat">
+                      <p className="text-gray-700">
                         <span className="font-semibold">Title:</span> {trackData.manuscriptTitle}
                       </p>
-                      <p className="text-gray-700 font-montserrat">
-                        <span className="font-semibold">Author:</span> {trackData.name}
+                      <p className="text-gray-700">
+                        <span className="font-semibold">Author:</span> {trackData.correspondingAuthorName}
                       </p>
-                      <p className="text-gray-700 font-montserrat">
-                        <span className="font-semibold">Email:</span> {trackData.email}
+                      <p className="text-gray-700">
+                        <span className="font-semibold">Email:</span> {trackData.correspondingAuthorEmail}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-700 font-montserrat">
+                      <p className="text-gray-700">
                         <span className="font-semibold">Status:</span>{" "}
                         <span className={`font-bold ${getStatusColor(trackData.status)}`}>
                           {getStatusText(trackData.status)}
                         </span>
                       </p>
-                      <p className="text-gray-700 font-montserrat">
+                      <p className="text-gray-700">
                         <span className="font-semibold">Submitted:</span> {new Date(trackData.createdAt).toLocaleDateString()}
                       </p>
-                      <p className="text-gray-700 font-montserrat">
+                      <p className="text-gray-700">
                         <span className="font-semibold">Last Updated:</span> {new Date(trackData.updatedAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -334,13 +317,13 @@ const TrackPaper: React.FC = () => {
                   {trackData.adminRemarks && (
                     <div className="mt-4 p-4 bg-white rounded-lg border border-teal-200">
                       <h4 className="font-semibold text-teal-800 mb-2">Admin Remarks:</h4>
-                      <p className="text-gray-700 font-montserrat">{trackData.adminRemarks}</p>
+                      <p className="text-gray-700">{trackData.adminRemarks}</p>
                     </div>
                   )}
                   
                   <button
                     onClick={handleReset}
-                    className="mt-6 w-full py-2 px-4 bg-teal-600 text-white rounded-lg font-montserrat font-medium hover:bg-teal-700 transition-colors"
+                    className="mt-6 w-full py-2 px-4 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors"
                   >
                     Track Another Paper
                   </button>
@@ -354,70 +337,28 @@ const TrackPaper: React.FC = () => {
                   className="space-y-6"
                 >
                   <div>
-                    <label htmlFor="manuscriptId" className="block text-teal-800 font-merriweather font-medium mb-2">
-                      Unique Manuscript ID <span className="text-red-600">*</span>
+                    <label htmlFor="trackingId" className="block text-teal-800 font-medium mb-2">
+                      Tracking ID <span className="text-red-600">*</span>
                     </label>
                     <input
                       type="text"
-                      id="manuscriptId"
-                      name="manuscriptId"
-                      value={formData.manuscriptId}
+                      id="trackingId"
+                      name="trackingId"
+                      value={formData.trackingId}
                       onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                        errors.manuscriptId ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
+                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                        errors.trackingId ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                       } text-gray-700`}
-                      placeholder="Enter your manuscript ID (e.g., UJGSM-001)"
+                      placeholder="Enter your tracking ID (e.g., UJGSM-ABC123)"
                       disabled={isSubmitting}
                     />
-                    {errors.manuscriptId && (
-                      <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.manuscriptId}</p>
+                    {errors.trackingId && (
+                      <p className="mt-1 text-red-600 text-sm">{errors.trackingId}</p>
                     )}
                   </div>
                   
                   <div>
-                    <label htmlFor="manuscriptTitle" className="block text-teal-800 font-merriweather font-medium mb-2">
-                      Manuscript Title <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="manuscriptTitle"
-                      name="manuscriptTitle"
-                      value={formData.manuscriptTitle}
-                      onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                        errors.manuscriptTitle ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
-                      } text-gray-700`}
-                      placeholder="Enter your manuscript title"
-                      disabled={isSubmitting}
-                    />
-                    {errors.manuscriptTitle && (
-                      <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.manuscriptTitle}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="name" className="block text-teal-800 font-merriweather font-medium mb-2">
-                      Your Name <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                        errors.name ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
-                      } text-gray-700`}
-                      placeholder="Enter your name"
-                      disabled={isSubmitting}
-                    />
-                    {errors.name && (
-                      <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.name}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" className="block text-teal-800 font-merriweather font-medium mb-2">
+                    <label htmlFor="email" className="block text-teal-800 font-medium mb-2">
                       Email Address <span className="text-red-600">*</span>
                     </label>
                     <input
@@ -426,14 +367,14 @@ const TrackPaper: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
+                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
                         errors.email ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
                       } text-gray-700`}
                       placeholder="Enter your email address"
                       disabled={isSubmitting}
                     />
                     {errors.email && (
-                      <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.email}</p>
+                      <p className="mt-1 text-red-600 text-sm">{errors.email}</p>
                     )}
                   </div>
                   
@@ -443,7 +384,7 @@ const TrackPaper: React.FC = () => {
                       disabled={isSubmitting}
                       whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
                       whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-                      className={`flex-1 py-3 px-6 rounded-lg font-montserrat font-medium transition-all ${
+                      className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all ${
                         isSubmitting
                           ? 'bg-gray-600 cursor-not-allowed text-white'
                           : 'bg-green-500 hover:bg-teal-800 text-white'
@@ -463,7 +404,7 @@ const TrackPaper: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="flex-1 py-3 px-6 rounded-lg font-montserrat font-medium text-green-500 hover:text-teal-800 transition-colors"
+                      className="flex-1 py-3 px-6 rounded-lg font-medium text-green-500 hover:text-teal-800 transition-colors"
                       disabled={isSubmitting}
                     >
                       Reset
