@@ -43,14 +43,14 @@ const TrackPaper: React.FC = () => {
 
   const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
-    
+
     if (!formData.trackingId.trim()) newErrors.trackingId = 'Tracking ID is required';
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }, [formData]);
@@ -58,7 +58,7 @@ const TrackPaper: React.FC = () => {
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [name]: undefined }));
     }
@@ -66,13 +66,13 @@ const TrackPaper: React.FC = () => {
 
   const fetchTrackStatus = useCallback(async () => {
     if (!formData.trackingId || !formData.email) return;
-    
+
     setIsLoading(true);
     try {
       const response = await axios.get<TrackData>(
         `${API_URL}/submission/track/${formData.trackingId}`
       );
-      
+
       // Verify email matches
       if (response.data.correspondingAuthorEmail === formData.email) {
         setTrackData(response.data);
@@ -136,7 +136,7 @@ const TrackPaper: React.FC = () => {
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       toast.error(
         <div className="flex items-center">
@@ -151,7 +151,7 @@ const TrackPaper: React.FC = () => {
       );
       return;
     }
-    
+
     setIsSubmitting(true);
     try {
       await fetchTrackStatus();
@@ -204,9 +204,8 @@ const TrackPaper: React.FC = () => {
             {navItems.map((item) => (
               <li key={item.id}>
                 <button
-                  className={`w-full text-left py-2 px-3 rounded-md flex items-center transition-colors ${
-                    activeSection === item.id ? 'bg-green-500 text-white' : 'text-white hover:bg-teal-700 hover:text-white'
-                  }`}
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center transition-colors ${activeSection === item.id ? 'bg-green-500 text-white' : 'text-white hover:bg-teal-700 hover:text-white'
+                    }`}
                   onClick={() => scrollToSection(item.id)}
                 >
                   <item.icon className="mr-2" />
@@ -282,7 +281,7 @@ const TrackPaper: React.FC = () => {
                     <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-2" />
                     <h3 className="text-xl font-semibold text-green-500">Manuscript Tracking Status</h3>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                       <p className="text-gray-700">
@@ -304,6 +303,17 @@ const TrackPaper: React.FC = () => {
                         <span className={`font-bold ${getStatusColor(trackData.status)}`}>
                           {getStatusText(trackData.status)}
                         </span>
+                        {trackData.status === 'revision_required' && (
+                          <span className="ml-2 text-sm text-orange-600">
+                            (Please check editor's remarks below)
+                          </span>
+                        )}
+
+                        {trackData.status === 'accepted' && (
+                          <span className="ml-2 text-sm text-green-600">
+                            (Congratulations! Your manuscript has been accepted)
+                          </span>
+                        )}
                       </p>
                       <p className="text-gray-700">
                         <span className="font-semibold">Submitted:</span> {new Date(trackData.createdAt).toLocaleDateString()}
@@ -313,14 +323,14 @@ const TrackPaper: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  
+
                   {trackData.adminRemarks && (
                     <div className="mt-4 p-4 bg-white rounded-lg border border-teal-200">
                       <h4 className="font-semibold text-teal-800 mb-2">Admin Remarks:</h4>
                       <p className="text-gray-700">{trackData.adminRemarks}</p>
                     </div>
                   )}
-                  
+
                   <button
                     onClick={handleReset}
                     className="mt-6 w-full py-2 px-4 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors"
@@ -346,9 +356,8 @@ const TrackPaper: React.FC = () => {
                       name="trackingId"
                       value={formData.trackingId}
                       onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
-                        errors.trackingId ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
-                      } text-gray-700`}
+                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${errors.trackingId ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
+                        } text-gray-700`}
                       placeholder="Enter your tracking ID (e.g., UJGSM-ABC123)"
                       disabled={isSubmitting}
                     />
@@ -356,7 +365,7 @@ const TrackPaper: React.FC = () => {
                       <p className="mt-1 text-red-600 text-sm">{errors.trackingId}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label htmlFor="email" className="block text-teal-800 font-medium mb-2">
                       Email Address <span className="text-red-600">*</span>
@@ -367,9 +376,8 @@ const TrackPaper: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
-                        errors.email ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
-                      } text-gray-700`}
+                      className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${errors.email ? 'border-red-600 focus:ring-red-300' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
+                        } text-gray-700`}
                       placeholder="Enter your email address"
                       disabled={isSubmitting}
                     />
@@ -377,18 +385,17 @@ const TrackPaper: React.FC = () => {
                       <p className="mt-1 text-red-600 text-sm">{errors.email}</p>
                     )}
                   </div>
-                  
+
                   <div className="pt-4 flex gap-4">
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
                       whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
                       whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-                      className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all ${
-                        isSubmitting
-                          ? 'bg-gray-600 cursor-not-allowed text-white'
-                          : 'bg-green-500 hover:bg-teal-800 text-white'
-                      }`}
+                      className={`flex-1 py-3 px-6 rounded-lg font-medium transition-all ${isSubmitting
+                        ? 'bg-gray-600 cursor-not-allowed text-white'
+                        : 'bg-green-500 hover:bg-teal-800 text-white'
+                        }`}
                     >
                       {isSubmitting || isLoading ? (
                         <div className="flex items-center justify-center">
@@ -409,7 +416,7 @@ const TrackPaper: React.FC = () => {
                     >
                       Reset
                     </button>
-                  </div>  
+                  </div>
                 </motion.form>
               )}
             </section>

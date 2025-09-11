@@ -332,7 +332,7 @@ const SubmissionConfirmationPage: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from--teal-800 to-teal-800 text-white p-10 mt-10">
+      <footer className="bg-gradient-to-r from-teal-800 to-teal-600 text-white p-10 mt-10">
         <div className="container mx-auto max-w-6xl">
           <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
             <div className="footer-section">

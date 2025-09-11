@@ -141,6 +141,11 @@ const ManuscriptSubmissionForm: React.FC = () => {
     }
   }, [errors]);
 
+  console.log('Submitting data:', {
+  ...formData,
+  manuscript: manuscript ? manuscript.name : 'No file'
+});
+
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     

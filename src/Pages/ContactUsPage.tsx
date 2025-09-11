@@ -73,7 +73,7 @@ const Publisher: React.FC = () => {
   const MainContent = () => (
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-teal-800 p-6">
+        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
           <h1 className="text-3xl font-merriweather font-bold">Publisher</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
@@ -115,7 +115,7 @@ const Publisher: React.FC = () => {
 
   // Footer Component
   const Footer = () => (
-    <footer className="bg-gradient-to-r from--teal-800 to-teal-800 text-white p-10 mt-10">
+    <footer className="bg-gradient-to-r from-teal-800 to-teal-600 text-white p-10 mt-10">
       <div className="container mx-auto max-w-6xl">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
