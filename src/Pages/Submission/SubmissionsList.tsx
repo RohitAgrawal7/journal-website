@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaBook, FaUser, FaCalendarAlt, FaFileAlt, FaChevronDown, FaChevronUp, FaCheck, FaTimes, FaEdit, FaComments, FaTrash } from 'react-icons/fa';
+import { FaBook, FaUser, FaCalendarAlt, FaFileAlt, FaChevronDown, FaChevronUp, FaCheck, FaEdit, FaComments, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -84,7 +84,7 @@ const SubmissionsList: React.FC = () => {
   const handleStatusChange = async (id: number, newStatus: string) => {
     setUpdatingStatus(id);
     try {
-      const response = await axios.patch(`${API_URL}/submission/${id}/status`, {
+      await axios.patch(`${API_URL}/submission/${id}/status`, {
         status: newStatus
       });
       
@@ -132,7 +132,7 @@ const SubmissionsList: React.FC = () => {
 
   const saveRemarks = async (id: number, currentStatus: string) => {
   try {
-    const response = await axios.patch(`${API_URL}/submission/${id}/status`, {
+    await axios.patch(`${API_URL}/submission/${id}/status`, {
       status: currentStatus,        // ✅ required field
       adminRemarks: newRemarks,     // ✅ your remarks
     });

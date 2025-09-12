@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
   FaUserCheck, FaEnvelope, FaFileAlt, FaCalendarAlt, 
-  FaChevronDown, FaChevronUp, FaCheck, FaTimes, 
+  FaChevronDown, FaChevronUp, FaCheck, 
   FaEdit, FaComments, FaUniversity, FaGlobe, 
-  FaBook, FaGraduationCap, FaPhone, FaWhatsapp 
+   FaGraduationCap, FaPhone, FaWhatsapp 
 } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -89,7 +89,7 @@ const ReviewerApplicationsList: React.FC = () => {
   const handleStatusChange = async (id: number, newStatus: string) => {
     setUpdatingStatus(id);
     try {
-      const response = await axios.patch(`${API_URL}/reviewer/${id}`, {
+      await axios.patch(`${API_URL}/reviewer/${id}`, {
         status: newStatus
       });
       
@@ -119,7 +119,7 @@ const ReviewerApplicationsList: React.FC = () => {
 
   const saveRemarks = async (id: number) => {
     try {
-      const response = await axios.patch(`${API_URL}/reviewer/${id}`, {
+      await axios.patch(`${API_URL}/reviewer/${id}`, {
         adminRemarks: newRemarks
       });
       

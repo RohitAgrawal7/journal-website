@@ -31,7 +31,7 @@ import PlagiarismPolicy from './Pages/About/PlagiarismPolicy';
 import AIGeneratedContentPolicy from './Pages/About/AIGeneratedContentPolicy';
 import TrackPaper from './Pages/Submission/TrackPaper';
 import ApplyAsReviewer from './Pages/Submission/ApplyAsReviewer';
-import SubmissionConfirmationPage from './Pages/Submission/SubmissionConfirmationPage';
+// import SubmissionConfirmationPage from './Pages/Submission/SubmissionConfirmationPage';
 import SubmissionsList from './Pages/Submission/SubmissionsList';
 import ReviewerApplicationsList from './Pages/Submission/ReviewerApplicationsList';
 // import Home from './Pages/View/Home';

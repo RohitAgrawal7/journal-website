@@ -7,19 +7,19 @@ const archives = [
   {
     title: 'Make in India',
     image: 'https://imgs.search.brave.com/5QtG9t4eQnqhm0DofIYuJxU1kfGo4XyDg49yC1DZfSk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzZlLzky/LzJkLzZlOTIyZGQx/M2JmMThhYzdlODIx/OTY1OGI0MDFmNjdm/LmpwZw',
-    number: 'UDYAM: UYTFM-NM-33-99887447',
+    number: 'UDYAM : UDYAM-MH-04-0237577',
     link: '#make-in-india',
   },
   {
     title: 'Digital India',
     image: 'https://imgs.search.brave.com/MtbCbFG1qBJyvomIqAyE3B48yInC0fvYq30VvaX8B94/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzQwLzEy/L2UwLzQwMTJlMGVh/ZTdmOGI4MjMxZmVi/N2E2ZmE0MDNiMWFi/LmpwZw',
-    number: 'GSTN: 564839748O',
+    number: 'GSTN: 27AAIFU8304M1ZO',
     link: '#digital-india',
   },
   {
     title: 'Startup India',
     image: 'http://imgs.search.brave.com/_gFVcnfwz9eYFcZz6GZb7PWXsQnrMmBNElwXJJbXklw/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc2Vla2xvZ28u/Y29tL2xvZ28tcG5n/LzQ5LzEvc3RhcnR1/cC1pbmRpYS1odWIt/bG9nby1wbmdfc2Vl/a2xvZ28tNDk2Njkz/LnBuZw',
-    number: 'Shop Act Number: 204758638',
+    number: 'Shop Act Number: 2541500320009408',
     link: '#startup-india',
   },
 ];
