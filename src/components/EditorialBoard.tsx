@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaUserTie, FaUsers, FaUserGraduate, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import ReactCountryFlag from 'react-country-flag';
 
 const EditorBoards: React.FC = () => {
   const [activeSection, setActiveSection] = useState('editor-in-chief');
@@ -87,7 +88,7 @@ const EditorBoards: React.FC = () => {
               </div>
               <div className="md:w-2/3">
                 <p className="text-gray-700 leading-relaxed">
-                  <strong>Name:</strong> Prof. Pawan Dhanraj Somavanshi (Ph.D. Mechanical)<br />
+                  <strong>Name:</strong> Prof. Pawan Dhanraj Somavanshi (Ph.D. Mechanical)<ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                   <strong>Affiliation:</strong> Research Scholar, Government College of Engineering, Aurangabad<br />
                   <strong>Email:</strong> <a href="mailto:pawansomavanshi.PhD@geca.ac.in" className="text--teal-800 hover:underline">pawansomavanshi.PhD@geca.ac.in</a>, <a href="mailto:pawansomavanshi5jan@gmail.com" className="text--teal-800 hover:underline">pawansomavanshi5jan@gmail.com</a><br />
                   <strong>Mobile:</strong> <a href="tel:+919096499989" className="text--teal-800 hover:underline">+91 90964 99989</a>
@@ -103,7 +104,7 @@ const EditorBoards: React.FC = () => {
               </div>
               <div className="md:w-2/3">
                 <p className="text-gray-700 leading-relaxed">
-                  <strong>Name:</strong> Dr. Swapnil Narayan Dhole (Ph.D. Mechanical)<br />
+                  <strong>Name:</strong> Dr. Swapnil Narayan Dhole (Ph.D. Mechanical)<ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /> <br />
                   <strong>Affiliation:</strong> TPO, MSS's College of Engineering and Technology & MBA, Jalna<br />
                   <strong>Email:</strong> <a href="mailto:dholeswapnil25@gmail.com" className="text--teal-800 hover:underline">dholeswapnil25@gmail.com</a><br />
                   <strong>Mobile:</strong> <a href="tel:+918983245607" className="text--teal-800 hover:underline">+91 89832 45607</a>
@@ -119,85 +120,102 @@ const EditorBoards: React.FC = () => {
               </div> */}
               <div className="md:w-2/3">
                 <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
-                 
-                 <li>
-                    <strong>Dr. Satish B Bhalerao</strong><br />
+                  <li>
+                    <strong>Dr. Satish B Bhalerao</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Sr. Manager (Research and Development), Siemens Limited, Aurangabad<br />
-                    <strong>Contact:</strong> <a href="mailto:satish.bhalerao@siemens.com" className="text--teal-800 hover:underline">satish.bhalerao@siemens.com</a>, <a href="tel:+919096792217" className="text--teal-800 hover:underline">9096792217</a>
+                    <strong>Contact:</strong> <a href="mailto:satish.bhalerao@siemens.com" className="text--teal-800 hover:underline">satish.bhalerao@siemens.com</a>, <a href="tel:+919096792217" className="text--teal-800 hover:underline">+91 9096792217</a>
                   </li>
-                   <li>
-                    <strong>Dr. Vaibhav V. Nemane</strong><br />
+                  <li>
+                    <strong>Dr. Vaibhav V. Nemane</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     IIT, Bombay<br />
-                    <strong>Contact:</strong> <a href="mailto:vaibhavn@iitb.ac.in" className="text--teal-800 hover:underline">vaibhavn@iitb.ac.in</a>, <a href="tel:+919623474818" className="text--teal-800 hover:underline">9623474818</a>
+                    <strong>Contact:</strong> <a href="mailto:vaibhavn@iitb.ac.in" className="text--teal-800 hover:underline">vaibhavn@iitb.ac.in</a>, <a href="tel:+919623474818" className="text--teal-800 hover:underline">+91 9623474818</a>
                   </li>
-                   <li>
+                  <li>
                     <strong>Dr. Rohit R. Garbade</strong><br />
                     Manager Metallurgy (Research and Development), Varroc Engineering Limited, Aurangabad<br />
-                    <strong>Contact:</strong> <a href="mailto:Rohit.Garbade@varroc.com" className="text--teal-800 hover:underline">Rohit.Garbade@varroc.com</a>, <a href="tel:+917020818373" className="text--teal-800 hover:underline">7020818373</a>
+                    <strong>Contact:</strong> <a href="mailto:Rohit.Garbade@varroc.com" className="text--teal-800 hover:underline">Rohit.Garbade@varroc.com</a>, <a href="tel:+917020818373" className="text--teal-800 hover:underline">+91 7020818373</a>
                   </li>
                   <li>
-                    <strong>Dr.Umeshkumar H. Chavan </strong><br />
-                    TPO,  Maharashtra Institute of Technology, Rotegaon, Chatrapati Sambhajinagar, Maharashtra <br />
-                    <strong>Subject:</strong> Commerce and Management<br />
-                    <strong>Contact:</strong> <a href="mailto:manoharwankhade@gmail.com" className="text--teal-800 hover:underline">umeshkumar.chavan@mit.asia</a>, <a href="tel:+918888526181" className="text--teal-800 hover:underline">8888526181</a>
+                    <strong>Dr. Umeshkumar H. Chavan</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
+                    TPO, Maharashtra Institute of Technology, Rotegaon, Chhatrapati Sambhajinagar, Maharashtra<br />
+                    
+                    <strong>Contact:</strong> <a href="mailto:umeshkumar.chavan@mit.asia" className="text--teal-800 hover:underline">umeshkumar.chavan@mit.asia</a>, <a href="tel:+918888526181" className="text--teal-800 hover:underline">+91 8888526181</a>
                   </li>
                   <li>
-                    <strong>Dr. Manohar S Wankhade</strong><br />
+                    <strong>Dr. Manohar S Wankhade</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Principal, Siddharth Library & Information Science College, Chhatrapati Sambhajinagar<br />
-                    <strong>Subject:</strong> Commerce and Management<br />
-                    <strong>Contact:</strong> <a href="mailto:manoharwankhade@gmail.com" className="text--teal-800 hover:underline">manoharwankhade@gmail.com</a>, <a href="tel:+919850141764" className="text--teal-800 hover:underline">9850141764</a>
+                    
+                    <strong>Contact:</strong> <a href="mailto:manoharwankhade@gmail.com" className="text--teal-800 hover:underline">manoharwankhade@gmail.com</a>, <a href="tel:+919850141764" className="text--teal-800 hover:underline">+91 9850141764</a>
                   </li>
-                  
-                 
                   <li>
-                    <strong>Dr. Vikram Bhutekar</strong><br />
+                    <strong>Dr. Vikram Bhutekar</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Associate Professor, Sant Dnyaneshwar College of Arts and Science, Soygaon<br />
-                    <strong>Subject:</strong> Sociology (Samajshastra)<br />
-                    <strong>Contact:</strong> <a href="mailto:vikrambhutekar55@gmail.com" className="text--teal-800 hover:underline">vikrambhutekar55@gmail.com</a>, <a href="tel:+919404001055" className="text--teal-800 hover:underline">9404001055</a>
+                    
+                    <strong>Contact:</strong> <a href="mailto:vikrambhutekar55@gmail.com" className="text--teal-800 hover:underline">vikrambhutekar55@gmail.com</a>, <a href="tel:+919404001055" className="text--teal-800 hover:underline">+91 9404001055</a>
+                  </li>
+                   <li>
+                    <strong><span className="inline-flex items-center">Gaurav Pandey <ReactCountryFlag countryCode="GB" svg style={{ width: '24px', height: '24px', marginLeft: '8px' }} /></span></strong><br />
+                    Food and Beverage Executive, JKS Restaurant Ltd., Westminster, London, United Kingdom<br />
+                    <strong>Contact:</strong> <a href="mailto:ggaurav.uk@gmail.com" className="text--teal-800 hover:underline">ggaurav.uk@gmail.com</a>, <a href="tel:+447361568115" className="text--teal-800 hover:underline">+44 7361568115</a>
                   </li>
                   <li>
-                    <strong>Dr. Kartik Sheshrao Gawande</strong><br />
+                    <strong>Dr. Kartik Sheshrao Gawande</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Professor & HOD, History Dept, Karmayogi Ankushrao Tope College Arts, Commerce and Science<br />
-                    <strong>Subject:</strong> History<br />
-                    <strong>Contact:</strong> <a href="mailto:kartikgawande111@gmail.com" className="text--teal-800 hover:underline">kartikgawande111@gmail.com</a>, <a href="tel:+919422721459" className="text--teal-800 hover:underline">9422721459</a>
+                    
+                    <strong>Contact:</strong> <a href="mailto:kartikgawande111@gmail.com" className="text--teal-800 hover:underline">kartikgawande111@gmail.com</a>, <a href="tel:+919422721459" className="text--teal-800 hover:underline">+91 9422721459</a>
                   </li>
                   <li>
-                    <strong>Dr. Manoj Dnyanba Mate</strong><br />
+                    <strong>Dr. Manoj Dnyanba Mate</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     CSMSS CSCOE, Central Training and Placement Coordinator<br />
-                    <strong>Subject:</strong> English Literature<br />
-                    <strong>Contact:</strong> <a href="mailto:manojmate28@gmail.com" className="text--teal-800 hover:underline">manojmate28@gmail.com</a>, <a href="tel:+919423745212" className="text--teal-800 hover:underline">9423745212</a>
+                   
+                    <strong>Contact:</strong> <a href="mailto:manojmate28@gmail.com" className="text--teal-800 hover:underline">manojmate28@gmail.com</a>, <a href="tel:+919423745212" className="text--teal-800 hover:underline">+91 9423745212</a>
                   </li>
                   <li>
-                    <strong>Dr. Gopnarayan Ramesh Shilvant</strong><br />
+                    <strong><span className="inline-flex items-center">Sourabh Rudwar <ReactCountryFlag countryCode="SG" svg style={{ width: '24px', height: '24px', marginLeft: '8px' }} /></span></strong><br />
+                    Principal Lead Developer, London Stock Exchange Group, Singapore<br />
+                    <strong>Contact:</strong> <a href="mailto:Sourabh.Rudrawar@lseg.com" className="text--teal-800 hover:underline">Sourabh.Rudrawar@lseg.com</a>, <a href="tel:+6598353151" className="text--teal-800 hover:underline">+65 98353151</a>
+                  </li>
+                  <li>
+                    <strong>Dr. Gopnarayan Ramesh Shilvant</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Assistant Professor, Siddharth Library & Information Science College, Padegaon, Chhatrapati Sambhajinagar<br />
-                    <strong>Subject:</strong> BLib/MLib Library Science<br />
-                    <strong>Contact:</strong> <a href="mailto:shilvantgopnarayan@rediffmail.com" className="text--teal-800 hover:underline">shilvantgopnarayan@rediffmail.com</a>, <a href="tel:+919527368431" className="text--teal-800 hover:underline">9527368431</a> / <a href="tel:+917028280218" className="text--teal-800 hover:underline">7028280218</a>
+                    
+                    <strong>Contact:</strong> <a href="mailto:shilvantgopnarayan@rediffmail.com" className="text--teal-800 hover:underline">shilvantgopnarayan@rediffmail.com</a>, <a href="tel:+919527368431" className="text--teal-800 hover:underline">+91 9527368431</a> / <a href="tel:+917028280218" className="text--teal-800 hover:underline">+91 7028280218</a>
                   </li>
                   <li>
-                    <strong>Dr. Pramod Herode</strong><br />
+                    <strong>Dr. Pramod Herode</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Principal, Dr. Ambedkar College of Law, Chhatrapati Sambhajinagar<br />
-                    <strong>Subject:</strong> Law<br />
-                    <strong>Contact:</strong> <a href="mailto:pramod.herode@gmail.com" className="text--teal-800 hover:underline">pramod.herode@gmail.com</a>, <a href="tel:+919403629469" className="text--teal-800 hover:underline">9403629469</a>
+                   
+                    <strong>Contact:</strong> <a href="mailto:pramod.herode@gmail.com" className="text--teal-800 hover:underline">pramod.herode@gmail.com</a>, <a href="tel:+919403629469" className="text--teal-800 hover:underline">+91 9403629469</a>
                   </li>
                   <li>
-                    <strong>Dr. Milind Athawale</strong><br />
+                    <strong>Dr. Milind Athawale</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Assistant Professor, Master in Mass Communication & Journalism (MAMCJ), Siddharth Library & Information Science College, Chhatrapati Sambhajinagar<br />
-                    <strong>Subject:</strong> Mass Communication & Journalism<br />
-                    <strong>Contact:</strong> <a href="mailto:drmilindathawale@gmail.com" className="text--teal-800 hover:underline">drmilindathawale@gmail.com</a>, <a href="tel:+919404478565" className="text--teal-800 hover:underline">9404478565</a>
+                   
+                    <strong>Contact:</strong> <a href="mailto:drmilindathawale@gmail.com" className="text--teal-800 hover:underline">drmilindathawale@gmail.com</a>, <a href="tel:+919404478565" className="text--teal-800 hover:underline">+91 9404478565</a>
                   </li>
                   <li>
-                    <strong>Dr. Shantisagar K Biradar</strong><br />
+                    <strong><span className="inline-flex items-center">Durgasingh Balaji Kabre <ReactCountryFlag countryCode="GB" svg style={{ width: '24px', height: '24px', marginLeft: '8px' }} /></span></strong><br />
+                    Process Engineer, Amphenol Ltd, Whitstable, Kent, United Kingdom<br />
+                    <strong>Contact:</strong> <a href="mailto:Durgasinghkabre@amphenol.co.uk" className="text--teal-800 hover:underline">Durgasinghkabre@amphenol.co.uk</a>, <a href="tel:+447867043129" className="text--teal-800 hover:underline">+44 7867043129</a>
+                  </li>
+                  <li>
+                    <strong>Dr. Shantisagar K Biradar</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Principal, Matsyodari Shikshan Sanstha’s College of Engineering & Technology, Jalna<br />
-                    <strong>Subject:</strong> Mechanical Engineering<br />
-                    <strong>Contact:</strong> <a href="mailto:shantisagarbiradar@gmail.com" className="text--teal-800 hover:underline">shantisagarbiradar@gmail.com</a>, <a href="tel:+919822628679" className="text--teal-800 hover:underline">9822628679</a>
+                   
+                    <strong>Contact:</strong> <a href="mailto:shantisagarbiradar@gmail.com" className="text--teal-800 hover:underline">shantisagarbiradar@gmail.com</a>, <a href="tel:+919822628679" className="text--teal-800 hover:underline">+91 9822628679</a>
                   </li>
                   <li>
-                    <strong>Dr. Yuvraj Dhabadge</strong><br />
+                    <strong>Dr. Yuvraj Dhabadge</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Professor, Dagdujirao Deshmukh Arts, Commerce & Science College, Waluj, Chhatrapati Sambhajinagar<br />
-                    <strong>Subject:</strong> Marathi<br />
-                    <strong>Contact:</strong> <a href="mailto:yuvrajdhabadge@gmail.com" className="text--teal-800 hover:underline">yuvrajdhabadge@gmail.com</a>, <a href="tel:+919823208074" className="text--teal-800 hover:underline">9823208074</a>
+                    
+                    <strong>Contact:</strong> <a href="mailto:yuvrajdhabadge@gmail.com" className="text--teal-800 hover:underline">yuvrajdhabadge@gmail.com</a>, <a href="tel:+919823208074" className="text--teal-800 hover:underline">+91 9823208074</a>
                   </li>
-                  
+
+                  <li>
+                    <strong><span className="inline-flex items-center">Amol Gangaji <ReactCountryFlag countryCode="AE" svg style={{ width: '24px', height: '24px', marginLeft: '8px' }} /></span></strong><br />
+                    Deputy Manager – Continuous Improvement (Business Excellence Lead), Sobha Group, Dubai, United Arab Emirates<br />
+                    <strong>Contact:</strong> <a href="mailto:amol.gangaji@sobhaconst.com" className="text--teal-800 hover:underline">amol.gangaji@sobhaconst.com</a>, <a href="tel:+971569962583" className="text--teal-800 hover:underline">+971 569962583</a>
+                  </li>
                 </ol>
               </div>
             </div>

@@ -266,7 +266,7 @@ const PrimaryNavbar: React.FC = () => {
                       <button
                         key={service.id}
                         onClick={() => navigateTo(service.url, true)}
-                        className="flex items-center justify-center w-full bg--teal-800 text-white font-medium py-2 px-4 rounded-full"
+                        className="flex items-center justify-center w-full bg-teal-800 text-white font-medium py-2 px-4 rounded-full"
                       >
                         {service.icon}
                         {service.title}

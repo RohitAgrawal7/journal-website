@@ -117,9 +117,9 @@ const AboutJournal: React.FC = () => {
               <table className="w-full text-gray-700 border-collapse">
                 <thead>
                   <tr className="bg-teal-800">
-                    <th className="p-3 text-left font-semibold border-b border-gray-300">Issue</th>
-                    <th className="p-3 text-left font-semibold border-b border-gray-300">Publication Date</th>
-                    <th className="p-3 text-left font-semibold border-b border-gray-300">Submission Deadline</th>
+                    <th className="text-white p-3 text-left font-semibold border-b border-gray-300">Issue</th>
+                    <th className="text-white p-3 text-left font-semibold border-b border-gray-300">Publication Date</th>
+                    <th className="text-white p-3 text-left font-semibold border-b border-gray-300">Submission Deadline</th>
                   </tr>
                 </thead>
                 <tbody>
