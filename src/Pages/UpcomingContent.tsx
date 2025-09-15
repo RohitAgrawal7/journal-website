@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaRocket, FaCheckCircle, FaExclamationCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaCalendarAlt, FaFileAlt, FaGlobe } from 'react-icons/fa';
+import { FaRocket, FaCheckCircle, FaExclamationCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone} from 'react-icons/fa';
 
 interface NewsletterFormData {
   email: string;

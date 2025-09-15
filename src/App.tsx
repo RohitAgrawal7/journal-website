@@ -58,7 +58,7 @@ function App() {
           <Route path="/time-of-publication" element={<TimeOfPublication />} />
 
            <Route path="/aims-scope" element={<AimsScopePage />} />
-            <Route path="/publication-policies" element={<PublicationPoliciesPage />} />
+            <Route path="/open-access-policy" element={<PublicationPoliciesPage />} />
             <Route path="/peer-review-process" element={<PeerReviewProcessPage />} />
             <Route path="/cope" element={<COPEPage />} />
             <Route path="/plagiarism-policy" element={<PlagiarismPolicy />} />

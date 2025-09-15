@@ -133,7 +133,7 @@ const ArticleProcessingCharges: React.FC = () => {
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
             <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
-            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9766930707</p>
             <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>
         </div>
