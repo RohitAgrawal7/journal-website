@@ -90,6 +90,8 @@ const PrimaryNavbar: React.FC = () => {
         title: 'Guidelines',
         url: '#',
         children: [
+           { id: 'menu-item-922', title: 'Author & Style Guidelines', url: '/author-guidelines', isInternal: true },
+           { id: 'menu-item-921', title: 'Reviewer Guidelines', url: '/reviewer-guidelines', isInternal: true },
           { id: 'menu-item-909', title: 'Aims & Scope', url: '/aims-scope', isInternal: true },
           { id: 'menu-item-903', title: 'Article Processing Charges', url: '/article-processing-charges', isInternal: true },
           { id: 'menu-item-909', title: 'Abstracting & Indexing', url: '/abstracting-indexing', isInternal: true },
@@ -103,11 +105,11 @@ const PrimaryNavbar: React.FC = () => {
 
       // {
       //   id: 'menu-item-897',
-      //   title: 'Submissions data',
+      //   title: 'Author & Style Guidelines',
       //   url: '#',
       //   children: [
-      //     { id: 'menu-item-921', title: 'Submissions List', url: '/submissions-list', isInternal: true },
-      //     { id: 'menu-item-922', title: 'Reviewer Applications List', url: '/reviewer-applications-list', isInternal: true },
+          
+         
       //     { id: 'menu-item-923', title: 'Apply as Reviewer', url: '/apply-as-reviewer', isInternal: true },
       //   ],
       // },

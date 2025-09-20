@@ -56,7 +56,7 @@ function App() {
           <Route path="/reviewer-guidelines" element={<ReviewerGuidelines />} />
           <Route path="/article-processing-charges" element={<ArticleProcessingCharges />} />
           <Route path="/time-of-publication" element={<TimeOfPublication />} />
-
+            <Route path="/author-guidelines" element={<AuthorGuidelines />} />
            <Route path="/aims-scope" element={<AimsScopePage />} />
             <Route path="/open-access-policy" element={<PublicationPoliciesPage />} />
             <Route path="/peer-review-process" element={<PeerReviewProcessPage />} />
@@ -69,6 +69,10 @@ function App() {
           <Route path="/photo-gallery" element={<UpcomingContent />} />
           <Route path="/abstracting-indexing" element={<UpcomingContent />} />
           <Route path="/announcements" element={<UpcomingContent />} />
+
+          <Route path="/reviewer-guidelines" element={<ReviewerGuidelines />} />
+          
+        
 
           {/* New submission routes */}
           <Route path="/submit-paper" element={<SubmitPaperPage />} />

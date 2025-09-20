@@ -153,11 +153,11 @@ const EditorBoards: React.FC = () => {
                     
                     <strong>Contact:</strong> <a href="mailto:vikrambhutekar55@gmail.com" className="text--teal-800 hover:underline">vikrambhutekar55@gmail.com</a>, <a href="tel:+919404001055" className="text--teal-800 hover:underline">+91 9404001055</a>
                   </li>
-                   <li>
+                   {/* <li>
                     <strong><span className="inline-flex items-center">Gaurav Pandey <ReactCountryFlag countryCode="GB" svg style={{ width: '24px', height: '24px', marginLeft: '8px' }} /></span></strong><br />
                     Food and Beverage Executive, JKS Restaurant Ltd., Westminster, London, United Kingdom<br />
                     <strong>Contact:</strong> <a href="mailto:ggaurav.uk@gmail.com" className="text--teal-800 hover:underline">ggaurav.uk@gmail.com</a>, <a href="tel:+447361568115" className="text--teal-800 hover:underline">+44 7361568115</a>
-                  </li>
+                  </li> */}
                   <li>
                     <strong>Dr. Kartik Sheshrao Gawande</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Professor & HOD, History Dept, Karmayogi Ankushrao Tope College Arts, Commerce and Science<br />

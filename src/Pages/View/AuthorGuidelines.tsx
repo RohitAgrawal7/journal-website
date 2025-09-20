@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { FaCheckCircle, FaUnlock, FaClock, FaBook, FaPaperPlane, FaFileAlt, FaShieldAlt, FaBookOpen, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaMoneyBillWave, FaCompass, FaHome } from 'react-icons/fa';
+import { FaBook, FaFileAlt, FaFont, FaHeading, FaListAlt, FaTable, FaShieldAlt, FaDatabase, FaEdit, FaCopyright, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
-const AuthorsGuidelines: React.FC = () => {
-  const [activeSection, setActiveSection] = useState('peer-review');
+const AuthorGuidelines: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('submission-process');
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['peer-review', 'open-access', 'frequency', 'scope', 'submission', 'manuscript', 'ethics', 'references', 'reprints', 'fees', 'contact'];
+      const sections = [
+        'submission-process', 'page-setup', 'font-spacing', 'title-page', 'abstract-keywords',
+        'main-text-structure', 'references', 'ethical-considerations', 'data-availability',
+        'revisions', 'copyright-licensing'
+      ];
       const scrollPosition = window.scrollY + 100; // Offset for header
       sections.forEach((section) => {
         const element = document.getElementById(section);
@@ -30,17 +34,17 @@ const AuthorsGuidelines: React.FC = () => {
   // Sidebar Component
   const Sidebar = () => {
     const navItems = [
-      { id: 'peer-review', title: 'Peer Review', icon: FaCheckCircle },
-      { id: 'open-access', title: 'Open Access', icon: FaUnlock },
-      { id: 'frequency', title: 'Frequency of Publication', icon: FaClock },
-      { id: 'scope', title: 'Scope & Subject Areas', icon: FaBook },
-      { id: 'submission', title: 'Submission Process', icon: FaPaperPlane },
-      { id: 'manuscript', title: 'Manuscript Preparation', icon: FaFileAlt },
-      { id: 'ethics', title: 'Ethical Compliance', icon: FaShieldAlt },
-      { id: 'references', title: 'References', icon: FaBookOpen },
-      { id: 'reprints', title: 'Reprints & Archive', icon: FaArchive },
-      { id: 'fees', title: 'Article Processing Charges', icon: FaMoneyBillWave },
-      { id: 'contact', title: 'Contact', icon: FaEnvelope },
+      { id: 'submission-process', title: 'Submission Process', icon: FaBook },
+      { id: 'page-setup', title: 'Page Setup', icon: FaFileAlt },
+      { id: 'font-spacing', title: 'Font & Spacing', icon: FaFont },
+      { id: 'title-page', title: 'Title Page', icon: FaHeading },
+      { id: 'abstract-keywords', title: 'Abstract & Keywords', icon: FaListAlt },
+      { id: 'main-text-structure', title: 'Main Text Structure', icon: FaTable },
+      { id: 'references', title: 'References', icon: FaBook },
+      { id: 'ethical-considerations', title: 'Ethical Considerations', icon: FaShieldAlt },
+      { id: 'data-availability', title: 'Data Availability', icon: FaDatabase },
+      { id: 'revisions', title: 'Revisions', icon: FaEdit },
+      { id: 'copyright-licensing', title: 'Copyright & Licensing', icon: FaCopyright },
     ];
 
     return (
@@ -82,158 +86,144 @@ const AuthorsGuidelines: React.FC = () => {
   const MainContent = () => (
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white  p-6">
-          <h1 className="text-3xl font-merriweather font-bold">Authors’ Guidelines</h1>
+        <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
+          <h1 className="text-3xl font-merriweather font-bold">Author & Style Guidelines</h1>
           <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
-          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated Guidelines – 2025</p>
+          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
         </div>
         <div className="p-6 space-y-6">
-          <ContentSection id="peer-review" title="Peer Review" icon={FaCheckCircle}>
-            <p className="text-gray-700 leading-relaxed">
-              All submitted manuscripts undergo a <strong>double-blind peer-review process</strong> by experts from India and abroad to ensure <strong>fairness</strong>, <strong>quality</strong>, and <strong>scientific rigor</strong>. Reviewers remain anonymous, and authors’ identities are hidden from reviewers.
-            </p>
+          <p className="text-gray-700 leading-relaxed">
+            Welcome to the Universal Journal of Green SciTech and Management (UJGSM). To ensure a smooth submission process and that your manuscript meets our standards, please follow these guidelines carefully:
+          </p>
+          <ContentSection id="submission-process" title="Submission Process" icon={FaBook}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>Manuscripts must be submitted online via the UJGSM submission portal. If any issue occurs while submitting the manuscript, please contact us at <a href="mailto:contact@uorapublications.com" className="text--teal-800 hover:underline">contact@uorapublications.com</a>.</li>
+              <li>Authors must ensure their work adheres to the journal’s formatting and ethical guidelines before submission.</li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="open-access" title="Open Access" icon={FaUnlock}>
-            <p className="text-gray-700 leading-relaxed">
-              UJGSM is a <strong>bi-monthly</strong>, <strong>peer-reviewed</strong>, <strong>open-access journal</strong>, promoting free and unrestricted access to research in <strong>Science</strong> and <strong>Management</strong>.
-            </p>
+          <ContentSection id="page-setup" title="Page Setup" icon={FaFileAlt}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                <strong>Page Size:</strong> A4
+              </li>
+              <li>
+                <strong>Margins:</strong> Top 2cm | Bottom 2cm | Left 1.5cm | Right 1.5cm
+              </li>
+              <li>
+                <strong>Header:</strong> 0.5cm from top
+              </li>
+              <li>
+                <strong>Footer:</strong> 0.5cm from bottom
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="frequency" title="Frequency of Publication" icon={FaClock}>
-            <p className="text-gray-700 leading-relaxed font-semibold">
-              UJGSM is published <strong>bi-monthly</strong> (six issues per year):
-            </p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-gray-700 border-collapse">
-                <thead>
-                  <tr className="bg-teal-800 ">
-                    <th className="p-3 text-left font-semibold border-b border-gray-300">Issue</th>
-                    <th className="p-3 text-left font-semibold border-b border-gray-300">Publication Date</th>
-                    <th className="p-3 text-left font-semibold border-b border-gray-300">Submission Deadline</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover:bg-gray-100">
-                    <td className="p-3 border-b border-gray-300">Issue 1</td>
-                    <td className="p-3 border-b border-gray-300">30th August 2025</td>
-                    <td className="p-3 border-b border-gray-300">30th July 2025</td>
-                  </tr>
-                  <tr className="hover:bg-gray-100">
-                    <td className="p-3 border-b border-gray-300">Issue 2</td>
-                    <td className="p-3 border-b border-gray-300">30th October 2025</td>
-                    <td className="p-3 border-b border-gray-300">30th September 2025</td>
-                  </tr>
-                  <tr className="hover:bg-gray-100">
-                    <td className="p-3 border-b border-gray-300">Issue 3</td>
-                    <td className="p-3 border-b border-gray-300">30th December 2025</td>
-                    <td className="p-3 border-b border-gray-300">30th November 2025</td>
-                  </tr>
-                  <tr className="hover:bg-gray-100">
-                    <td className="p-3 border-b border-gray-300">Issue 4</td>
-                    <td className="p-3 border-b border-gray-300">28th February 2026</td>
-                    <td className="p-3 border-b border-gray-300">28th January 2026</td>
-                  </tr>
-                  <tr className="hover:bg-gray-100">
-                    <td className="p-3 border-b border-gray-300">Issue 5</td>
-                    <td className="p-3 border-b border-gray-300">30th April 2026</td>
-                    <td className="p-3 border-b border-gray-300">30th March 2026</td>
-                  </tr>
-                  <tr className="hover:bg-gray-100">
-                    <td className="p-3 border-b border-gray-300">Issue 6</td>
-                    <td className="p-3 border-b border-gray-300">30th June 2026</td>
-                    <td className="p-3 border-b border-gray-300">30th May 2026</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <ContentSection id="font-spacing" title="Font & Spacing" icon={FaFont}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                <strong>Font:</strong> Times New Roman, size 12
+              </li>
+              <li>
+                <strong>Line Spacing:</strong> Single (1.15)
+              </li>
+              <li>
+                <strong>Paragraph Spacing:</strong> 12 pt before and after each paragraph
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="scope" title="Scope & Subject Areas" icon={FaBook}>
-            <p className="text-gray-700 leading-relaxed">
-              UJGSM welcomes contributions in the following disciplines:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li><strong>Science:</strong> Physics, Chemistry, Mathematics, Materials Science, Biotechnology, Environmental Science, Life Sciences</li>
-              <li><strong>Management:</strong> Technology Management, Innovation Management, Sustainability Management, Operations, Supply Chain, Entrepreneurship, Project Management</li>
-            </ul>
+          <ContentSection id="title-page" title="Title Page" icon={FaHeading}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                <strong>Title:</strong> Bold, centered, font size 14
+              </li>
+              <li>
+                <strong>Authors & Affiliations:</strong> Bold, centered, font size 11
+              </li>
+              <li>
+                <strong>Corresponding Author:</strong> Marked with an asterisk (*) and provide full contact details (email, mobile number, institution).
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="submission" title="Submission Process" icon={FaPaperPlane}>
-            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li><strong>Direct Online Submission:</strong> Authors can submit manuscripts via the <strong>UJGSM submission portal</strong>.</li>
-              <li><strong>Originality:</strong> Manuscripts must be original, unpublished work.</li>
-              <li><strong>Template:</strong> Manuscripts should follow the UJGSM template (author details included within the manuscript).</li>
-              <li><strong>Declaration Form:</strong> Required only after manuscript acceptance for publication.</li>
-            </ul>
+          <ContentSection id="abstract-keywords" title="Abstract & Keywords" icon={FaListAlt}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                <strong>Abstract:</strong> 200–250 words summarizing objectives, methodology, results, and conclusions. (Times New Roman, size 11, italicized)
+              </li>
+              <li>
+                <strong>Keywords:</strong> 3–5 relevant terms. (Times New Roman, size 11, italicized)
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="manuscript" title="Manuscript Preparation Guidelines" icon={FaFileAlt}>
-            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li><strong>Page Size:</strong> A4, Portrait</li>
-              <li><strong>Margins:</strong> 1 inch all sides</li>
-              <li><strong>Font:</strong> Times New Roman, Size 12</li>
-              <li><strong>Line Spacing:</strong> 1.15</li>
-              <li><strong>Alignment:</strong> Justified, first-line indent for paragraphs</li>
-              <li><strong>Title:</strong> Short, bold, capitalize each word; italics for scientific names</li>
-              <li><strong>Abstract:</strong> Maximum 200–250 words</li>
-              <li><strong>Keywords:</strong> Maximum 6, alphabetical order, first letter capitalized</li>
-              <li><strong>Length:</strong> 6–30 pages (including tables, figures, references, acknowledgment, conflict of interest)</li>
-            </ul>
+          <ContentSection id="main-text-structure" title="Main Text Structure" icon={FaTable}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                <strong>Headings:</strong>
+                <ul className="list-disc pl-6 mt-2">
+                  <li>Major sections (e.g., INTRODUCTION, METHODOLOGY, RESULTS, DISCUSSION, CONCLUSION): Bold, uppercase, size 12</li>
+                  <li>Subheadings: Bold, size 12</li>
+                  <li>Regular text: Size 12</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Figures & Tables:</strong>
+                <ul className="list-disc pl-6 mt-2">
+                  <li>Place figures and tables near the first mention in the text.</li>
+                  <li>Ensure high resolution and clarity.</li>
+                  <li>Provide descriptive captions.</li>
+                  <li>Figure Captions: Placed below the figure, Times New Roman, size 11, italicized.</li>
+                  <li>Table Captions: Placed above the table, Times New Roman, size 11, italicized.</li>
+                </ul>
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="ethics" title="Ethical Compliance" icon={FaShieldAlt}>
-            <p className="text-gray-700 leading-relaxed">
-              UJGSM upholds the <strong>highest ethical standards</strong>. Authors must adhere to the following:
-            </p>
-            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li><strong>Originality:</strong> Submit only original, unpublished work with proper citations.</li>
-              <li><strong>Authorship:</strong> Ensure all authors contributed and approved the manuscript; changes require written consent.</li>
-              <li><strong>Conflict of Interest:</strong> Declare any financial or personal conflicts, or state: “The authors declare no conflict of interest.”</li>
-              <li><strong>Copyright:</strong> Obtain permission for any material not created by the authors.</li>
-              <li><strong>Data Integrity:</strong> Report data accurately; fabrication or falsification is prohibited.</li>
-            </ul>
+          <ContentSection id="references" title="References" icon={FaBook}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                <strong>Citation Style:</strong> Numeric (e.g., 1, 2, 3…)
+              </li>
+              <li>
+                <strong>Format:</strong> APA style for references. All references must be complete and accurate.
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="references" title="References" icon={FaBookOpen}>
-            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li><strong>Style:</strong> APA (American Psychological Association)</li>
-              <li><strong>Arrangement:</strong> Alphabetically arranged</li>
-              <li><strong>DOI:</strong> Inclusion encouraged</li>
-              <li><strong>Examples:</strong> Provided for books, journal articles, patents, and multiple authors</li>
-            </ul>
+          <ContentSection id="ethical-considerations" title="Ethical Considerations" icon={FaShieldAlt}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                <strong>Ethical Approval:</strong> Required for research involving humans or animals.
+              </li>
+              <li>
+                <strong>Conflict of Interest:</strong> Authors must declare any conflicts.
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="reprints" title="Reprints & Archive" icon={FaArchive}>
-            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li>Authors receive a <strong>PDF</strong> of the published article via email.</li>
-              <li>Articles are archived on the <strong>UJGSM website</strong> and in recognized <strong>academic repositories</strong>.</li>
-            </ul>
+          <ContentSection id="data-availability" title="Data Availability" icon={FaDatabase}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                Provide a data availability statement.
+              </li>
+              <li>
+                If datasets are publicly available, include links. If not, explain why.
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="fees" title="Article Processing Charges (APC)" icon={FaMoneyBillWave}>
-            <ul className="list-disc pl-6 text-gray-700 leading-relaxed">
-              <li><strong>Indian Authors:</strong> ₹15,000</li>
-              <li><strong>Foreign Authors:</strong> $25 USD</li>
-              <li><strong>Payment Timing:</strong> APC payable after acceptance, before publication</li>
-              <li><strong>Payment Methods:</strong> NEFT, RTGS, PayPal, or Online Transfer</li>
-              <li><strong>Waivers/Discounts:</strong> Available for authors from low-income and lower-middle-income countries on request via <a href="mailto:contact@uora.com" className="text--teal-800 hover:underline">contact@uora.com</a></li>
-            </ul>
+          <ContentSection id="revisions" title="Revisions" icon={FaEdit}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                Revised manuscripts must address all reviewers’ comments.
+              </li>
+              <li>
+                Authors should submit a detailed response letter with revisions.
+              </li>
+            </ol>
           </ContentSection>
-
-          <ContentSection id="contact" title="Contact" icon={FaEnvelope}>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Publisher:</strong> Universal Oneness Research Association (UORA)
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Office Address:</strong> E-1/8 Mathura Nagar, N-6, Cidco, Chhatrapati Sambhajinagar, Maharashtra 431003, India
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Phone:</strong> +91 9766930707
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              <strong>Email:</strong> <a href="mailto:contact@uora.com" className="text--teal-800 hover:underline">contact@uora.com</a>
-            </p>
+          <ContentSection id="copyright-licensing" title="Copyright & Licensing" icon={FaCopyright}>
+            <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
+              <li>
+                All articles in UJGSM are published under the <a href="https://creativecommons.org/licenses/by/4.0/" className="text--teal-800 hover:underline">Creative Commons Attribution License (CC BY 4.0)</a>.
+              </li>
+              <li>
+                This permits unrestricted use, sharing, and reproduction, provided the original work is properly cited.
+              </li>
+            </ol>
           </ContentSection>
         </div>
       </div>
@@ -258,7 +248,7 @@ const AuthorsGuidelines: React.FC = () => {
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
             <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
-            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9766930707</p>
+            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91 90964 99989</p>
             <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
           </div>
         </div>
@@ -282,4 +272,4 @@ const AuthorsGuidelines: React.FC = () => {
   );
 };
 
-export default AuthorsGuidelines;
+export default AuthorGuidelines;
