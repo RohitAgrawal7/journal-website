@@ -3,9 +3,9 @@ import { FaBook, FaBookOpen, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMark
 
 const JournalIssueTOC = () => {
   const [activeSection, setActiveSection] = useState('cover');
-  const [hoveredItem, setHoveredItem] = useState(null);
-  const observer = useRef(null);
-  const sectionRefs = useRef({});
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   // Setup Intersection Observer for section tracking
   useEffect(() => {
@@ -22,7 +22,7 @@ const JournalIssueTOC = () => {
 
     // Observe all sections
     Object.values(sectionRefs.current).forEach(ref => {
-      if (ref) observer.current.observe(ref);
+      if (ref && observer.current) observer.current.observe(ref);
     });
 
     return () => {
@@ -33,7 +33,7 @@ const JournalIssueTOC = () => {
   }, []);
 
   // Scroll to section
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
@@ -77,10 +77,17 @@ const JournalIssueTOC = () => {
   };
 
   // ContentSection Component
-  const ContentSection = ({ id, title, icon: Icon, children }) => (
+  type ContentSectionProps = {
+    id: string;
+    title: string;
+    icon: React.ComponentType<{ className?: string }>;
+    children: React.ReactNode;
+  };
+
+  const ContentSection: React.FC<ContentSectionProps> = ({ id, title, icon: Icon, children }) => (
     <section 
       id={id}
-      ref={el => sectionRefs.current[id] = el}
+      ref={el => { sectionRefs.current[id] = el; }}
       className="p-6 rounded-lg mb-6 bg-white transition-all duration-300"
     >
       <h2 className="text-xl font-semibold text-teal-800 mb-4 flex items-center">
@@ -94,7 +101,16 @@ const JournalIssueTOC = () => {
   );
 
   // Article Item Component
-  const ArticleItem = ({ id, title, authors, pages, pdfLink, updateLink }) => (
+  type ArticleItemProps = {
+    id: string;
+    title: string;
+    authors: string;
+    pages: string;
+    pdfLink: string;
+    updateLink: string;
+  };
+
+  const ArticleItem: React.FC<ArticleItemProps> = ({ id, title, authors, pages, pdfLink, updateLink }) => (
     <div 
       className="mb-6 p-5 rounded-lg border border-teal-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md"
       onMouseEnter={() => setHoveredItem(id)}
@@ -169,12 +185,12 @@ const JournalIssueTOC = () => {
               <div className="flex-grow">
                 <div className="flex items-center text-teal-700 mb-4">
                   <FaCalendarAlt className="mr-2 text-teal-600" />
-                  <span className="font-medium">Published: 2025-08-30</span>
+                  <span className="font-medium">Published: 2025-09-25</span>
                 </div>
                 <p className="text-gray-700 mb-4 leading-relaxed">
                   This issue features cutting-edge research across various disciplines including medical research, environmental studies, agriculture, materials science, and management.
                 </p>
-                <div className="bg-gradient-to-r from-teal-50 to-green-50 p-4 rounded-lg shadow-inner border border-teal-200">
+                {/* <div className="bg-gradient-to-r from-teal-50 to-green-50 p-4 rounded-lg shadow-inner border border-teal-200">
                   <h3 className="text-lg font-semibold text-teal-800 mb-2 flex items-center">
                     <FaDownload className="mr-2 text-teal-600" /> Full Issue Download
                   </h3>
@@ -187,7 +203,7 @@ const JournalIssueTOC = () => {
                   >
                     <FaFilePdf className="mr-2" /> Download Full Issue (PDF)
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           </ContentSection>
@@ -195,42 +211,42 @@ const JournalIssueTOC = () => {
             <div className="space-y-6">
               <ArticleItem
                 id="5239"
-                title="Decoding the HPV-Positive HNSCC Paradox: Suppression of Oncogenic Drivers and Inflammatory Signalling Creates a Distinct Tumor Microenvironment"
-                authors="Madhab Mondal, Divyadarshi Rai, Pratiksha Chhetri, Prerna Rai, Akash Baglari, Purandar Sarkar"
-                pages="01-13"
-                pdfLink="https://ujgsm.uorapublications.com/article/view/5239/2589"
+                title="Survey-Based Case Study of Supply Chain Management (SCM) in Construction Industries"
+                authors="Akash Wankhade, Gurupreet Attal"
+                pages="14-21"
+                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:ap:e088a2ca-3a9a-41b4-b6f9-683908aa4fed"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5239/2590"
               />
               <ArticleItem
                 id="5240"
-                title="Nephroprotective Role of Ichnocarpus frutescens Leaf Extract Against Cisplatin-Induced Renal Injury: Evidence from Rat and HK-2 Cell Models via Nrf2–HO-1–GPX4 Axis Modulation"
-                authors="Arbind Kumar Choudhary, Kamala Kanta Parhi, Shridhar Jayagopalan"
-                pages="14-21"
-                pdfLink="https://ujgsm.uorapublications.com/article/view/5240/2591"
+                title="Evaluating Environmental Benefits of Rooftop Solar PV through Carbon Displacement Analysis"
+                authors="Sagar Kauthalkar, Yogesh Sathe"
+                pages="22-32"
+                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:84963475-6ead-4fac-8c81-65629afa945b"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5240/2592"
               />
               <ArticleItem
                 id="5243"
-                title="Ecological Insights into Butterfly Diversity and Habitat Preference: A Study from Acharya Prafulla Chandra College Campus"
-                authors="Goutam Biswas, Sarthak Ranjan Sarkar, Rajarshi Nath, Diptak Chakraborty, Bhanumati Sarkar"
-                pages="22-32"
-                pdfLink="https://ujgsm.uorapublications.com/article/view/5243/2595"
+               title="A Review on Minimum Quantity Lubrication (MQL) Using Hybrid Nanofluids: Enhancing Tool Life and Surface Quality in Metal Cutting"
+                authors="Komal Morankar, Ravindra Deshmukh"
+                pages="33-41"
+                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:d49a27d3-09a7-414d-a0fe-82a7af891c9d"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5243/2596"
               />
               <ArticleItem
                 id="5244"
-                title="Fish Consumption Pattern and Nutritional Awareness Among the Population of Sitamarhi District of Bihar, India"
-                authors="Ved Prakash Dubey, Sunny Raj"
+                title="Performance and Emission Characteristics of a Four-Stroke Engine Using E20 Fuel Blend"
+                authors="Prashant patil, Umesh Hiwalrale, Umesh Hiwalrale"
                 pages="33-41"
-                pdfLink="https://ujgsm.uorapublications.com/article/view/5244/2597"
+                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:d49a27d3-09a7-414d-a0fe-82a7af891c9d"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5244/2598"
               />
               <ArticleItem
                 id="5245"
-                title="Implementation of Enterprise Resource Planning (ERP) System in Manufacturing Companies: Effect on User Satisfaction and Organizational Performance"
-                authors="Polavarapu Venkata Krishna Kishore, Sudha Vemaraju, Nagaraju Ellaturu, T. Lavanya Kumari"
+                title="Enhancing Wear Performance of W-Cu Composites through Response Surface Methodology"
+                authors="Harshal Kale, Sambhaji Sathe"
                 pages="42-50"
-                pdfLink="https://ujgsm.uorapublications.com/article/view/5245/2599"
+                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:ap:6523e374-bab6-4634-8d9e-c77127ad8195"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5245/2600"
               />
             </div>
