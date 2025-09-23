@@ -127,11 +127,11 @@ const EditorBoards: React.FC = () => {
                   </li>
                   <li>
                     <strong>Dr. Vaibhav V. Nemane</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
-                    IIT, Bombay<br />
+                    MEMS, Indian Institute of Technology (IIT), Bombay<br />
                     <strong>Contact:</strong> <a href="mailto:vaibhavn@iitb.ac.in" className="text--teal-800 hover:underline">vaibhavn@iitb.ac.in</a>, <a href="tel:+919623474818" className="text--teal-800 hover:underline">+91 9623474818</a>
                   </li>
                   <li>
-                    <strong>Dr. Rohit R. Garbade</strong><br />
+                    <strong>Dr. Rohit R. Garbade</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Manager Metallurgy (Research and Development), Varroc Engineering Limited, Aurangabad<br />
                     <strong>Contact:</strong> <a href="mailto:Rohit.Garbade@varroc.com" className="text--teal-800 hover:underline">Rohit.Garbade@varroc.com</a>, <a href="tel:+917020818373" className="text--teal-800 hover:underline">+91 7020818373</a>
                   </li>

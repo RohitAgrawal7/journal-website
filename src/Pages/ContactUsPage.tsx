@@ -97,7 +97,7 @@ const Publisher: React.FC = () => {
                 <strong>Prof. Pawan D. Somavanshi (Ph.D. Mechanical)</strong><br />
                 Research Scholar, Government College of Engineering, Aurangabad<br />
                 <strong>Email:</strong> <a href="mailto:pawansomavanshi.PhD@geca.ac.in" className="text--teal-800 hover:underline">pawansomavanshi.PhD@geca.ac.in</a>, <a href="mailto:pawansomavanshi5jan@gmail.com" className="text--teal-800 hover:underline">pawansomavanshi5jan@gmail.com</a><br />
-                <strong>Phone:</strong> <a href="tel:+919096499989" className="text--teal-800 hover:underline">+91-9766930707</a>
+                <strong>Phone:</strong> <a href="tel:+919096499989" className="text--teal-800 hover:underline">+91 90964 99989</a>
               </p>
               <h3 className="text-lg font-semibold text-vibrant-green mt-4 mb-2">Managing Editor</h3>
               <p>

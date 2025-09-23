@@ -82,7 +82,7 @@ const CARE: React.FC = () => {
         <div className="p-6 space-y-6">
           <ContentSection id="ugc-care" title="UGC CARE & Ethical Compliance" icon={FaFileAlt}>
             <p className="text-gray-700 leading-relaxed">
-              The University Grants Commission (UGC), India (<a href="https://www.ugc.ac.in" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">www.ugc.ac.in</a>) has established the UGC-CARE List (Consortium for Academic and Research Ethics) to maintain academic and research integrity and uphold publication ethics. The initiative is supported by an executive board consisting of eminent research scientists and academicians. [<a href="https://ugccare.unipune.ac.in/apps1/home/index" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">Reference</a>]
+              The University Grants Commission (UGC), India (<a href="https://www.ugc.ac.in" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">www.ugc.ac.in</a>) has established the UGC-CARE List (Consortium for Academic and Research Ethics) to maintain academic and research integrity and uphold publication ethics. The initiative is supported by an executive board consisting of eminent research scientists and academicians. <a href="https://ugccare.unipune.ac.in/apps1/home/index" className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">[Reference]</a>
             </p>
             <p className="text-gray-700 leading-relaxed">
               Since 2021, the Journal’s Executive Members have strictly monitored ethical issues such as fabrication, falsification, and plagiarism. Authors are required to provide a text similarity report (in percentage) at the time of submission. In addition, all manuscripts are double-checked using the Journal’s licensed Turnitin plagiarism detection software.
@@ -122,7 +122,7 @@ const CARE: React.FC = () => {
               <li><strong>Date:</strong> 16th July 2025</li>
             </ul>
             <p className="text-gray-700 leading-relaxed mt-2">
-              This regulation provides the latest updates on ethical compliance and journal evaluation criteria under UGC-CARE. [<a href="https://iaph.in/wp-content/uploads/2025/07/UGC-Parameters-for-Peer-Reviewed-Journals.pdf" rel="noopener noreferrer" target="_blank" className="text--teal-800 hover:underline">Link</a>]
+              This regulation provides the latest updates on ethical compliance and journal evaluation criteria under UGC-CARE. <a href="https://acrobat.adobe.com/id/urn:aaid:sc:ap:405a17c1-3a88-4228-86d5-246663b7bea7" className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">[Link]</a>
             </p>
           </ContentSection>
         </div>

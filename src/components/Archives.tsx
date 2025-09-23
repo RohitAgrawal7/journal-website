@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaBook, FaBookOpen, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaFilePdf, FaSyncAlt, FaCalendarAlt, FaDownload } from 'react-icons/fa';
+import { FaBook, FaBookOpen, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaFilePdf, FaSyncAlt, FaCalendarAlt } from 'react-icons/fa';
 
 const JournalIssueTOC = () => {
   const [activeSection, setActiveSection] = useState('cover');
@@ -185,10 +185,10 @@ const JournalIssueTOC = () => {
               <div className="flex-grow">
                 <div className="flex items-center text-teal-700 mb-4">
                   <FaCalendarAlt className="mr-2 text-teal-600" />
-                  <span className="font-medium">Published: 2025-09-25</span>
+                  <span className="font-medium">Published: 2025-08-30</span>
                 </div>
                 <p className="text-gray-700 mb-4 leading-relaxed">
-                  This issue features cutting-edge research across various disciplines including medical research, environmental studies, agriculture, materials science, and management.
+                  This issue features cutting-edge research across various disciplines including Engineering, Applied Science, and Management.
                 </p>
                 {/* <div className="bg-gradient-to-r from-teal-50 to-green-50 p-4 rounded-lg shadow-inner border border-teal-200">
                   <h3 className="text-lg font-semibold text-teal-800 mb-2 flex items-center">
@@ -213,7 +213,7 @@ const JournalIssueTOC = () => {
                 id="5239"
                 title="Survey-Based Case Study of Supply Chain Management (SCM) in Construction Industries"
                 authors="Akash Wankhade, Gurupreet Attal"
-                pages="14-21"
+                pages="1-9"
                 pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:ap:e088a2ca-3a9a-41b4-b6f9-683908aa4fed"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5239/2590"
               />
@@ -221,7 +221,7 @@ const JournalIssueTOC = () => {
                 id="5240"
                 title="Evaluating Environmental Benefits of Rooftop Solar PV through Carbon Displacement Analysis"
                 authors="Sagar Kauthalkar, Yogesh Sathe"
-                pages="22-32"
+                pages="10-16"
                 pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:84963475-6ead-4fac-8c81-65629afa945b"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5240/2592"
               />
@@ -229,7 +229,7 @@ const JournalIssueTOC = () => {
                 id="5243"
                title="A Review on Minimum Quantity Lubrication (MQL) Using Hybrid Nanofluids: Enhancing Tool Life and Surface Quality in Metal Cutting"
                 authors="Komal Morankar, Ravindra Deshmukh"
-                pages="33-41"
+                pages="17-30"
                 pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:d49a27d3-09a7-414d-a0fe-82a7af891c9d"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5243/2596"
               />
@@ -237,7 +237,7 @@ const JournalIssueTOC = () => {
                 id="5244"
                 title="Performance and Emission Characteristics of a Four-Stroke Engine Using E20 Fuel Blend"
                 authors="Prashant patil, Umesh Hiwalrale, Umesh Hiwalrale"
-                pages="33-41"
+                pages="31-37"
                 pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:d49a27d3-09a7-414d-a0fe-82a7af891c9d"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5244/2598"
               />
@@ -245,7 +245,7 @@ const JournalIssueTOC = () => {
                 id="5245"
                 title="Enhancing Wear Performance of W-Cu Composites through Response Surface Methodology"
                 authors="Harshal Kale, Sambhaji Sathe"
-                pages="42-50"
+                pages="38-45"
                 pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:ap:6523e374-bab6-4634-8d9e-c77127ad8195"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5245/2600"
               />

@@ -527,9 +527,37 @@ const ApplyAsReviewer: React.FC = () => {
                 <div className="space-y-6">
                   <h3 className="text-xl font-merriweather text-green-500 border-b border-teal-200 pb-2">Research Areas</h3>
                   <p className="text-gray-600 text-sm font-montserrat">You can mention multiple research areas in which you are willing to review the paper</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {formData.researchAreas.map((area, index) => (
-                      <FormInput key={index} label={`Research Area ${index + 1}`} name={`researchArea-${index}`} value={area} onChange={handleChange} error={errors[`researchArea-${index}`]} placeholder={`Research area ${index + 1}`} required={index < 4} />
+                      <FormInput key={index} label={`Research Area ${index + 1}`} name={`researchArea-${index}`} value={area} onChange={handleChange} error={errors[`researchArea-${index}`]} placeholder={`Research area ${index + 1}`} required={index < 2} />
+                    ))}
+                  </div> */}
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* First 2 required inputs */}
+                    {[0, 1].map((index) => (
+                      <FormInput
+                        key={index}
+                        label={`Research Area ${index + 1}`}
+                        name={`researchArea-${index}`}
+                        value={formData.researchAreas[index]}
+                        onChange={handleChange}
+                        error={errors[`researchArea-${index}`]}
+                        placeholder={`Research area ${index + 1}`}
+                        required
+                      />
+                    ))}
+                    {/* Next 2 optional inputs */}
+                    {[2, 3].map((index) => (
+                      <FormInput
+                        key={index}
+                        label={`Research Area ${index + 1}`}
+                        name={`researchArea-${index}`}
+                        value={formData.researchAreas[index]}
+                        onChange={handleChange}
+                        error={errors[`researchArea-${index}`]}
+                        placeholder={`Research area ${index + 1}`}
+                        required={false}
+                      />
                     ))}
                   </div>
                 </div>
