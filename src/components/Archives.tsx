@@ -177,7 +177,7 @@ const JournalIssueTOC = () => {
             <div className="flex flex-col md:flex-row gap-6 items-start">
               <div className="flex-shrink-0">
                 <img
-                  src="./public/cover.png"
+                  src="./cover.png"
                   alt="Journal Cover Vol. 48 (2025)"
                   className="w-64 h-auto rounded-lg shadow-md border border-teal-200"
                 />
