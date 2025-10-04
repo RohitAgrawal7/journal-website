@@ -39,8 +39,7 @@ const TrackPaper: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [activeSection, setActiveSection] = useState('track-paper');
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
+  const API_URL = import.meta.env.VITE_API_URL || 'https://journal-backend-production-a363.up.railway.app';
   const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
 
