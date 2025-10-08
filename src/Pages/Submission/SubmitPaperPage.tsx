@@ -59,7 +59,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'https://journal-backend-production-b8f2.up.railway.app:3000';
+  const API_URL = import.meta.env.VITE_API_URL || 'journal-backend-production-a363.up.railway.app';
 
   const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
