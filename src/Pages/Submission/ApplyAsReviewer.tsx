@@ -45,7 +45,7 @@ const ApplyAsReviewer: React.FC = () => {
     currentEmployment: '',
     totalExperience: '0',
     educationalQualifications: '',
-    researchAreas: ['', '', '', '', '', '', '', ''],
+    researchAreas: ['', '', '', ''],
     institutionalEmail: '',
     personalEmail: '',
     mobileNo: '',
@@ -73,7 +73,7 @@ const ApplyAsReviewer: React.FC = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const API_URL = import.meta.env.VITE_API_URL || 'journal-backend-production-a363.up.railway.app';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://journal-backend-production-a363.up.railway.app';
   const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
     
@@ -91,7 +91,7 @@ const ApplyAsReviewer: React.FC = () => {
       }
     });
     
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 2; i++) {
       if (!formData.researchAreas[i] || formData.researchAreas[i].trim() === '') {
         newErrors[`researchArea-${i}`] = 'Research area is required';
       }

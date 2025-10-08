@@ -70,7 +70,7 @@ const UpcomingContent: React.FC = () => {
       formDataToSend.append('email', formData.email);
 
       try {
-        const response = await fetch('journal-backend-production-a363.up.railway.app/subscribe', {
+        const response = await fetch('https://journal-backend-production-a363.up.railway.app/subscribe', {
           method: 'POST',
           body: formDataToSend,
         });

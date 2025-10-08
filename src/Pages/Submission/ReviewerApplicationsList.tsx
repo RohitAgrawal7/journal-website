@@ -53,7 +53,7 @@ const ReviewerApplicationsList: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const API_URL = import.meta.env.VITE_API_URL || 'journal-backend-production-a363.up.railway.app';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://journal-backend-production-a363.up.railway.app';
   useEffect(() => {
     const fetchApplications = async () => {
       try {
