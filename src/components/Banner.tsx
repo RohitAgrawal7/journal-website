@@ -14,7 +14,7 @@ const SiteBranding: React.FC = () => {
               className="block"
             >
               <img
-                src="./Sci-Tech.png"
+                src="./scitech.png"
                 alt="Universal Journal of Green Sci-Tech and Management Left Logo"
                 className="w-24 sm:w-32 md:w-50 h-auto border-2 border-white rounded-md"
               />
