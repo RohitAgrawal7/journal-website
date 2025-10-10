@@ -122,7 +122,7 @@ const Home: React.FC = () => {
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-8">
           <h1 className="text-4xl font-merriweather font-bold">Welcome to UJGSM</h1>
           <p className="text-lg mt-4 max-w-2xl">
-            Universal Journal of Green Sci-Tech & Management (UJGSM) is a bi-monthly, peer-reviewed, and open-access online journal dedicated to publishing original, high-quality research across various disciplines.
+            Universal Journal of Green Sci-Tech and Management  is a bi-monthly, peer-reviewed, and open-access online journal dedicated to publishing original, high-quality research across various disciplines.
           </p>
           <Link
             to="/submit-paper"
@@ -148,7 +148,7 @@ const Home: React.FC = () => {
         <div className="p-6 space-y-6">
           <ContentSection id="welcome" title="About UJGSM" icon={FaBookOpen}>
             <p className="text-gray-700 leading-relaxed">
-              Launched in 2025 by the Universal Oneness Research Association (UORA), the Universal Journal of Green Sci-Tech & Management (UJGSM) focuses on bridging the gap between research and practice in science, technology, and management. Our mission is to foster interdisciplinary research that advances knowledge and addresses global challenges through innovative and sustainable solutions.
+              Launched in 2025 by the Universal Oneness Research Association (UORA), the Universal Journal of Green Sci-Tech and Management  focuses on bridging the gap between research and practice in science, technology, and management. Our mission is to foster interdisciplinary research that advances knowledge and addresses global challenges through innovative and sustainable solutions.
             </p>
           </ContentSection>
 
@@ -156,7 +156,7 @@ const Home: React.FC = () => {
             <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
               <li><strong>Journal Name:</strong> Universal Journal of Green Sci-Tech and Management</li>
               <li><strong>Frequency:</strong> Bi-monthly (6 issues per year)</li>
-              <li><strong>e-ISSN:</strong> XXXX-XXXX</li>
+              <li><strong>e-ISSN:</strong> To be assigned by ISSN India</li>
               <li><strong>Publisher:</strong> Universal Oneness Research Association (UORA)</li>
               <li><strong>Chief-in-Editor:</strong> Prof. Pawan Dhanraj Somavanshi</li>
               <li><strong>Managing-Editor:</strong> Dr. Swapnil Narayan Dhole</li>
@@ -213,7 +213,7 @@ const Home: React.FC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>

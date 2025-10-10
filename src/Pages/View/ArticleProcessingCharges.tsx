@@ -77,13 +77,14 @@ const ArticleProcessingCharges: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
           <h1 className="text-3xl font-merriweather font-bold">Article Processing Charges (APC)</h1>
-          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
-          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+         <p className="text-lg mt-2 font-semibold">Universal Journal of Green Sci‑Tech & Management</p>
+          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+          <p className="text-sm mt-1">Published by Universal Oneness Research Association (UORA) — Updated 2025.</p>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="overview" title="Overview" icon={FaUnlock}>
             <p className="text-gray-700 leading-relaxed">
-              Universal Journal of Green SciTech & Management (UJGSM) is an open-access journal. All published articles are freely accessible online immediately after publication.
+              Universal Journal of Green Sci-Tech and Management  is an open-access journal. All published articles are freely accessible online immediately after publication.
             </p>
           </ContentSection>
 
@@ -138,7 +139,7 @@ const ArticleProcessingCharges: React.FC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>

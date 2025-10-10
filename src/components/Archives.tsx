@@ -169,8 +169,9 @@ const JournalIssueTOC = () => {
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-6">
           <h1 className="text-3xl font-bold">Table of Contents</h1>
-          <p className="text-lg mt-2 opacity-90">Universal Journal of Green SciTech & Management (UJGSM) – Volume 48, 2025</p>
-          <p className="text-sm opacity-80 mt-1">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | e-ISSN: XXXX-XXXX</p>
+          <p className="text-lg mt-2 opacity-90">Universal Journal of Green Sci-Tech and Management  – Volume 48, 2025</p>
+          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+          <p className="text-sm opacity-80 mt-1">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | </p>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="cover" title="Issue Cover" icon={FaBook}>
@@ -291,7 +292,7 @@ const JournalIssueTOC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-teal-700 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>

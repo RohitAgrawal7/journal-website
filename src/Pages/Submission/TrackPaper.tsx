@@ -264,7 +264,8 @@ const TrackPaper: React.FC = () => {
             <h1 className="text-3xl font-bold flex items-center">
               <FaSearch className="mr-3" /> Track Your Paper
             </h1>
-            <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+            <p className="text-lg mt-2">Universal Journal of Green Sci-Tech and Management  </p>
+            <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
             <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – September 2025</p>
           </div>
           <div className="p-6">
@@ -452,7 +453,7 @@ const TrackPaper: React.FC = () => {
             </div>
           </div>
           <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-            <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+            <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
           </div>
         </div>
       </footer>

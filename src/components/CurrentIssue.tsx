@@ -75,8 +75,9 @@ const CurrentIssue: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
           <h1 className="text-3xl font-merriweather font-bold">Current Issue</h1>
-          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
-          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+         <p className="text-lg mt-2 font-semibold">Universal Journal of Green Sci‑Tech & Management</p>
+          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+          <p className="text-sm mt-1">Published by Universal Oneness Research Association (UORA) — Updated 2025.</p>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="current-issue" title="Current Issue" icon={FaBook}>
@@ -87,7 +88,7 @@ const CurrentIssue: React.FC = () => {
 
           <ContentSection id="upcoming-content" title="Upcoming Content" icon={FaHourglassHalf}>
             <p className="text-gray-700 leading-relaxed">
-              The Universal Journal of Green SciTech & Management (UJGSM) is currently processing manuscripts for upcoming issues. Submitted articles undergo a rigorous double-blind peer-review process to ensure high-quality, original research. Accepted manuscripts will be formatted, assigned DOIs, and published in upcoming issues according to the journal’s tri-annual schedule (Issues 2–6, October 2025 to June 2026).
+              The Universal Journal of Green Sci-Tech and Management  is currently processing manuscripts for upcoming issues. Submitted articles undergo a rigorous double-blind peer-review process to ensure high-quality, original research. Accepted manuscripts will be formatted, assigned DOIs, and published in upcoming issues according to the journal’s tri-annual schedule (Issues 2–6, October 2025 to June 2026).
             </p>
             <p className="text-gray-700 leading-relaxed">
               Authors can submit their work by the respective deadlines (e.g., September 30, 2025, for Issue 2). For more details on submission deadlines, refer to the <a href="#" className="text--teal-800 hover:underline">Time of Publication</a> page. Stay tuned for updates on forthcoming articles and special issues.
@@ -121,7 +122,7 @@ const CurrentIssue: React.FC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>

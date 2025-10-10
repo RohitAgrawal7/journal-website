@@ -75,13 +75,14 @@ const Publisher: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
           <h1 className="text-3xl font-merriweather font-bold">Publisher</h1>
-          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
-          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+         <p className="text-lg mt-2 font-semibold">Universal Journal of Green Sci‑Tech & Management</p>
+          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+          <p className="text-sm mt-1">Published by Universal Oneness Research Association (UORA) — Updated 2025.</p>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="about-uora" title="About UORA" icon={FaBuilding}>
             <p className="text-gray-700 leading-relaxed">
-              The Universal Oneness Research Association (UORA) is the proud publisher of the Universal Journal of Green SciTech & Management (UJGSM). Committed to advancing interdisciplinary research, UORA supports high-quality, open-access publications in science, technology, and management.
+              The Universal Oneness Research Association (UORA) is the proud publisher of the Universal Journal of Green Sci-Tech and Management . Committed to advancing interdisciplinary research, UORA supports high-quality, open-access publications in science, technology, and management.
             </p>
             <p className="text-gray-700 leading-relaxed">
               <strong>Office Address:</strong> E-1/8 Mathura Nagar, N-6, Cidco, Chhatrapati Sambhajinagar, Maharashtra 431003, India<br />
@@ -136,7 +137,7 @@ const Publisher: React.FC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>

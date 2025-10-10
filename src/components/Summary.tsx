@@ -78,13 +78,14 @@ const AboutJournal: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
           <h1 className="text-3xl font-merriweather font-bold">About the Journal</h1>
-          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+          <p className="text-lg mt-2">Universal Journal of Green Sci-Tech and Management  </p>
+          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
           <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Established – 2025</p>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="overview" title="Overview" icon={FaBook}>
             <p className="text-gray-700 leading-relaxed">
-              Universal Journal of Green SciTech & Management (UJGSM) is a bi-monthly, multidisciplinary, peer-reviewed online journal dedicated to advancing high-quality research across Science, Technology, Management, Arts, Medical Sciences, and allied fields. Launched in 2025, UJGSM is published by Universal Oneness Research Association (UORA), a leading platform committed to promoting ethical scholarly publishing and fostering global knowledge exchange.
+              Universal Journal of Green Sci-Tech and Management  is a bi-monthly, multidisciplinary, peer-reviewed online journal dedicated to advancing high-quality research across Science, Technology, Management, Arts, Medical Sciences, and allied fields. Launched in 2025, UJGSM is published by Universal Oneness Research Association (UORA), a leading platform committed to promoting ethical scholarly publishing and fostering global knowledge exchange.
             </p>
             <p className="text-gray-700 leading-relaxed">
               The journal provides a platform for researchers, academicians, and practitioners to disseminate original research, review articles, case studies, short communications, and conference proceedings. With a strong emphasis on sustainability, innovation, and interdisciplinary collaboration, UJGSM encourages contributions from diverse disciplines.
@@ -194,7 +195,7 @@ const AboutJournal: React.FC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>

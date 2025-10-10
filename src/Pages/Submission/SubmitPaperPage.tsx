@@ -341,7 +341,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -354,11 +354,12 @@ const ManuscriptSubmissionForm: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="bg-gradient-to-r from-teal-800 to-green-500 text-white p-6">
+              <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-6">
                 <h1 className="text-3xl font-merriweather font-bold flex items-center">
                   <FaPaperPlane className="mr-3" /> Manuscript Submission Form
                 </h1>
-                <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
+                <p className="text-lg mt-2">Universal Journal of Green Sci-Tech and Management  </p>
+                <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
                 <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
               </div>
               

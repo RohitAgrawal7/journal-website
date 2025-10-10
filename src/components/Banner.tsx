@@ -8,14 +8,14 @@ const SiteBranding: React.FC = () => {
           {/* Left Logo */}
           <div className="logo-left flex-shrink-0">
             <a
-              href="/home"
+              href="/"
               rel="home"
-              aria-label="Go to Universal Journal of Green SciTech & Management homepage"
+              aria-label="Go to Universal Journal of Green Sci-Tech and Management homepage"
               className="block"
             >
               <img
-                src="./scitech.png"
-                alt="Universal Journal of Green SciTech & Management Left Logo"
+                src="./Sci-Tech.png"
+                alt="Universal Journal of Green Sci-Tech and Management Left Logo"
                 className="w-24 sm:w-32 md:w-50 h-auto border-2 border-white rounded-md"
               />
             </a>
@@ -44,9 +44,9 @@ const SiteBranding: React.FC = () => {
           {/* Right Logo */}
           <div className="logo-right flex-shrink-0">
             <a
-              href="/home"
+              href="/"
               rel="home"
-              aria-label="Go to Universal Journal of Green SciTech & Management homepage"
+              aria-label="Go to Universal Journal of Green Sci-Tech and Management homepage"
               className="block"
             >
               <img

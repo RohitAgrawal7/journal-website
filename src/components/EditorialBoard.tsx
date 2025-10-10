@@ -77,8 +77,9 @@ const EditorBoards: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
           <h1 className="text-3xl font-merriweather font-bold">Editor Boards</h1>
-          <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM) – e-ISSN: XXXX-XXXX</p>
-          <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
+          <p className="text-lg mt-2 font-semibold">Universal Journal of Green Sci‑Tech & Management</p>
+          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+          <p className="text-sm mt-1">Published by Universal Oneness Research Association (UORA) — Updated 2025.</p>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="editor-in-chief" title="Editor-in-Chief" icon={FaUserTie}>
@@ -147,12 +148,32 @@ const EditorBoards: React.FC = () => {
                     
                     <strong>Contact:</strong> <a href="mailto:manoharwankhade@gmail.com" className="text--teal-800 hover:underline">manoharwankhade@gmail.com</a>, <a href="tel:+919850141764" className="text--teal-800 hover:underline">+91 9850141764</a>
                   </li>
-                  <li>
+                    <li>
                     <strong>Dr. Vikram Bhutekar</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     Associate Professor, Sant Dnyaneshwar College of Arts and Science, Soygaon<br />
                     
                     <strong>Contact:</strong> <a href="mailto:vikrambhutekar55@gmail.com" className="text--teal-800 hover:underline">vikrambhutekar55@gmail.com</a>, <a href="tel:+919404001055" className="text--teal-800 hover:underline">+91 9404001055</a>
-                  </li>
+                    </li>
+                    <li>
+                    <strong>Dr. Amogh Sambare</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
+                    Assistant Professor, Deen Dayal Upadhyay KAUSHAL Kendra, Dr. Babasaheb Ambedkar Marathwada University, Chhatrapati Sambhajinagar<br />
+                    <strong>Contact:</strong> <a href="mailto:asambare.ddukk@bamu.ac.in" className="text--teal-800 hover:underline">asambare.ddukk@bamu.ac.in</a>, <a href="tel:+919420056178" className="text--teal-800 hover:underline">+91 94200 56178</a>
+                    </li>
+                    <li>
+                    <strong>Dr. Prashant Arun Jadhav</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
+                    Assistant Professor, CSMSS Chhatrapati Shahu College of Engineering, Aurangabad<br />
+                    <strong>Contact:</strong> <a href="mailto:pajadhav@csmssengg.org" className="text--teal-800 hover:underline">pajadhav@csmssengg.org</a>, <a href="tel:+918149985704" className="text--teal-800 hover:underline">+91 81499 85704</a>
+                    </li>
+                    <li>
+                    <strong>Mr. Sayyed Rehan Ali</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
+                    Mechanical Piping QC Engineer, China Energy Engineering Corporation (CEEC)<br />
+                    <strong>Contact:</strong> <a href="mailto:sayyed@gedi.com.cn" className="text--teal-800 hover:underline">sayyed@gedi.com.cn</a>, <a href="tel:+966507630254" className="text--teal-800 hover:underline">+966 50 763 0254</a>
+                    </li>
+                    <li>
+                    <strong>Prof. Amarsingh Mali</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
+                    TPO MSP Mandal, Deogiri Institute of Engineering and Management Studies, Aurangabad<br />
+                    <strong>Contact:</strong> <a href="mailto:amarmali@dietms.org" className="text--teal-800 hover:underline">amarmali@dietms.org</a>, <a href="tel:+919860844233" className="text--teal-800 hover:underline">+91 98608 44233</a>
+                    </li>
                    {/* <li>
                     <strong><span className="inline-flex items-center">Gaurav Pandey <ReactCountryFlag countryCode="GB" svg style={{ width: '24px', height: '24px', marginLeft: '8px' }} /></span></strong><br />
                     Food and Beverage Executive, JKS Restaurant Ltd., Westminster, London, United Kingdom<br />
@@ -168,7 +189,7 @@ const EditorBoards: React.FC = () => {
                     <strong>Dr. Manoj Dnyanba Mate</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
                     CSMSS CSCOE, Central Training and Placement Coordinator<br />
                    
-                    <strong>Contact:</strong> <a href="mailto:manojmate28@gmail.com" className="text--teal-800 hover:underline">manojmate28@gmail.com</a>, <a href="tel:+919423745212" className="text--teal-800 hover:underline">+91 9423745212</a>
+                    <strong>Contact:</strong> <a href="mailto:mdmate@csmssengg.org" className="text--teal-800 hover:underline">mdmate@csmssengg.org</a>, <a href="tel:+919423745212" className="text--teal-800 hover:underline">+91 9423745212</a>
                   </li>
                   <li>
                     <strong><span className="inline-flex items-center">Sourabh Rudwar <ReactCountryFlag countryCode="SG" svg style={{ width: '24px', height: '24px', marginLeft: '8px' }} /></span></strong><br />
@@ -248,7 +269,7 @@ const EditorBoards: React.FC = () => {
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
         </div>
       </div>
     </footer>

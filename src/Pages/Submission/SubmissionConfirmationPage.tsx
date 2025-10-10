@@ -99,7 +99,7 @@ const SubmissionConfirmationPage: React.FC = () => {
                 <h1 className="text-3xl font-merriweather font-bold flex items-center">
                   <FaPaperPlane className="mr-3" /> Manuscript Submission Confirmation
                 </h1>
-                <p className="text-lg mt-2">Universal Journal of Green SciTech & Management (UJGSM)</p>
+                <p className="text-lg mt-2">Universal Journal of Green Sci-Tech and Management </p>
               </div>
               <div className="mt-4 md:mt-0 bg-white/20 p-3 rounded-lg">
                 <p className="text-sm">Submission ID: <strong>{submissionData.submissionId}</strong></p>
@@ -357,7 +357,7 @@ const SubmissionConfirmationPage: React.FC = () => {
             </div>
           </div>
           <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
-            <p>&copy; 2025 Universal Journal of Green SciTech & Management. All rights reserved.</p>
+            <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
           </div>
         </div>
       </footer>
