@@ -214,7 +214,7 @@ const JournalIssueTOC = () => {
                 title="Survey-Based Case Study of Supply Chain Management (SCM) in Construction Industries"
                 authors="Akash Wankhade, Gurupreet Attal"
                 pages="1-9"
-                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:ap:e088a2ca-3a9a-41b4-b6f9-683908aa4fed"
+                pdfLink="/volume1-issue1/article1.pdf"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5239/2590"
               />
               <ArticleItem
@@ -222,7 +222,7 @@ const JournalIssueTOC = () => {
                 title="Evaluating Environmental Benefits of Rooftop Solar PV through Carbon Displacement Analysis"
                 authors="Sagar Kauthalkar, Yogesh Sathe"
                 pages="10-16"
-                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:84963475-6ead-4fac-8c81-65629afa945b"
+                pdfLink="/volume1-issue1/article2.pdf"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5240/2592"
               />
               <ArticleItem
@@ -230,7 +230,7 @@ const JournalIssueTOC = () => {
                title="A Review on Minimum Quantity Lubrication (MQL) Using Hybrid Nanofluids: Enhancing Tool Life and Surface Quality in Metal Cutting"
                 authors="Komal Morankar, Ravindra Deshmukh"
                 pages="17-30"
-                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:d49a27d3-09a7-414d-a0fe-82a7af891c9d"
+                pdfLink="/volume1-issue1/article3.pdf"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5243/2596"
               />
               <ArticleItem
@@ -238,7 +238,7 @@ const JournalIssueTOC = () => {
                 title="Performance and Emission Characteristics of a Four-Stroke Engine Using E20 Fuel Blend"
                 authors="Prashant patil, Umesh Hiwalrale, Umesh Hiwalrale"
                 pages="31-37"
-                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:AP:d49a27d3-09a7-414d-a0fe-82a7af891c9d"
+                pdfLink="/volume1-issue1/article4.pdf"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5244/2598"
               />
               <ArticleItem
@@ -246,7 +246,7 @@ const JournalIssueTOC = () => {
                 title="Enhancing Wear Performance of W-Cu Composites through Response Surface Methodology"
                 authors="Harshal Kale, Sambhaji Sathe"
                 pages="38-45"
-                pdfLink="https://acrobat.adobe.com/id/urn:aaid:sc:ap:6523e374-bab6-4634-8d9e-c77127ad8195"
+                pdfLink="/volume1-issue1/article5.pdf"
                 updateLink="https://ujgsm.uorapublications.com/article/view/5245/2600"
               />
             </div>
