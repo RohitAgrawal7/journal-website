@@ -138,7 +138,7 @@ const EditorBoards: React.FC = () => {
                   </li>
                   <li>
                     <strong>Dr. Umeshkumar H. Chavan</strong><ReactCountryFlag countryCode="IN" svg style={{ width: '24px', height: '24px', marginRight: '8px',marginLeft: '8px' }} /><br />
-                    TPO, Maharashtra Institute of Technology, Rotegaon, Chhatrapati Sambhajinagar, Maharashtra<br />
+                    TPO, Marathwada Institute of Technology, Rotegaon, Chhatrapati Sambhajinagar, Maharashtra<br />
                     
                     <strong>Contact:</strong> <a href="mailto:umeshkumar.chavan@mit.asia" className="text--teal-800 hover:underline">umeshkumar.chavan@mit.asia</a>, <a href="tel:+918888526181" className="text--teal-800 hover:underline">+91 8888526181</a>
                   </li>
