@@ -156,7 +156,7 @@ const Home: React.FC = () => {
             <ol className="list-decimal pl-6 text-gray-700 leading-relaxed">
               <li><strong>Journal Name:</strong> Universal Journal of Green Sci-Tech and Management</li>
               <li><strong>Frequency:</strong> Bi-monthly (6 issues per year)</li>
-              <li><strong>e-ISSN:</strong> To be assigned by ISSN India</li>
+              <li><strong>e-ISSN:</strong> 3107-9326</li>
               <li><strong>Publisher:</strong> Universal Oneness Research Association (UORA)</li>
               <li><strong>Chief-in-Editor:</strong> Prof. Pawan Dhanraj Somavanshi</li>
               <li><strong>Managing-Editor:</strong> Dr. Swapnil Narayan Dhole</li>
