@@ -170,7 +170,7 @@ const JournalIssueTOC = () => {
         <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white p-6">
           <h1 className="text-3xl font-bold">Table of Contents</h1>
           <p className="text-lg mt-2 opacity-90">Universal Journal of Green Sci-Tech and Management  – Volume 48, 2025</p>
-          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+          <p className="text-sm mt-1">ISSN (Online):  3107-932</p>
           <p className="text-sm opacity-80 mt-1">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | </p>
         </div>
         <div className="p-6 space-y-6">

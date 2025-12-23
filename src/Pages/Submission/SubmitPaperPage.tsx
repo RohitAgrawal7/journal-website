@@ -359,7 +359,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
                   <FaPaperPlane className="mr-3" /> Manuscript Submission Form
                 </h1>
                 <p className="text-lg mt-2">Universal Journal of Green Sci-Tech and Management  </p>
-                <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+                <p className="text-sm mt-1">ISSN (Online):  3107-932</p>
                 <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
               </div>
               
