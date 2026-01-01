@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaPaperPlane, FaFileUpload, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import axios from 'axios';
+import TelephoneInput from '../../components/TelephoneInput';
 
 interface FormData {
   desiredIssue: string;
@@ -359,7 +360,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
                   <FaPaperPlane className="mr-3" /> Manuscript Submission Form
                 </h1>
                 <p className="text-lg mt-2">Universal Journal of Green Sci-Tech and Management  </p>
-                <p className="text-sm mt-1">ISSN (Online):  3107-932</p>
+                <p className="text-sm mt-1">ISSN (Online):  3107-9326</p>
                 <p className="text-sm">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> | Updated – 2025</p>
               </div>
               
@@ -505,22 +506,38 @@ const ManuscriptSubmissionForm: React.FC = () => {
                           <label className="block text-teal-900 font-merriweather font-medium mb-2">
                             Corresponding Author Mobile No. <span className="text-red-600">*</span>
                           </label>
-                          <input
-                            type="text"
-                            name="correspondingAuthorMobile"
+
+
+                          <TelephoneInput
                             value={formData.correspondingAuthorMobile}
-                            onChange={handleInputChange}
-                            placeholder="(Country Code)(Mobile No.)"
-                            maxLength={15}
-                            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-montserrat transition-colors ${
-                              errors.correspondingAuthorMobile ? 'border-red-600 focus:ring-red-600/30' : 'border-teal-300 focus:ring-green-500 hover:border-teal-800'
-                            }`}
+                            onChange={(fullNumber) => {
+                              // Update formData exactly like a normal input
+                              const syntheticEvent = {
+                                target: { name: 'correspondingAuthorMobile', value: fullNumber },
+                              } as React.ChangeEvent<HTMLInputElement>;
+                              handleInputChange(syntheticEvent);
+                            }}
+                            placeholder="9876543210"
                             required
                             disabled={isSubmitting}
+                            error={errors.correspondingAuthorMobile}
+                            className={`
+                              ${errors.correspondingAuthorMobile ? 'ring-2 ring-red-500' : ''}
+                             `}
                           />
-                          <p className="text-sm text-gray-500 mt-1">{formData.correspondingAuthorMobile.length} / 15</p>
+
+
+                          {/* Character counter – same style as before */}
+                          {/* <p className="text-sm text-gray-500 mt-1">
+                         {formData.correspondingAuthorMobile.replace(/\s/g, '').length} / 15
+                      </p> */}
+
+
+                          {/* Error message (still shown below the component) */}
                           {errors.correspondingAuthorMobile && (
-                            <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.correspondingAuthorMobile}</p>
+                            <p className="mt-1 text-red-600 text-sm font-montserrat">
+                              {errors.correspondingAuthorMobile}
+                            </p>
                           )}
                         </div>
                       </div>

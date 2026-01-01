@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/components/Banner.tsx"]
+  "include": ["src", "src/components/Banner.tsx", "src/components/TelephoneInput.tsx"]
 }

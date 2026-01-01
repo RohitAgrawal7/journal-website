@@ -76,7 +76,7 @@ const COPE: React.FC = () => {
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-6">
           <h1 className="text-3xl font-merriweather font-bold">COPE</h1>
          <p className="text-lg mt-2 font-semibold">Universal Journal of Green Sci‑Tech & Management</p>
-          <p className="text-sm mt-1">ISSN (Online):  3107-932</p>
+          <p className="text-sm mt-1">ISSN (Online):  3107-9326</p>
           <p className="text-sm mt-1">Published by Universal Oneness Research Association (UORA) — Updated 2025.</p>
         </div>
         <div className="p-6 space-y-6">
