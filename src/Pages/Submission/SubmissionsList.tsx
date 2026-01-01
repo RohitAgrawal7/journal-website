@@ -113,13 +113,6 @@ const SubmissionsList: React.FC = () => {
      }
    };
 
- const handleLogout = () => {
-    setIsAuthenticated(false);
-    setLoginPass('');
-    setLoginUser('');
-    setAuthError(null);
- };
-
   const toggleExpand = (id: number) => {
     if (expandedSubmission === id) {
       setExpandedSubmission(null);
