@@ -33,6 +33,17 @@ interface Submission {
 }
 
 const SubmissionsList: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+  //   try {
+  //     return localStorage.getItem('submissions_auth') === 'true';
+  //   } catch {
+  //     return false;
+  //   }
+  // });
+  const [loginUser, setLoginUser] = useState('');
+  const [loginPass, setLoginPass] = useState('');
+  const [authError, setAuthError] = useState<string | null>(null);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +58,12 @@ const SubmissionsList: React.FC = () => {
   const API_URL = import.meta.env.VITE_API_URL || 'https://journal-backend-production-a363.up.railway.app';
 
   useEffect(() => {
+
+    if (!isAuthenticated) {
+      setLoading(false);
+      return;
+    }
+    
     const fetchSubmissions = async () => {
       try {
         const response = await axios.get<{
@@ -60,7 +77,8 @@ const SubmissionsList: React.FC = () => {
             search: searchTerm || undefined
           }
         });
-        setSubmissions(response.data.data);
+        const list = (response.data && Array.isArray((response.data as any).data)) ? response.data.data : (response.data as any).data || (response.data as any);
+        setSubmissions(Array.isArray(list) ? list : []);
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch submissions. Please try again.');
@@ -70,7 +88,30 @@ const SubmissionsList: React.FC = () => {
     };
 
     fetchSubmissions();
-  }, [API_URL, statusFilter, searchTerm]);
+  }, [API_URL, statusFilter, searchTerm, isAuthenticated]);
+
+  // auth handlers
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError(null);
+    // hardcoded credentials as requested
+    const user = (loginUser || '').trim();
+    const pass = (loginPass || '').trim();
+    // if (user === 'pawan' && pass === 'pawan somawanshi') {
+    //   try {
+    //     localStorage.setItem('submissions_auth', 'true');
+    //   } catch {}
+    //   setIsAuthenticated(true);
+    //   toast.success('Access granted');
+    // } else {
+     if (user === 'pawswauora' && pass === 'UoraPublication@1') {    // do not persist auth - require login on each page open
+       setIsAuthenticated(true);
+       toast.success('Access granted');
+     } else {
+       setAuthError('Invalid username or password');
+       toast.error('Invalid credentials');
+     }
+   };
 
   const toggleExpand = (id: number) => {
     if (expandedSubmission === id) {
@@ -163,6 +204,55 @@ const SubmissionsList: React.FC = () => {
     setStatusFilter(e.target.value);
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <ToastContainer />
+        <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-semibold text-teal-800 mb-4">Admin Access — Submissions</h2>
+          <p className="text-sm text-gray-600 mb-4">Enter credentials to view manuscript submissions.</p>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+              <input
+                type="text"
+                value={loginUser}
+                onChange={(e) => setLoginUser(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                placeholder="Username"
+                autoComplete="username"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <input
+                type="password"
+                value={loginPass}
+                onChange={(e) => setLoginPass(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                placeholder="Password"
+                autoComplete="current-password"
+              />
+            </div>
+            {authError && <div className="text-sm text-red-600">{authError}</div>}
+            <div className="flex items-center justify-between">
+              <button type="submit" className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">Enter</button>
+              <button type="button" onClick={() => { setLoginUser('pawswauora'); setLoginPass('UoraPublication@1'); }} className="text-sm text-gray-500 hover:underline">
+                Fill sample
+              </button>
+            </div>
+          </form>
+
+          {/* <div className="mt-4 text-xs text-gray-500">
+            <div><strong>Note:</strong> username = <code>pawan</code></div>
+            <div>password = <code>pawan somawanshi</code></div>
+          </div> */}
+        </div>
+      </div>
+    );
+  }
+
+  // existing loading / error / content rendering when authenticated
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -174,6 +264,18 @@ const SubmissionsList: React.FC = () => {
   if (error) {
     return <div className="text-red-600 text-center mt-8">{error}</div>;
   }
+
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+  //     </div>
+  //   );
+  // }
+
+  // if (error) {
+  //   return <div className="text-red-600 text-center mt-8">{error}</div>;
+  // }
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">

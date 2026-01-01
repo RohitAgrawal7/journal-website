@@ -454,7 +454,7 @@ const ApplyAsReviewer: React.FC = () => {
             <FaUserCheck className="mr-3" /> Apply as Reviewer
           </h1>
          <p className="text-lg mt-2 font-semibold">Universal Journal of Green Sci‑Tech & Management</p>
-          <p className="text-sm mt-1">ISSN (Online): To be assigned by ISSN India.</p>
+          <p className="text-sm mt-1">ISSN (Online):  3107-9326</p>
           <p className="text-sm mt-1">Published by Universal Oneness Research Association (UORA) — Updated 2025.</p>
         </div>
         <div className="p-6">
