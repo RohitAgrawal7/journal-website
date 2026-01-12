@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { FaCalendarAlt, FaBookOpen, FaFilePdf, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaSearch, FaBook, FaTag } from 'react-icons/fa';
+import { FaBookOpen, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaSearch, FaBook } from 'react-icons/fa';
 
 interface JournalIssue {
   id: number;
@@ -393,7 +393,7 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
           <h3 className="text-lg font-semibold text-teal-800 mb-2 transition-colors duration-300 hover:text-green-600">
             <a
               href={issue.issueUrl}
-              target="_blank"
+              // target="_blank"
               rel="noopener noreferrer"
             >
              {issue.volume} - {issue.year}
