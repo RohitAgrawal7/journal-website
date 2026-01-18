@@ -85,16 +85,16 @@ function App() {
         <Route path="/editorial-board" element={<EditorialBoard />} />
         {/* Archives + issue + PDF routes (deep links so browser Back works smoothly) */}
         <Route path="/archives" element={<Archives />} />
-        <Route path="/archives/:issueId" element={<JournalIssueTOC />} />
-        <Route path="/archives/:issueId/:pdfId" element={<JournalIssueTOC />} />
+        {/* <Route path="/archives/:issueId" element={<JournalIssueTOC />} />
+        <Route path="/archives/:issueId/:pdfId" element={<JournalIssueTOC />} /> */}
 
         <Route path="/contact-us" element={<ContactUsPage />} />
-        {/* <Route path="/archives/issue1" element={<JournalIssueTOC />} />
-         <Route path="/archives/issue2" element={<UpcomingContent />} />
-          <Route path="/archives/issue3" element={<UpcomingContent />}/>
-           <Route path="/archives/issue4" element={<UpcomingContent />} />
-            <Route path="/archives/issue5" element={<UpcomingContent />} />
-             <Route path="/archives/issue6" element={<UpcomingContent />} /> */}
+        <Route path="/issue1" element={<JournalIssueTOC />} />
+        <Route path="/issue2" element={<UpcomingContent />} />
+        <Route path="/issue3" element={<UpcomingContent />} />
+        <Route path="/issue4" element={<UpcomingContent />} />
+        <Route path="/issue5" element={<UpcomingContent />} />
+        <Route path="/issue6" element={<UpcomingContent />} />
 
         <Route path="/submissions-list" element={<SubmissionsList/>} />
         <Route path="/reviewer-applications-list" element={<ReviewerApplicationsList />} />

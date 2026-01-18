@@ -29,9 +29,15 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
 }) => {
   const [activeSection, setActiveSection] = useState('all-issues');
   const [selectedYear, setSelectedYear] = useState<string>('all');
+  // const [searchTerm, setSearchTerm] = useState<string>('');
+  // const [currentPage, setCurrentPage] = useState<number>(1);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // local input state to keep typing smooth and debounced update to searchTerm
+  const [searchInput, setSearchInput] = useState<string>('');
+   const [currentPage, setCurrentPage] = useState<number>(1);
+   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Enhanced sample data with more issues and details
   const issues: JournalIssue[] = useMemo(() => [
@@ -40,12 +46,12 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
       volume: "Volume 1 Issue 1",
       year: 2025,
       title: "Introductory Research in Green SciTech",
-      coverImageUrl: "https://novel-coral-tzppcqb85s.edgeone.app/1.png",
-      issueUrl: `/archives/1`,
-      pdfUrl: `/archives/1/pdf`,
+      coverImageUrl: "https://image2url.com/r2/default/images/1768496133818-b56adab9-0f39-40eb-acb1-a9c0aefad7b9.png",
+      issueUrl: "/issue1",
+      pdfUrl: "/issue1",
       description: "Foundational papers on sustainable technology and green innovation across various domains. This inaugural issue sets the tone for groundbreaking research in environmental science and sustainable management practices.",
       publishedDate: "2025-01-15",
-      articlesCount: 8,
+      articlesCount: 5,
       isCurrentIssue: false,
       keywords: ["sustainable technology", "green innovation", "environmental science"]
     },
@@ -54,8 +60,8 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
       volume: "Volume 1 Issue 2",
       year: 2025,
       title: "Advances in Environmental Management",
-      coverImageUrl: "https://brave-gray-vglsq5t4h6.edgeone.app/2.png",
-      issueUrl: "/archives/issue2",
+      coverImageUrl: "https://image2url.com/r2/default/images/1768496219558-902e0e7e-2ec4-46c2-b8d1-5964ea90a868.png",
+      issueUrl: "/issue2",
       pdfUrl: "/issue2",
       description: "Focus on eco-friendly management practices, sustainable business models, and environmental conservation strategies. Features case studies from leading organizations implementing green initiatives.",
       publishedDate: "2025-02-15",
@@ -67,8 +73,8 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
       volume: "Volume 1 Issue 3",
       year: 2025,
       title: "Innovation in Green Technology",
-      coverImageUrl: "https://img.sanishtech.com/u/85d33511175548b15a1249574bbe1854.png",
-      issueUrl: "/archives/issue3",
+      coverImageUrl: "https://image2url.com/r2/default/images/1768496248789-bb7e38e1-e54e-40f7-b885-61e14f1ca668.png",
+      issueUrl: "/issue3",
       pdfUrl: "/issue3",
       description: "Latest innovations and case studies in renewable energy, waste management, and sustainable urban planning. Special section on emerging technologies in environmental monitoring.",
       publishedDate: "2025-03-15",
@@ -80,40 +86,40 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
       volume: "Volume 1 Issue 4",
       year: 2025,
       title: "Sustainable Development Strategies",
-      coverImageUrl: "https://acute-indigo-qk9ir2k3ok.edgeone.app/4.png",
-      issueUrl: "/archives/issue4",
+      coverImageUrl: "https://image2url.com/r2/default/images/1768496299652-040dadbb-7cc9-430a-a41c-bb539439b978.png",
+      issueUrl: "/issue4",
       pdfUrl: "/issue4",
       description: "Comprehensive strategies for sustainable growth across industrial, agricultural, and urban sectors. Includes policy frameworks and implementation guidelines for developing economies.",
       publishedDate: "2025-04-15",
       articlesCount: 12,
       keywords: ["sustainable growth", "policy frameworks", "agriculture"]
     },
-    {
-      id: 5,
-      volume: "Volume 1 Issue 5",
-      year: 2026,
-      title: "Emerging Trends in SciTech",
-      coverImageUrl: "https://img.sanishtech.com/u/75a1748b29980f55d0bfbb1ef4bad1ab.png",
-      issueUrl: "/archives/issue5",
-      pdfUrl: "/issue5",
-      description: "Analysis of emerging trends and future outlook in green technology and sustainable science. Features predictive modeling and scenario analysis for climate-resilient development.",
-      publishedDate: "2025-05-15",
-      articlesCount: 11,
-      keywords: ["emerging trends", "predictive modeling", "climate resilience"]
-    },
-    {
-      id: 6,
-      volume: "Volume 1 Issue 6",
-      year: 2026,
-      title: "Case Studies in Green Management",
-      coverImageUrl: "https://img.sanishtech.com/u/a04b9107c7d15a8b1e4387264156f3d6.png",
-      issueUrl: "/archives/issue6",
-      pdfUrl: "/issue6",
-      description: "Real-world case studies and applications of sustainable management principles across various industries. Special focus on measurable outcomes and ROI analysis.",
-      publishedDate: "2025-06-15",
-      articlesCount: 10,
-      keywords: ["case studies", "sustainable management", "ROI analysis"]
-    },
+    // {
+    //   id: 5,
+    //   volume: "Volume 1 Issue 5",
+    //   year: 2026,
+    //   title: "Emerging Trends in SciTech",
+    //   coverImageUrl: "https://image2url.com/r2/default/images/1768247581446-de26be9e-abeb-48e5-b046-a3c8aea385f3.png",
+    //   issueUrl: "/issue5",
+    //   pdfUrl: "/issue5",
+    //   description: "Analysis of emerging trends and future outlook in green technology and sustainable science. Features predictive modeling and scenario analysis for climate-resilient development.",
+    //   publishedDate: "2025-05-15",
+    //   articlesCount: 11,
+    //   keywords: ["emerging trends", "predictive modeling", "climate resilience"]
+    // },
+    // {
+    //   id: 6,
+    //   volume: "Volume 1 Issue 6",
+    //   year: 2026,
+    //   title: "Case Studies in Green Management",
+    //   coverImageUrl: "https://image2url.com/r2/default/images/1768247613930-4fe37e2b-c6f4-4ac4-9c41-c9d343d16ae3.png",
+    //   issueUrl: "/issue6",
+    //   pdfUrl: "/issue6",
+    //   description: "Real-world case studies and applications of sustainable management principles across various industries. Special focus on measurable outcomes and ROI analysis.",
+    //   publishedDate: "2025-06-15",
+    //   articlesCount: 10,
+    //   keywords: ["case studies", "sustainable management", "ROI analysis"]
+    // },
     // {
     //   id: 7,
     //   volume: "Volume 1 Issue 7",
@@ -272,6 +278,20 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeSection, debounce]);
 
+  // const debounce = useCallback((func: Function, wait: number) => {
+  //    let timeout: ReturnType<typeof setTimeout>;
+  //    return (...args: any[]) => {
+  //      clearTimeout(timeout);
+  //      timeout = setTimeout(() => func(...args), wait);
+  //    };
+  //  }, []);
+
+// debounced updater for the actual searchTerm used by the filtering effect
+  const debouncedSetSearchTerm = useMemo(
+    () => debounce((val: string) => setSearchTerm(val), 300),
+    [debounce]
+  );
+
   const scrollToSection = useCallback((sectionId: string) => {
     setActiveSection(sectionId);
     const el = document.getElementById(sectionId);
@@ -284,6 +304,8 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
       });
     }
   }, []);
+
+  
 
   const handlePdfDownload = useCallback((issue: JournalIssue) => {
     if (!issue.pdfUrl) {
@@ -400,10 +422,10 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
             </a>
           </h3>
           {/* <div className="text-gray-600 italic mb-3">{issue.volume} - {issue.year}</div> */}
-          <div className="text-sm text-gray-500 mb-4 flex items-center">
+          {/* <div className="text-sm text-gray-500 mb-4 flex items-center">
             <span className="inline-block w-2 h-2 rounded-full bg-teal-500 mr-2"></span>
             Pages/Articles: {issue.articlesCount}
-          </div>
+          </div> */}
           {/* <p className="text-gray-700 mb-4">{issue.description}</p>
           {issue.keywords && (
             <div className="flex flex-wrap gap-2 mb-4">
@@ -426,7 +448,7 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
             <a
               href={issue.issueUrl}
               className="flex items-center py-2 px-4 rounded-md text-white font-medium transition-all duration-300 bg-gradient-to-r from-blue-500 to-teal-500 shadow-sm hover:from-blue-600 hover:to-teal-600 hover:shadow-md"
-              target="_blank"
+              // target="_blank"
               rel="noopener noreferrer"
             >
               <FaBookOpen className="mr-2" /> View Issue
@@ -465,13 +487,25 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
             <div className="flex-1">
               <label className="block text-gray-700 font-semibold mb-2">Search</label>
               <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search by title, description, keywords..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full border border-teal-300 rounded-md p-2 pl-10 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300"
-                />
+               <input
+                 type="text"
+                 placeholder="Search by title, description, keywords..."
+// -                value={searchTerm}
+// -                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchInput}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setSearchInput(v);
+                  debouncedSetSearchTerm(v);
+                }}
+                onKeyDown={(e) => {
+                  // prevent Enter from submitting any parent form / reloading page
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                  }
+                }}
+                 className="w-full border border-teal-300 rounded-md p-2 pl-10 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300"
+               />
                 <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-500" />
               </div>
             </div>
