@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaBook, FaBookOpen, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaFilePdf, FaSyncAlt, FaCalendarAlt } from 'react-icons/fa';
 
-const JournalIssueTOC = () => {
+const JournalIssue3 = () => {
   const [activeSection, setActiveSection] = useState('cover');
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
@@ -171,7 +171,7 @@ const JournalIssueTOC = () => {
           <h1 className="text-3xl font-bold">Table of Contents</h1>
           <p className="text-lg mt-2 opacity-90">Universal Journal of Green Sci-Tech and Management  – Volume 48, 2025</p>
           <p className="text-sm mt-1">ISSN (Online):  3107-9326</p>
-          <p className="text-sm opacity-80 mt-1">Publisher: <strong>Universal Oneness Research Association (UORA)</strong>  </p>
+          <p className="text-sm opacity-80 mt-1">Publisher: <strong>Universal Oneness Research Association (UORA)</strong> </p>
         </div>
         <div className="p-6 space-y-6">
           <ContentSection id="cover" title="Issue Cover" icon={FaBook}>
@@ -212,43 +212,57 @@ const JournalIssueTOC = () => {
             <div className="space-y-6">
               <ArticleItem
                 id="5239"
-                title="Survey-Based Case Study of Supply Chain Management (SCM) in Construction Industries"
-                authors="Akash Wankhade, Gurupreet Attal"
-                pages="1-9"
-                pdfLink="/volume1-issue1/article1.pdf"
-                // updateLink="https://ujgsm.uorapublications.com/article/view/5239/2590"
+                title="Competency Gap Analysis of Engineering Students: A Systematic Review of
+Employability Skills, Industry Expectations, and Institutional Practices in India"
+                authors="Raman G. Karde, Bhakti Banwaskar Deshmukh"
+                pages="105-116"
+                pdfLink="/volume1-issue3/article1.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5240"
-                title="Evaluating Environmental Benefits of Rooftop Solar PV through Carbon Displacement Analysis"
-                authors="Sagar Kauthalkar, Yogesh Sathe"
-                pages="10-17"
-                pdfLink="/volume1-issue1/article2.pdf"
+                title="Supply Chain Cost Forecasting and Data Analytics in the Automobile
+Manufacturing Industry"
+                authors="Abhishek Ugle, Shantisagar Biradar & Swapnil. N. Dhole"
+                pages="117-125"
+                pdfLink="/volume1-issue3/article2.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5243"
-               title="A Review on Minimum Quantity Lubrication (MQL) Using Hybrid Nanofluids: Enhancing Tool Life and Surface Quality in Metal Cutting"
-                authors="Komal Morankar, Ravindra Deshmukh"
-                pages="18-31"
-                pdfLink="/volume1-issue1/article3.pdf"
+               title="A Review on Noise Reduction in Diesel Generator Set Enclosures Using Passive Acoustic
+Control and Taguchi-Based Optimization Techniques"
+                authors="Pathan Tanzimkhan Lalkhan, Ravindra Karvande & Mohammad Irfan H"
+                pages="126-136"
+                pdfLink="/volume1-issue3/article3.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5244"
-                title="Performance and Emission Characteristics of a Four-Stroke Engine Using E20 Fuel Blend"
-                authors="Prashant patil, Umesh Hiwalrale, Chandrashekhar Ingle"
-                pages="32-38"
-                pdfLink="/volume1-issue1/article4.pdf"
+                title="Experimental Investigation and Optimization of WEDM Parameters for Titanium
+Alloy Considering MRR"
+                authors="Mohammed Aakef Farooqui, Ravindra Karvande & Mohammad Irfan"
+                pages="137-148"
+                pdfLink="/volume1-issue3/article4.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5245"
-                title="Enhancing Wear Performance of W-Cu Composites through Response Surface Methodology"
-                authors="Harshal Kale, Sambhaji Sathe"
-                pages="39-46"
-                pdfLink="/volume1-issue1/article5.pdf"
+                title="A Comprehensive Review of Wire Electrical Discharge Machining: Principles,
+Parameters, Performance Measures, and Optimization Techniques"
+                authors="Gajanan Khose, Shantisagar Biradar & Mohammad Irfan"
+                pages="149-157"
+                pdfLink="/volume1-issue3/article5.pdf"
+                updateLink="/upcoming-content"
+              />
+              <ArticleItem
+                id="5245"
+                title="A Review on Polyester Powder Coatings: Materials, Deposition Techniques, Wear
+Mechanisms, and Nanofiller-Based Performance Enhancement"
+                authors="Chandrakant Sawant, Ravindra Karvande & Vilas Jadhav"
+
+                pages="158-167"
+                pdfLink="/volume1-issue3/article6.pdf"
                 updateLink="/upcoming-content"
               />
             </div>
@@ -312,4 +326,4 @@ const JournalIssueTOC = () => {
   );
 };
 
-export default JournalIssueTOC;
+export default JournalIssue3;

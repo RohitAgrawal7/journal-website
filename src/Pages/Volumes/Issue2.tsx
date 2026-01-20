@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaBook, FaBookOpen, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaFilePdf, FaSyncAlt, FaCalendarAlt } from 'react-icons/fa';
 
-const JournalIssueTOC = () => {
+const JournalIssue2 = () => {
   const [activeSection, setActiveSection] = useState('cover');
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
@@ -212,43 +212,46 @@ const JournalIssueTOC = () => {
             <div className="space-y-6">
               <ArticleItem
                 id="5239"
-                title="Survey-Based Case Study of Supply Chain Management (SCM) in Construction Industries"
-                authors="Akash Wankhade, Gurupreet Attal"
-                pages="1-9"
-                pdfLink="/volume1-issue1/article1.pdf"
-                // updateLink="https://ujgsm.uorapublications.com/article/view/5239/2590"
+                title="Optimization of Wear Resistance and Scratch Hardness of Boron Carbide Reinforced Polyester Powder Coatings Using Taguchi Method"
+                authors="Chandrakant Sawant, Ravindra Karvande, & Vilas Jadhav"
+                pages="47-60"
+                pdfLink="/volume1-issue2/article1.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5240"
-                title="Evaluating Environmental Benefits of Rooftop Solar PV through Carbon Displacement Analysis"
-                authors="Sagar Kauthalkar, Yogesh Sathe"
-                pages="10-17"
-                pdfLink="/volume1-issue1/article2.pdf"
+                title="Parametric Study and Optimization of Wire Electrical Discharge Machining Parameters
+for SS304 Stainless Steel"
+                authors="Gajanan Khose, Shantisagar Biradar & Mohammad Irfan"
+                pages="61-73"
+                pdfLink="/volume1-issue2/article2.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5243"
-               title="A Review on Minimum Quantity Lubrication (MQL) Using Hybrid Nanofluids: Enhancing Tool Life and Surface Quality in Metal Cutting"
-                authors="Komal Morankar, Ravindra Deshmukh"
-                pages="18-31"
-                pdfLink="/volume1-issue1/article3.pdf"
+               title="Optimization of Noise Reduction in Diesel Generator Set Enclosures Using Taguchi
+Method"
+                authors="Pathan Tanzimkhan Lalkhan, Ravindra Karvande & Mohammad Irfan H"
+                pages="74-82"
+                pdfLink="/volume1-issue2/article3.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5244"
-                title="Performance and Emission Characteristics of a Four-Stroke Engine Using E20 Fuel Blend"
-                authors="Prashant patil, Umesh Hiwalrale, Chandrashekhar Ingle"
-                pages="32-38"
-                pdfLink="/volume1-issue1/article4.pdf"
+                title="A Comprehensive Review on Electrical Discharge Machining and Wire Electrical
+Discharge Machining of Titanium Alloys"
+                authors="Mohammed Aakef Farooqui, Ravindra Karvande & Mohammad Irfan"
+                pages="83-93"
+                pdfLink="/volume1-issue2/article4.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5245"
-                title="Enhancing Wear Performance of W-Cu Composites through Response Surface Methodology"
-                authors="Harshal Kale, Sambhaji Sathe"
-                pages="39-46"
-                pdfLink="/volume1-issue1/article5.pdf"
+                title="An In-Depth Review of Supply Chain Management and Data Analytics
+Applications in the Automobile Manufacturing Industry"
+                authors="Abhishek Ugle, Shantisagar Biradar & Swapnil N. Dhole"
+                pages="94-104"
+                pdfLink="/volume1-issue2/article5.pdf"
                 updateLink="/upcoming-content"
               />
             </div>
@@ -312,4 +315,4 @@ const JournalIssueTOC = () => {
   );
 };
 
-export default JournalIssueTOC;
+export default JournalIssue2;

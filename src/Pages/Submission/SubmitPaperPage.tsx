@@ -389,7 +389,7 @@ const ManuscriptSubmissionForm: React.FC = () => {
                       >
                         <option value="">Select Desired Issue</option>
                         <option value="Volume XIV Issue VII- July 2025-Open">Vol-I Issue-II, Sept-Oct (Open)</option>
-                        {/* <option value="Volume XIV Issue IX- September 2025-Open">Volume XIV Issue IX- September 2025-Open</option> */}
+                        <option value="Vol-I Issue-IV, Jan-Feb (Open)">Vol-I Issue-IV, Jan-Feb (Open)</option>
                       </select>
                       {errors.desiredIssue && (
                         <p className="mt-1 text-red-600 text-sm font-montserrat">{errors.desiredIssue}</p>
