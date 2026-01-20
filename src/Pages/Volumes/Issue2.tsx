@@ -262,45 +262,34 @@ Applications in the Automobile Manufacturing Industry"
   );
 
   // Footer Component
-  const Footer = () => (
-    <footer className="bg-gradient-to-r from-teal-800 to-teal-900 text-white p-10 mt-10">
-      <div className="container mx-auto max-w-6xl">
-        <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-          <div className="footer-section">
-            <h3 className="text-xl mb-5 border-b-2 border-teal-500 pb-2 inline-block">About UJGSM</h3>
-            <p className="text-teal-100">A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
+    const Footer = () => (
+      <footer className="bg-gradient-to-r from-teal-800 to-teal-600 text-white p-10 mt-10">
+        <div className="container mx-auto max-w-6xl">
+          <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            <div className="footer-section">
+              <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
+              <p>A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
+            </div>
+            <div className="footer-section">
+              <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
+              <p className="flex items-center mb-2"><FaHome className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Home</a></p>
+              <p className="flex items-center mb-2"><FaBook className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Current Issue</a></p>
+              <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <a href="#" className="text-white hover:text--teal-800">Archives</a></p>
+            </div>
+            <div className="footer-section">
+              <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
+              <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
+              <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9766930707</p>
+              <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
+            </div>
           </div>
-          <div className="footer-section">
-            <h3 className="text-xl mb-5 border-b-2 border-teal-500 pb-2 inline-block">Quick Links</h3>
-            <p className="flex items-center mb-2 text-teal-100 hover:text-teal-300 transition-colors duration-300">
-              <FaHome className="mr-2" /> <a href="#" className="text-teal-100 hover:text-teal-300 transition-colors duration-300">Home</a>
-            </p>
-            <p className="flex items-center mb-2 text-teal-100 hover:text-teal-300 transition-colors duration-300">
-              <FaBook className="mr-2" /> <a href="#" className="text-teal-100 hover:text-teal-300 transition-colors duration-300">Current Issue</a>
-            </p>
-            <p className="flex items-center mb-2 text-teal-100 hover:text-teal-300 transition-colors duration-300">
-              <FaArchive className="mr-2" /> <a href="#" className="text-teal-100 hover:text-teal-300 transition-colors duration-300">Archives</a>
-            </p>
-          </div>
-          <div className="footer-section">
-            <h3 className="text-xl mb-5 border-b-2 border-teal-500 pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2 text-teal-100 hover:text-teal-300 transition-colors duration-300">
-              <FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-teal-100 hover:text-teal-300 transition-colors duration-300">contact@uorapublications.com</a>
-            </p>
-            <p className="flex items-center mb-2 text-teal-100 hover:text-teal-300 transition-colors duration-300">
-              <FaPhone className="mr-2" /> +91-9766930707
-            </p>
-            <p className="flex items-center mb-2 text-teal-100 hover:text-teal-300 transition-colors duration-300">
-              <FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India
-            </p>
+          <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
+            <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
           </div>
         </div>
-        <div className="copyright text-center pt-5 mt-5 border-t border-teal-700 text-sm opacity-80">
-          <p>&copy; 2025 Universal Journal of Green Sci-Tech & Management. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-  );
+      </footer>
+    );
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-teal-50 to-white">
