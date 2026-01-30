@@ -405,7 +405,7 @@ const SubmissionsList: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <ToastContainer />
-      <div className="container mx-auto max-w-6xl px-4">
+      <div className="container mx-auto max-w-[95%] xl:max-w-7xl px-4">
         <h1 className="text-3xl font-bold text-teal-800 mb-6 flex items-center">
           <FaBook className="mr-3" /> Manuscript Submissions
         </h1>
@@ -482,7 +482,7 @@ const SubmissionsList: React.FC = () => {
             <p className="text-gray-500">When authors submit manuscripts, they will appear here.</p>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
             {filteredSubmissions.length === 0 && submissions.length > 0 ? (
               <div className="p-8 text-center text-gray-500">
                 <FaBook className="text-5xl text-gray-300 mx-auto mb-4" />
@@ -491,238 +491,337 @@ const SubmissionsList: React.FC = () => {
               </div>
             ) : (
               <>
-                <table className="min-w-full">
-                  <thead className="bg-teal-800 text-white">
-                    <tr>
-                      <th className="py-3 px-4 text-center w-16">S.No</th>
-                      <th className="py-3 px-4 text-left w-12"></th>
-                      <th className="py-3 px-4 text-left">Tracking ID</th>
-                      <th className="py-3 px-4 text-left">Title</th>
-                      <th className="py-3 px-4 text-left">Author</th>
-                      <th className="py-3 px-4 text-left">Issue</th>
-                      <th className="py-3 px-4 text-left">Status</th>
-                      <th className="py-3 px-4 text-left">Created</th>
-                      <th className="py-3 px-4 text-left">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {paginatedSubmissions.map((submission, index) => {
-                      const serialNumber = startIndex + index + 1;
-                      return (
-                  <React.Fragment key={submission.id}>
-                    <tr className="border-b hover:bg-teal-50 transition-colors">
-                      <td className="py-3 px-4 text-center font-semibold text-gray-700">
-                        {serialNumber}
-                      </td>
-                      <td className="py-3 px-4">
-                        <button 
-                          onClick={() => toggleExpand(submission.id)}
-                          className="text-teal-600 hover:text-teal-800"
-                          aria-label={expandedSubmission === submission.id ? "Collapse" : "Expand"}
-                        >
-                          {expandedSubmission === submission.id ? <FaChevronUp /> : <FaChevronDown />}
-                        </button>
-                      </td>
-                      <td className="py-3 px-4 font-mono">{submission.trackingId}</td>
-                      <td className="py-3 px-4 font-medium">{submission.manuscriptTitle}</td>
-                      <td className="py-3 px-4 flex items-center">
-                        <FaUser className="mr-2 text-teal-600" />
-                        {submission.correspondingAuthorName}
-                      </td>
-                      <td className="py-3 px-4">{submission.desiredIssue}</td>
-                      <td className="py-3 px-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          submission.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                          submission.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                          submission.status === 'under_review' ? 'bg-blue-100 text-blue-800' :
-                          submission.status === 'revision_required' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {submission.status?.replace('_', ' ') || 'submitted'}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 flex items-center">
-                        <FaCalendarAlt className="mr-2 text-teal-600" />
-                        {new Date(submission.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex space-x-3">
-                          <a
-                            href={submission.manuscriptFilePath}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-green-500 hover:text-teal-800 flex items-center"
-                          >
-                            <FaFileAlt className="mr-1" /> View File
-                          </a>
-                          <button
-                            onClick={() => handleDeleteSubmission(submission.id)}
-                            disabled={deletingId === submission.id}
-                            className="text-red-500 hover:text-red-700 flex items-center"
-                          >
-                            {deletingId === submission.id ? (
-                              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-red-500 mr-1"></div>
-                            ) : (
-                              <FaTrash className="mr-1" />
-                            )}
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    {expandedSubmission === submission.id && (
-                      <tr className="bg-teal-50">
-                        <td colSpan={9} className="p-4">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                              <h3 className="font-semibold text-teal-800 mb-3 flex items-center">
-                                <FaUser className="mr-2" /> Author Details
-                              </h3>
-                              <div className="space-y-2 text-sm">
-                                <p><span className="font-medium">Name:</span> {submission.correspondingAuthorName}</p>
-                                <p><span className="font-medium">Email:</span> {submission.correspondingAuthorEmail}</p>
-                                <p><span className="font-medium">Mobile:</span> {submission.correspondingAuthorMobile}</p>
-                                <p><span className="font-medium">WhatsApp:</span> {submission.whatsappNumber}</p>
-                                <p><span className="font-medium">Organization:</span> {submission.correspondingAuthorOrganization}</p>
-                                <p><span className="font-medium">Department:</span> {submission.correspondingAuthorDepartment}</p>
-                                <p><span className="font-medium">Location:</span> {submission.city}, {submission.state}, {submission.country}</p>
-                                <p><span className="font-medium">Author Type:</span> {submission.authorType}</p>
-                                <p><span className="font-medium">Category:</span> {submission.authorCategory}</p>
-                              </div>
-                            </div>
-                            <div>
-                              <h3 className="font-semibold text-teal-800 mb-3 flex items-center">
-                                <FaFileAlt className="mr-2" /> Manuscript Details
-                              </h3>
-                              <div className="space-y-2 text-sm mb-4">
-                                <p><span className="font-medium">Title:</span> {submission.manuscriptTitle}</p>
-                                <p><span className="font-medium">Subject Area:</span> {submission.subjectArea}</p>
-                                <p><span className="font-medium">Pages:</span> {submission.numberOfPages}</p>
-                                <p><span className="font-medium">Authors:</span> {submission.totalAuthors}</p>
-                                <p><span className="font-medium">Desired Issue:</span> {submission.desiredIssue}</p>
-                                <p><span className="font-medium">Abstract:</span> {submission.abstract}</p>
-                              </div>
-                              
-                              <h3 className="font-semibold text-teal-800 mb-3 flex items-center">
-                                <FaComments className="mr-2" /> Admin Remarks
-                              </h3>
-                              {editingRemarks === submission.id ? (
-                                <div className="space-y-2">
-                                  <textarea 
-                                    value={newRemarks} 
-                                    onChange={(e) => setNewRemarks(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                    rows={3}
-                                  />
-                                  <div className="flex space-x-2">
-                                    <button 
-                                      onClick={() => saveRemarks(submission.id, submission.status)}
-                                      className="px-3 py-1 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700"
-                                    >
-                                      Save
-                                    </button>
-                                    <button 
-                                      onClick={cancelEditingRemarks}
-                                      className="px-3 py-1 bg-gray-300 text-gray-700 rounded-lg text-sm hover:bg-gray-400"
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className="space-y-2">
-                                  <p className="text-sm bg-white p-3 rounded-lg border border-gray-200 min-h-[80px]">
-                                    {submission.adminRemarks || "No remarks yet."}
+                <div className="overflow-x-auto shadow-inner">
+                  <table className="min-w-full divide-y divide-gray-200 table-auto">
+                    <thead className="bg-gradient-to-r from-teal-800 to-teal-700 text-white sticky top-0 z-20 shadow-md">
+                      <tr>
+                        <th className="py-4 px-3 text-center font-bold text-sm w-16 sticky left-0 bg-teal-800 z-30 border-r border-teal-600">S.No</th>
+                        <th className="py-4 px-3 text-center font-bold text-sm w-14">Expand</th>
+                        <th className="py-4 px-4 text-left font-bold text-sm min-w-[140px] whitespace-nowrap">Tracking ID</th>
+                        <th className="py-4 px-4 text-left font-bold text-sm min-w-[280px]">Manuscript Title</th>
+                        <th className="py-4 px-4 text-left font-bold text-sm min-w-[200px]">Author Name</th>
+                        <th className="py-4 px-4 text-left font-bold text-sm min-w-[180px]">Desired Issue</th>
+                        <th className="py-4 px-4 text-center font-bold text-sm min-w-[130px] whitespace-nowrap">Status</th>
+                        <th className="py-4 px-4 text-left font-bold text-sm min-w-[120px] whitespace-nowrap">Created Date</th>
+                        <th className="py-4 px-4 text-left font-bold text-sm min-w-[180px] whitespace-nowrap">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {paginatedSubmissions.map((submission, index) => {
+                        const serialNumber = startIndex + index + 1;
+                        return (
+                          <React.Fragment key={submission.id}>
+                            <tr className="hover:bg-teal-50 transition-colors duration-150">
+                              <td className="py-4 px-3 text-center font-semibold text-gray-700 bg-gray-50 sticky left-0 z-10 border-r border-gray-200">
+                                {serialNumber}
+                              </td>
+                              <td className="py-4 px-3 text-center">
+                                <button 
+                                  onClick={() => toggleExpand(submission.id)}
+                                  className="text-teal-600 hover:text-teal-800 hover:bg-teal-100 rounded-full p-1 transition-all"
+                                  aria-label={expandedSubmission === submission.id ? "Collapse" : "Expand"}
+                                  title={expandedSubmission === submission.id ? "Collapse details" : "Expand details"}
+                                >
+                                  {expandedSubmission === submission.id ? <FaChevronUp /> : <FaChevronDown />}
+                                </button>
+                              </td>
+                              <td className="py-4 px-4">
+                                <span className="font-mono text-sm text-gray-800 bg-gray-50 px-2 py-1 rounded border border-gray-200">
+                                  {submission.trackingId}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="max-w-[280px]">
+                                  <p className="font-medium text-gray-900 text-sm leading-relaxed break-words" title={submission.manuscriptTitle}>
+                                    {submission.manuscriptTitle}
                                   </p>
-                                  <button 
-                                    onClick={() => startEditingRemarks(submission.id, submission.adminRemarks || '')}
-                                    className="flex items-center text-sm text-teal-600 hover:text-teal-800"
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex items-center max-w-[200px]">
+                                  <FaUser className="mr-2 text-teal-600 flex-shrink-0" />
+                                  <span className="text-sm text-gray-800 break-words" title={submission.correspondingAuthorName}>
+                                    {submission.correspondingAuthorName}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <span className="text-sm text-gray-700 break-words" title={submission.desiredIssue}>
+                                  {submission.desiredIssue}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4 text-center">
+                                <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap ${
+                                  submission.status === 'accepted' ? 'bg-green-100 text-green-800 border border-green-200' :
+                                  submission.status === 'rejected' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                  submission.status === 'under_review' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
+                                  submission.status === 'revision_required' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                                  'bg-gray-100 text-gray-800 border border-gray-200'
+                                }`}>
+                                  {submission.status?.replace('_', ' ') || 'submitted'}
+                                </span>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex items-center text-sm text-gray-700">
+                                  <FaCalendarAlt className="mr-2 text-teal-600 flex-shrink-0" />
+                                  <span className="whitespace-nowrap">
+                                    {new Date(submission.createdAt).toLocaleDateString('en-US', { 
+                                      year: 'numeric', 
+                                      month: 'short', 
+                                      day: 'numeric' 
+                                    })}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                  <a
+                                    href={submission.manuscriptFilePath}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center px-3 py-1.5 bg-green-50 text-green-700 hover:bg-green-100 rounded-md text-xs font-medium transition-colors border border-green-200"
+                                    title="View manuscript file"
                                   >
-                                    <FaEdit className="mr-1" /> {submission.adminRemarks ? 'Edit' : 'Add'} Remarks
+                                    <FaFileAlt className="mr-1.5" />
+                                    View File
+                                  </a>
+                                  <button
+                                    onClick={() => handleDeleteSubmission(submission.id)}
+                                    disabled={deletingId === submission.id}
+                                    className="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 hover:bg-red-100 rounded-md text-xs font-medium transition-colors border border-red-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    title="Delete submission"
+                                  >
+                                    {deletingId === submission.id ? (
+                                      <div className="animate-spin rounded-full h-3 w-3 border-t-2 border-b-2 border-red-500 mr-1.5"></div>
+                                    ) : (
+                                      <FaTrash className="mr-1.5" />
+                                    )}
+                                    Delete
                                   </button>
                                 </div>
-                              )}
+                              </td>
+                            </tr>
+                            {expandedSubmission === submission.id && (
+                              <tr className="bg-gradient-to-r from-teal-50 to-green-50">
+                                <td colSpan={9} className="p-6">
+                                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    {/* Author Details Section */}
+                                    <div className="bg-white rounded-lg p-5 shadow-sm border border-teal-100">
+                                      <h3 className="font-bold text-teal-800 mb-4 flex items-center text-lg border-b border-teal-200 pb-2">
+                                        <FaUser className="mr-2 text-teal-600" /> Author Details
+                                      </h3>
+                                      <div className="grid grid-cols-1 gap-3 text-sm">
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Full Name</span>
+                                          <span className="text-gray-800">{submission.correspondingAuthorName}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Email</span>
+                                          <a href={`mailto:${submission.correspondingAuthorEmail}`} className="text-teal-600 hover:text-teal-800 break-all">
+                                            {submission.correspondingAuthorEmail}
+                                          </a>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Mobile</span>
+                                          <span className="text-gray-800">{submission.correspondingAuthorMobile}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">WhatsApp</span>
+                                          <span className="text-gray-800">{submission.whatsappNumber}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Organization</span>
+                                          <span className="text-gray-800">{submission.correspondingAuthorOrganization}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Department</span>
+                                          <span className="text-gray-800">{submission.correspondingAuthorDepartment}</span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Location</span>
+                                          <span className="text-gray-800">{submission.city}{submission.state ? `, ${submission.state}` : ''}, {submission.country}</span>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                          <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-600 mb-1">Author Type</span>
+                                            <span className="text-gray-800">{submission.authorType}</span>
+                                          </div>
+                                          <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-600 mb-1">Category</span>
+                                            <span className="text-gray-800">{submission.authorCategory}</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {/* Manuscript Details Section */}
+                                    <div className="bg-white rounded-lg p-5 shadow-sm border border-teal-100">
+                                      <h3 className="font-bold text-teal-800 mb-4 flex items-center text-lg border-b border-teal-200 pb-2">
+                                        <FaFileAlt className="mr-2 text-teal-600" /> Manuscript Details
+                                      </h3>
+                                      <div className="grid grid-cols-1 gap-3 text-sm mb-4">
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Title</span>
+                                          <span className="text-gray-800 leading-relaxed">{submission.manuscriptTitle}</span>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                          <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-600 mb-1">Subject Area</span>
+                                            <span className="text-gray-800">{submission.subjectArea}</span>
+                                          </div>
+                                          <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-600 mb-1">Pages</span>
+                                            <span className="text-gray-800">{submission.numberOfPages}</span>
+                                          </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                          <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-600 mb-1">Total Authors</span>
+                                            <span className="text-gray-800">{submission.totalAuthors}</span>
+                                          </div>
+                                          <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-600 mb-1">Desired Issue</span>
+                                            <span className="text-gray-800">{submission.desiredIssue}</span>
+                                          </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-semibold text-gray-600 mb-1">Abstract</span>
+                                          <p className="text-gray-800 leading-relaxed bg-gray-50 p-3 rounded border border-gray-200 max-h-32 overflow-y-auto">
+                                            {submission.abstract}
+                                          </p>
+                                        </div>
+                                      </div>
                               
-                              <h3 className="font-semibold text-teal-800 mt-4 mb-2">Update Status</h3>
-                              <div className="flex flex-wrap gap-2">
-                                <button 
-                                  onClick={() => handleStatusChange(submission.id, 'under_review')}
-                                  disabled={updatingStatus === submission.id}
-                                  className={`px-3 py-1 rounded-lg text-sm flex items-center ${
-                                    submission.status === 'under_review' 
-                                      ? 'bg-blue-100 text-blue-800 border border-blue-300' 
-                                      : 'bg-white text-blue-600 border border-blue-200 hover:bg-blue-50'
-                                  }`}
-                                >
-                                  {updatingStatus === submission.id && submission.status !== 'under_review' ? (
-                                    <div className="animate-spin rounded-full h-3 w-3 border-t-2 border-b-2 border-blue-500 mr-1"></div>
-                                  ) : submission.status === 'under_review' ? (
-                                    <FaCheck className="mr-1" />
-                                  ) : null}
-                                  Under Review
-                                </button>
-                                
-                                <button 
-                                  onClick={() => handleStatusChange(submission.id, 'revision_required')}
-                                  disabled={updatingStatus === submission.id}
-                                  className={`px-3 py-1 rounded-lg text-sm flex items-center ${
-                                    submission.status === 'revision_required' 
-                                      ? 'bg-yellow-100 text-yellow-800 border border-yellow-300' 
-                                      : 'bg-white text-yellow-600 border border-yellow-200 hover:bg-yellow-50'
-                                  }`}
-                                >
-                                  {updatingStatus === submission.id && submission.status !== 'revision_required' ? (
-                                    <div className="animate-spin rounded-full h-3 w-3 border-t-2 border-b-2 border-yellow-500 mr-1"></div>
-                                  ) : submission.status === 'revision_required' ? (
-                                    <FaCheck className="mr-1" />
-                                  ) : null}
-                                  Revision Required
-                                </button>
-                                
-                                <button 
-                                  onClick={() => handleStatusChange(submission.id, 'accepted')}
-                                  disabled={updatingStatus === submission.id}
-                                  className={`px-3 py-1 rounded-lg text-sm flex items-center ${
-                                    submission.status === 'accepted' 
-                                      ? 'bg-green-100 text-green-800 border border-green-300' 
-                                      : 'bg-white text-green-600 border border-green-200 hover:bg-green-50'
-                                  }`}
-                                >
-                                  {updatingStatus === submission.id && submission.status !== 'accepted' ? (
-                                    <div className="animate-spin rounded-full h-3 w-3 border-t-2 border-b-2 border-green-500 mr-1"></div>
-                                  ) : submission.status === 'accepted' ? (
-                                    <FaCheck className="mr-1" />
-                                  ) : null}
-                                  Accept
-                                </button>
-                                
-                                <button 
-                                  onClick={() => handleStatusChange(submission.id, 'rejected')}
-                                  disabled={updatingStatus === submission.id}
-                                  className={`px-3 py-1 rounded-lg text-sm flex items-center ${
-                                    submission.status === 'rejected' 
-                                      ? 'bg-red-100 text-red-800 border border-red-300' 
-                                      : 'bg-white text-red-600 border border-red-200 hover:bg-red-50'
-                                  }`}
-                                >
-                                  {updatingStatus === submission.id && submission.status !== 'rejected' ? (
-                                    <div className="animate-spin rounded-full h-3 w-3 border-t-2 border-b-2 border-red-500 mr-1"></div>
-                                  ) : submission.status === 'rejected' ? (
-                                    <FaCheck className="mr-1" />
-                                  ) : null}
-                                  Reject
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  </React.Fragment>
-                    );
-                    })}
-                  </tbody>
-                </table>
+                                      {/* Admin Remarks Section */}
+                                      <div className="mt-4 pt-4 border-t border-gray-200">
+                                        <h3 className="font-bold text-teal-800 mb-3 flex items-center text-base">
+                                          <FaComments className="mr-2 text-teal-600" /> Admin Remarks
+                                        </h3>
+                                        {editingRemarks === submission.id ? (
+                                          <div className="space-y-3">
+                                            <textarea 
+                                              value={newRemarks} 
+                                              onChange={(e) => setNewRemarks(e.target.value)}
+                                              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
+                                              rows={4}
+                                              placeholder="Enter your remarks here..."
+                                            />
+                                            <div className="flex gap-2">
+                                              <button 
+                                                onClick={() => saveRemarks(submission.id, submission.status)}
+                                                className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors"
+                                              >
+                                                Save Remarks
+                                              </button>
+                                              <button 
+                                                onClick={cancelEditingRemarks}
+                                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-400 transition-colors"
+                                              >
+                                                Cancel
+                                              </button>
+                                            </div>
+                                          </div>
+                                        ) : (
+                                          <div className="space-y-2">
+                                            <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 min-h-[100px]">
+                                              <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                                                {submission.adminRemarks || <span className="text-gray-400 italic">No remarks yet.</span>}
+                                              </p>
+                                            </div>
+                                            <button 
+                                              onClick={() => startEditingRemarks(submission.id, submission.adminRemarks || '')}
+                                              className="inline-flex items-center px-3 py-1.5 text-sm text-teal-600 hover:text-teal-800 hover:bg-teal-50 rounded-md transition-colors"
+                                            >
+                                              <FaEdit className="mr-1.5" /> {submission.adminRemarks ? 'Edit' : 'Add'} Remarks
+                                            </button>
+                                          </div>
+                                        )}
+                                      </div>
+
+                                      {/* Status Update Section */}
+                                      <div className="mt-4 pt-4 border-t border-gray-200">
+                                        <h3 className="font-bold text-teal-800 mb-3 text-base">Update Status</h3>
+                                        <div className="flex flex-wrap gap-2">
+                                          <button 
+                                            onClick={() => handleStatusChange(submission.id, 'under_review')}
+                                            disabled={updatingStatus === submission.id}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all ${
+                                              submission.status === 'under_review' 
+                                                ? 'bg-blue-100 text-blue-800 border-2 border-blue-400 shadow-sm' 
+                                                : 'bg-white text-blue-600 border border-blue-200 hover:bg-blue-50 hover:border-blue-300'
+                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                          >
+                                            {updatingStatus === submission.id && submission.status !== 'under_review' ? (
+                                              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-500 mr-2"></div>
+                                            ) : submission.status === 'under_review' ? (
+                                              <FaCheck className="mr-2" />
+                                            ) : null}
+                                            Under Review
+                                          </button>
+                                          
+                                          <button 
+                                            onClick={() => handleStatusChange(submission.id, 'revision_required')}
+                                            disabled={updatingStatus === submission.id}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all ${
+                                              submission.status === 'revision_required' 
+                                                ? 'bg-yellow-100 text-yellow-800 border-2 border-yellow-400 shadow-sm' 
+                                                : 'bg-white text-yellow-600 border border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300'
+                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                          >
+                                            {updatingStatus === submission.id && submission.status !== 'revision_required' ? (
+                                              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-yellow-500 mr-2"></div>
+                                            ) : submission.status === 'revision_required' ? (
+                                              <FaCheck className="mr-2" />
+                                            ) : null}
+                                            Revision Required
+                                          </button>
+                                          
+                                          <button 
+                                            onClick={() => handleStatusChange(submission.id, 'accepted')}
+                                            disabled={updatingStatus === submission.id}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all ${
+                                              submission.status === 'accepted' 
+                                                ? 'bg-green-100 text-green-800 border-2 border-green-400 shadow-sm' 
+                                                : 'bg-white text-green-600 border border-green-200 hover:bg-green-50 hover:border-green-300'
+                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                          >
+                                            {updatingStatus === submission.id && submission.status !== 'accepted' ? (
+                                              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-green-500 mr-2"></div>
+                                            ) : submission.status === 'accepted' ? (
+                                              <FaCheck className="mr-2" />
+                                            ) : null}
+                                            Accept
+                                          </button>
+                                          
+                                          <button 
+                                            onClick={() => handleStatusChange(submission.id, 'rejected')}
+                                            disabled={updatingStatus === submission.id}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all ${
+                                              submission.status === 'rejected' 
+                                                ? 'bg-red-100 text-red-800 border-2 border-red-400 shadow-sm' 
+                                                : 'bg-white text-red-600 border border-red-200 hover:bg-red-50 hover:border-red-300'
+                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                          >
+                                            {updatingStatus === submission.id && submission.status !== 'rejected' ? (
+                                              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-red-500 mr-2"></div>
+                                            ) : submission.status === 'rejected' ? (
+                                              <FaCheck className="mr-2" />
+                                            ) : null}
+                                            Reject
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </React.Fragment>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
 
                 {/* Pagination Controls - Bottom */}
                 {totalPages > 1 && (
