@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
-import { FaBook, FaUser, FaCalendarAlt, FaFileAlt, FaChevronDown, FaChevronUp, FaCheck, FaEdit, FaComments, FaTrash } from 'react-icons/fa';
+import { FaBook, FaUser, FaCalendarAlt, FaFileAlt, FaChevronDown, FaChevronUp, FaCheck, FaEdit, FaComments, FaTrash, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -54,41 +54,164 @@ const SubmissionsList: React.FC = () => {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 
   const API_URL = import.meta.env.VITE_API_URL || 'https://journal-backend-production-a363.up.railway.app';
 
+  // Debounce search term to avoid excessive filtering
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setCurrentPage(1); // Reset to first page when search changes
+    }, 300);
 
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Fetch all submissions once (client-side filtering)
+  useEffect(() => {
     if (!isAuthenticated) {
       setLoading(false);
       return;
     }
     
+    setLoading(true);
+    setError(null);
+    
     const fetchSubmissions = async () => {
       try {
-        const response = await axios.get<{
-          data: Submission[];
-          count: number;
-          page: number;
-          totalPages: number;
-        }>(`${API_URL}/submission`, {
-          params: {
-            status: statusFilter !== 'all' ? statusFilter : undefined,
-            search: searchTerm || undefined
+        // First, try to fetch all data without pagination
+        let allSubmissions: Submission[] = [];
+        
+        try {
+          // Try fetching with a large limit to get all records
+          const response = await axios.get(`${API_URL}/submission`, {
+            params: {
+              limit: 1000, // Request large limit to get all records
+              page: 1
+            }
+          });
+          
+          // Handle different response structures
+          if (response.data) {
+            if (Array.isArray(response.data)) {
+              allSubmissions = response.data;
+            } else if (response.data.data && Array.isArray(response.data.data)) {
+              allSubmissions = response.data.data;
+              
+              // If API supports pagination and there are more pages, fetch them
+              if (response.data.totalPages && response.data.totalPages > 1) {
+                const totalPages = response.data.totalPages;
+                const additionalRequests = [];
+                
+                for (let page = 2; page <= totalPages; page++) {
+                  additionalRequests.push(
+                    axios.get(`${API_URL}/submission`, {
+                      params: { limit: 1000, page }
+                    })
+                  );
+                }
+                
+                const additionalResponses = await Promise.all(additionalRequests);
+                additionalResponses.forEach(res => {
+                  if (res.data?.data && Array.isArray(res.data.data)) {
+                    allSubmissions = [...allSubmissions, ...res.data.data];
+                  } else if (Array.isArray(res.data)) {
+                    allSubmissions = [...allSubmissions, ...res.data];
+                  }
+                });
+              }
+            }
           }
-        });
-        const list = (response.data && Array.isArray((response.data as any).data)) ? response.data.data : (response.data as any).data || (response.data as any);
-        setSubmissions(Array.isArray(list) ? list : []);
+        } catch (paginatedError) {
+          // If paginated request fails, try simple fetch
+          try {
+            const simpleResponse = await axios.get(`${API_URL}/submission`);
+            if (Array.isArray(simpleResponse.data)) {
+              allSubmissions = simpleResponse.data;
+            } else if (simpleResponse.data?.data && Array.isArray(simpleResponse.data.data)) {
+              allSubmissions = simpleResponse.data.data;
+            }
+          } catch (simpleError) {
+            throw simpleError;
+          }
+        }
+        
+        setSubmissions(allSubmissions);
         setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch submissions. Please try again.');
+        
+        if (allSubmissions.length > 0) {
+          toast.success(`Loaded ${allSubmissions.length} submission(s)`);
+        }
+      } catch (err: any) {
+        console.error('Error fetching submissions:', err);
+        const errorMessage = err.response?.data?.message || 'Failed to fetch submissions. Please try again.';
+        setError(errorMessage);
         setLoading(false);
-        toast.error('Failed to load submissions');
+        setSubmissions([]);
+        toast.error(errorMessage);
       }
     };
 
     fetchSubmissions();
-  }, [API_URL, statusFilter, searchTerm, isAuthenticated]);
+  }, [API_URL, isAuthenticated]);
+
+  // Client-side filtering: Filter by status and search term
+  const filteredSubmissions = useMemo(() => {
+    return submissions.filter(sub => {
+      // Status filter - normalize for comparison (handle case and whitespace)
+      const subStatus = (sub.status || 'submitted').toLowerCase().trim();
+      const selectedStatus = statusFilter.toLowerCase().trim();
+      const matchesStatus = statusFilter === 'all' || subStatus === selectedStatus;
+      
+      // Search filter - only apply if search term exists
+      if (!debouncedSearchTerm.trim()) {
+        return matchesStatus;
+      }
+      
+      const searchLower = debouncedSearchTerm.toLowerCase();
+      const matchesSearch = 
+        sub.trackingId?.toLowerCase().includes(searchLower) ||
+        sub.manuscriptTitle?.toLowerCase().includes(searchLower) ||
+        sub.correspondingAuthorName?.toLowerCase().includes(searchLower) ||
+        sub.correspondingAuthorEmail?.toLowerCase().includes(searchLower) ||
+        sub.correspondingAuthorOrganization?.toLowerCase().includes(searchLower) ||
+        sub.correspondingAuthorDepartment?.toLowerCase().includes(searchLower) ||
+        sub.subjectArea?.toLowerCase().includes(searchLower) ||
+        sub.abstract?.toLowerCase().includes(searchLower) ||
+        sub.city?.toLowerCase().includes(searchLower) ||
+        sub.country?.toLowerCase().includes(searchLower) ||
+        sub.desiredIssue?.toLowerCase().includes(searchLower);
+      
+      return matchesStatus && matchesSearch;
+    });
+  }, [submissions, statusFilter, debouncedSearchTerm]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedSubmissions = filteredSubmissions.slice(startIndex, endIndex);
+
+  // Reset to page 1 when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [statusFilter, itemsPerPage]);
+
+  // Pagination handlers
+  const handlePageChange = useCallback((page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [totalPages]);
+
+  const handleItemsPerPageChange = useCallback((value: number) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+  }, []);
 
   // auth handlers
   const handleLogin = (e: React.FormEvent) => {
@@ -197,10 +320,12 @@ const SubmissionsList: React.FC = () => {
 
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setSearchTerm(e.target.value);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault();
     setStatusFilter(e.target.value);
   };
 
@@ -285,34 +410,72 @@ const SubmissionsList: React.FC = () => {
           <FaBook className="mr-3" /> Manuscript Submissions
         </h1>
         
-        <div className="mb-6 flex justify-between items-center">
-          <div className="text-sm text-gray-600">
-            {submissions.length} submission(s) found
+        <div className="mb-6 space-y-4">
+          {/* Filters and Search Row */}
+          <div className="flex flex-wrap justify-between items-center gap-4">
+            <div className="text-sm text-gray-600">
+              Showing <span className="font-semibold">{filteredSubmissions.length}</span> of <span className="font-semibold">{submissions.length}</span> submission(s)
+              {filteredSubmissions.length !== submissions.length && (
+                <span className="text-gray-400 ml-2">(filtered)</span>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <select 
+                value={statusFilter}
+                onChange={handleFilterChange}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+              >
+                <option value="all">All Statuses</option>
+                <option value="submitted">Submitted</option>
+                <option value="under_review">Under Review</option>
+                <option value="revision_required">Revision Required</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+              </select>
+              <input 
+                type="text" 
+                placeholder="Search submissions..." 
+                value={searchTerm}
+                onChange={handleSearch}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                  }
+                }}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+              />
+            </div>
           </div>
-          <div className="flex space-x-2">
-            <select 
-              value={statusFilter}
-              onChange={handleFilterChange}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            >
-              <option value="all">All Statuses</option>
-              <option value="submitted">Submitted</option>
-              <option value="under_review">Under Review</option>
-              <option value="revision_required">Revision Required</option>
-              <option value="accepted">Accepted</option>
-              <option value="rejected">Rejected</option>
-            </select>
-            <input 
-              type="text" 
-              placeholder="Search submissions..." 
-              value={searchTerm}
-              onChange={handleSearch}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
+
+          {/* Items Per Page and Pagination Info */}
+          <div className="flex flex-wrap justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-gray-600">Items per page:</label>
+              <select 
+                value={itemsPerPage}
+                onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+                className="px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+            {totalPages > 1 && (
+              <div className="text-sm text-gray-600">
+                Page <span className="font-semibold">{currentPage}</span> of <span className="font-semibold">{totalPages}</span>
+                {filteredSubmissions.length > 0 && (
+                  <span className="ml-2">
+                    (Showing {startIndex + 1}-{Math.min(endIndex, filteredSubmissions.length)} of {filteredSubmissions.length})
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
         
-        {submissions.length === 0 ? (
+        {submissions.length === 0 && !loading ? (
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
             <FaBook className="text-5xl text-gray-300 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-700 mb-2">No submissions found</h2>
@@ -320,27 +483,42 @@ const SubmissionsList: React.FC = () => {
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <table className="min-w-full">
-              <thead className="bg-teal-800 text-white">
-                <tr>
-                  <th className="py-3 px-4 text-left w-12"></th>
-                  <th className="py-3 px-4 text-left">Tracking ID</th>
-                  <th className="py-3 px-4 text-left">Title</th>
-                  <th className="py-3 px-4 text-left">Author</th>
-                  <th className="py-3 px-4 text-left">Issue</th>
-                  <th className="py-3 px-4 text-left">Status</th>
-                  <th className="py-3 px-4 text-left">Created</th>
-                  <th className="py-3 px-4 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {submissions.map((submission) => (
+            {filteredSubmissions.length === 0 && submissions.length > 0 ? (
+              <div className="p-8 text-center text-gray-500">
+                <FaBook className="text-5xl text-gray-300 mx-auto mb-4" />
+                <h2 className="text-xl font-semibold text-gray-700 mb-2">No submissions match your filters</h2>
+                <p className="text-gray-500">Try adjusting your search or status filter.</p>
+              </div>
+            ) : (
+              <>
+                <table className="min-w-full">
+                  <thead className="bg-teal-800 text-white">
+                    <tr>
+                      <th className="py-3 px-4 text-center w-16">S.No</th>
+                      <th className="py-3 px-4 text-left w-12"></th>
+                      <th className="py-3 px-4 text-left">Tracking ID</th>
+                      <th className="py-3 px-4 text-left">Title</th>
+                      <th className="py-3 px-4 text-left">Author</th>
+                      <th className="py-3 px-4 text-left">Issue</th>
+                      <th className="py-3 px-4 text-left">Status</th>
+                      <th className="py-3 px-4 text-left">Created</th>
+                      <th className="py-3 px-4 text-left">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {paginatedSubmissions.map((submission, index) => {
+                      const serialNumber = startIndex + index + 1;
+                      return (
                   <React.Fragment key={submission.id}>
                     <tr className="border-b hover:bg-teal-50 transition-colors">
+                      <td className="py-3 px-4 text-center font-semibold text-gray-700">
+                        {serialNumber}
+                      </td>
                       <td className="py-3 px-4">
                         <button 
                           onClick={() => toggleExpand(submission.id)}
                           className="text-teal-600 hover:text-teal-800"
+                          aria-label={expandedSubmission === submission.id ? "Collapse" : "Expand"}
                         >
                           {expandedSubmission === submission.id ? <FaChevronUp /> : <FaChevronDown />}
                         </button>
@@ -394,7 +572,7 @@ const SubmissionsList: React.FC = () => {
                     </tr>
                     {expandedSubmission === submission.id && (
                       <tr className="bg-teal-50">
-                        <td colSpan={8} className="p-4">
+                        <td colSpan={9} className="p-4">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                               <h3 className="font-semibold text-teal-800 mb-3 flex items-center">
@@ -541,9 +719,146 @@ const SubmissionsList: React.FC = () => {
                       </tr>
                     )}
                   </React.Fragment>
-                ))}
-              </tbody>
-            </table>
+                    );
+                    })}
+                  </tbody>
+                </table>
+
+                {/* Pagination Controls - Bottom */}
+                {totalPages > 1 && (
+                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                      {/* Left: Results Info */}
+                      <div className="text-sm text-gray-600">
+                        Showing <span className="font-semibold text-teal-700">{startIndex + 1}</span> to{' '}
+                        <span className="font-semibold text-teal-700">{Math.min(endIndex, filteredSubmissions.length)}</span> of{' '}
+                        <span className="font-semibold text-teal-700">{filteredSubmissions.length}</span> results
+                        {submissions.length !== filteredSubmissions.length && (
+                          <span className="text-gray-400 ml-2">
+                            (of {submissions.length} total)
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* Right: Pagination Controls */}
+                      <div className="flex items-center gap-2">
+                        {/* First Page Button */}
+                        <button
+                          onClick={() => handlePageChange(1)}
+                          disabled={currentPage === 1}
+                          className="px-3 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-teal-50 hover:border-teal-300 transition-all flex items-center gap-1 text-sm font-medium"
+                          aria-label="First page"
+                          title="First page"
+                        >
+                          <FaChevronLeft className="text-xs" />
+                          <FaChevronLeft className="text-xs -ml-2" />
+                        </button>
+
+                        {/* Previous Page Button */}
+                        <button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-teal-50 hover:border-teal-300 transition-all flex items-center gap-1 text-sm font-medium"
+                          aria-label="Previous page"
+                        >
+                          <FaChevronLeft className="text-xs" />
+                          <span>Previous</span>
+                        </button>
+                        
+                        {/* Page Numbers */}
+                        <div className="flex items-center gap-1">
+                          {(() => {
+                            const pages: (number | string)[] = [];
+                            const maxVisible = 7;
+                            
+                            if (totalPages <= maxVisible) {
+                              // Show all pages if total is small
+                              for (let i = 1; i <= totalPages; i++) {
+                                pages.push(i);
+                              }
+                            } else {
+                              // Always show first page
+                              pages.push(1);
+                              
+                              if (currentPage > 3) {
+                                pages.push('...');
+                              }
+                              
+                              // Show pages around current
+                              const start = Math.max(2, currentPage - 1);
+                              const end = Math.min(totalPages - 1, currentPage + 1);
+                              
+                              for (let i = start; i <= end; i++) {
+                                if (i !== 1 && i !== totalPages) {
+                                  pages.push(i);
+                                }
+                              }
+                              
+                              if (currentPage < totalPages - 2) {
+                                pages.push('...');
+                              }
+                              
+                              // Always show last page
+                              pages.push(totalPages);
+                            }
+                            
+                            return pages.map((page, idx) => {
+                              if (page === '...') {
+                                return (
+                                  <span key={`ellipsis-${idx}`} className="px-2 text-gray-400">
+                                    ...
+                                  </span>
+                                );
+                              }
+                              
+                              const pageNum = page as number;
+                              return (
+                                <button
+                                  key={pageNum}
+                                  onClick={() => handlePageChange(pageNum)}
+                                  className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                                    currentPage === pageNum
+                                      ? 'bg-teal-600 text-white shadow-md'
+                                      : 'border border-gray-300 hover:bg-teal-50 hover:border-teal-300 text-gray-700'
+                                  }`}
+                                  aria-label={`Page ${pageNum}`}
+                                  aria-current={currentPage === pageNum ? 'page' : undefined}
+                                >
+                                  {pageNum}
+                                </button>
+                              );
+                            });
+                          })()}
+                        </div>
+
+                        {/* Next Page Button */}
+                        <button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-teal-50 hover:border-teal-300 transition-all flex items-center gap-1 text-sm font-medium"
+                          aria-label="Next page"
+                        >
+                          <span>Next</span>
+                          <FaChevronRight className="text-xs" />
+                        </button>
+
+                        {/* Last Page Button */}
+                        <button
+                          onClick={() => handlePageChange(totalPages)}
+                          disabled={currentPage === totalPages}
+                          className="px-3 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-teal-50 hover:border-teal-300 transition-all flex items-center gap-1 text-sm font-medium"
+                          aria-label="Last page"
+                          title="Last page"
+                        >
+                          <FaChevronRight className="text-xs -mr-2" />
+                          <FaChevronRight className="text-xs" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         )}
       </div>
