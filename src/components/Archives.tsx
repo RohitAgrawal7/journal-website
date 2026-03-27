@@ -81,19 +81,19 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
       articlesCount: 6,
       keywords: ["renewable energy", "waste management", "urban planning"]
     },
-    // {
-    //   id: 4,
-    //   volume: "Volume 1 Issue 4",
-    //   year: 2025,
-    //   title: "Sustainable Development Strategies",
-    //   coverImageUrl: "https://image2url.com/r2/default/images/1768496299652-040dadbb-7cc9-430a-a41c-bb539439b978.png",
-    //   issueUrl: "/issue4",
-    //   pdfUrl: "/issue4",
-    //   description: "Comprehensive strategies for sustainable growth across industrial, agricultural, and urban sectors. Includes policy frameworks and implementation guidelines for developing economies.",
-    //   publishedDate: "2025-04-15",
-    //   articlesCount: 12,
-    //   keywords: ["sustainable growth", "policy frameworks", "agriculture"]
-    // },
+    {
+      id: 4,
+      volume: "Volume 1 Issue 4",
+      year: 2026,
+      title: "Sustainable Development Strategies",
+      coverImageUrl: "https://image2url.com/r2/default/images/1774632236661-23c327da-f619-43b1-8480-2fbc8d05ee5e.png",
+      issueUrl: "/issue4",
+      pdfUrl: "/issue4",
+      description: "Comprehensive strategies for sustainable growth across industrial, agricultural, and urban sectors. Includes policy frameworks and implementation guidelines for developing economies.",
+      publishedDate: "2026-02-28",
+      articlesCount: 12,
+      keywords: ["sustainable growth", "policy frameworks", "agriculture"]
+    },
     // {
     //   id: 5,
     //   volume: "Volume 1 Issue 5",
@@ -375,7 +375,7 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
               </div>
               <div className="flex justify-between">
                 <span>Current Year:</span>
-                <span className="font-semibold">2025</span>
+                <span className="font-semibold">2026</span>
               </div>
               <div className="flex justify-between">
                 <span>Articles:</span>

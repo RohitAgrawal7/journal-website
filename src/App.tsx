@@ -38,6 +38,7 @@ import ReviewerApplicationsList from './Pages/Submission/ReviewerApplicationsLis
 import JournalIssueTOC from './Pages/Volumes/Issue1';
 import JournalIssue2 from './Pages/Volumes/Issue2';
 import JournalIssue3 from './Pages/Volumes/Issue3';
+import JournalIssue4 from './Pages/Volumes/Issue4';
 function App() {
   return (
     <div className="App">
@@ -94,7 +95,7 @@ function App() {
         <Route path="/issue1" element={<JournalIssueTOC />} />
         <Route path="/issue2" element={<JournalIssue2 />} />
         <Route path="/issue3" element={<JournalIssue3 />} />
-        <Route path="/issue4" element={<UpcomingContent />} />
+        <Route path="/issue4" element={<JournalIssue4 />} />
         <Route path="/issue5" element={<UpcomingContent />} />
         <Route path="/issue6" element={<UpcomingContent />} />
 
