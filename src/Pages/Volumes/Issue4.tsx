@@ -178,7 +178,7 @@ const JournalIssue4 = () => {
             <div className="flex flex-col md:flex-row gap-6 items-start">
               <div className="flex-shrink-0">
                 <img
-                  src="./cover.png"
+                  src=" https://image2url.com/r2/default/images/1774632236661-23c327da-f619-43b1-8480-2fbc8d05ee5e.png"
                   alt="Journal Cover Vol. 48 (2025)"
                   className="w-64 h-auto rounded-lg shadow-md border border-teal-200"
                 />
@@ -228,16 +228,15 @@ Acute Uncomplicated Lower Urinary Tract Infection in Females: A Prospective Sing
                 pdfLink="/volume1-issue4/article1.pdf"
                 updateLink="/upcoming-content"
               />
-              {/* <ArticleItem
+               <ArticleItem
                 id="5243"
-               title="A Review on Noise Reduction in Diesel Generator Set Enclosures Using Passive Acoustic
-Control and Taguchi-Based Optimization Techniques"
-                authors="Pathan Tanzimkhan Lalkhan, Ravindra Karvande & Mohammad Irfan H"
-                pages="126-136"
-                pdfLink="/volume1-issue3/article3.pdf"
+               title="Legal Analysis of Forensic DNA Profiling: Issues and Challenges in India"
+                authors="Vaishnavi Yadav, Jyotsna Singh"
+                pages="192-208"
+                pdfLink="/volume1-issue4/article3.pdf"
                 updateLink="/upcoming-content"
               />
-              <ArticleItem
+              {/* <ArticleItem
                 id="5244"
                 title="Experimental Investigation and Optimization of WEDM Parameters for Titanium
 Alloy Considering MRR"

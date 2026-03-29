@@ -24,16 +24,97 @@ const archives = [
   },
 ];
 
+// ── Indexing entries shown in the sidebar ──────────────────────────────────────
+// Images stored in /public/indexing/ — filenames exactly as saved:
+//   ae.png | CR_doi.png | CU.png | EP.png | GS.png | iA.png
+const indexingLinks = [
+  {
+    title: 'Academia.edu',
+    // href: 'https://wbsubregistration.academia.edu/InternationalJournalofExperimentalResearchandReviewIAPH',
+    imgSrc: '/indexing/ae.png',
+    imgAlt: 'Academia.edu',
+    borderColor: '#5b9bd5',
+    textColor: '#2e7bc4',
+    bgText: '#e8f4ff',
+    bgLogo: '#1b3a5c',
+  },
+  {
+    title: 'DOI & CrossRef',
+    // href: 'https://search.crossref.org/?q=2455-4855&from_ui=yes',
+    imgSrc: '/indexing/CR_doi.png',
+    imgAlt: 'DOI and CrossRef',
+    borderColor: '#222222',
+    textColor: '#f5a800',
+    bgText: '#fff8e6',
+    bgLogo: '#fff5e0',
+  },
+  {
+    title: 'Check for Updates',
+    // href: 'https://qtanalytics.in/journals/index.php/IJERR/crossmarkpolicy',
+    imgSrc: '/indexing/CU.png',
+    imgAlt: 'Check for Updates',
+    borderColor: '#f5a800',
+    textColor: '#5b9bd5',
+    bgText: '#fff9e6',
+    bgLogo: '#ffffff',
+    outlineColor: '#5b9bd5',
+  },
+  {
+    title: 'EuroPub',
+    // href: 'https://europub.co.uk/journals/international-journal-of-experimental-research-and-review-J-29269',
+    imgSrc: '/indexing/EP.png',
+    imgAlt: 'EuroPub',
+    borderColor: '#4caf50',
+    textColor: '#4caf50',
+    bgText: '#f0fff0',
+    bgLogo: '#f3fff3',
+  },
+  {
+    title: 'Google Scholar',
+    // href: 'https://scholar.google.com/citations?hl=en&user=C_RSGo8AAAAJ',
+    imgSrc: '/indexing/GS.png',
+    imgAlt: 'Google Scholar',
+    borderColor: '#e88888',
+    textColor: '#f5a800',
+    bgText: '#fff8e8',
+    bgLogo: '#fff8f0',
+    outlineColor: '#f5a800',
+  },
+  {
+    title: 'Internet Archive',
+    // href: 'https://archive.org/details/@international_journal_of_experimental_research_and_review',
+    imgSrc: '/indexing/iA.png',
+    imgAlt: 'Internet Archive',
+    borderColor: '#222222',
+    textColor: '#111111',
+    bgText: '#ffffff',
+    bgLogo: '#f5f5f5',
+  },
+  {
+    title: 'INDEX COPERNICUS',
+    // href: 'https://journals.indexcopernicus.com/search/journal/issue?issueId=all&journalId=122825',
+    imgSrc: '',           // no image — text-only layout
+    imgAlt: 'Index Copernicus',
+    isIndexCopernicus: true,
+    borderColor: '#c0392b',
+    outlineColor: '#8b0000',
+  },
+];
+
 const Home: React.FC = () => {
   const [activeSection, setActiveSection] = useState('welcome');
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['welcome', 'journal-particulars', 'registration-and-compliance'];
-      const scrollPosition = window.scrollY + 100; // Offset for header
+      const scrollPosition = window.scrollY + 100;
       sections.forEach((section) => {
         const element = document.getElementById(section);
-        if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+        if (
+          element &&
+          element.offsetTop <= scrollPosition &&
+          element.offsetTop + element.offsetHeight > scrollPosition
+        ) {
           setActiveSection(section);
         }
       });
@@ -50,7 +131,7 @@ const Home: React.FC = () => {
     }
   };
 
-  // Sidebar Component
+  // ── Sidebar ────────────────────────────────────────────────────────────────
   const Sidebar = () => {
     const navItems = [
       { id: 'welcome', title: 'Welcome', icon: FaBookOpen },
@@ -60,15 +141,23 @@ const Home: React.FC = () => {
 
     return (
       <div className="lg:col-span-1">
-        <div className="bg-teal-800 p-6 rounded-lg shadow-md sticky top-6">
-          <h2 className="text-vibrant-green mb-4 flex items-center">
+        {/* ── Sticky wrapper: both cards scroll together and stick ── */}
+        <div className="sticky top-6 flex flex-col gap-5" style={{ maxHeight: 'calc(100vh - 48px)', overflowY: 'auto' }}>
+
+        {/* ── Card 1 : Quick Navigation ── */}
+        <div className="bg-teal-800 p-5 rounded-xl shadow-md">
+          <h2 className="text-vibrant-green mb-4 flex items-center text-base font-semibold">
             <FaCompass className="mr-2" /> Quick Navigation
           </h2>
           <ul className="space-y-2">
             {navItems.map((item) => (
               <li key={item.id}>
                 <button
-                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${activeSection === item.id ? 'bg-vibrant-green text-white' : 'text-dark-brown hover:bg-gray-100'}`}
+                  className={`w-full text-left py-2 px-3 rounded-md flex items-center ${
+                    activeSection === item.id
+                      ? 'bg-vibrant-green text-white'
+                      : 'text-dark-brown hover:bg-gray-100'
+                  }`}
                   onClick={() => scrollToSection(item.id)}
                 >
                   <item.icon className="mr-2" />
@@ -78,13 +167,132 @@ const Home: React.FC = () => {
             ))}
           </ul>
         </div>
+
+        {/* ── Card 2 : Indexing / Database panel ── */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-md p-4">
+          {/* Section heading */}
+          <div className="bg-teal-800 rounded-lg px-3 py-2 mb-4 text-center">
+            <p className="text-white text-xs font-semibold tracking-wide underline underline-offset-2">
+              Click to view us on the world&apos;s database
+            </p>
+          </div>
+
+          {/* Buttons — full image as clickable button, "Click here to visit us" text below */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {indexingLinks.map((entry) => {
+
+              /* Index Copernicus — text-only, no image */
+              if (entry.isIndexCopernicus) {
+                return (
+                  <a
+                    key={entry.title}
+                    // href={entry.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={entry.title}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      border: `2.5px solid ${entry.borderColor}`,
+                      outline: `2px solid ${entry.outlineColor}`,
+                      outlineOffset: '0px',
+                      borderRadius: '6px',
+                      background: '#fff',
+                      textDecoration: 'none',
+                      padding: '10px 14px',
+                      minHeight: '64px',
+                    }}
+                  >
+                    <span style={{ color: '#c0392b', fontSize: '12px', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>
+                      Click here for
+                    </span>
+                    <span style={{ color: '#111', fontSize: '16px', fontWeight: 700, letterSpacing: '0.4px', display: 'block' }}>
+                      INDEX COPERNICUS
+                    </span>
+                  </a>
+                );
+              }
+
+              /* All other entries — full-width image fills the button */
+              return (
+                <a
+                  key={entry.title}
+                  // href={entry.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={entry.title}
+                  style={{
+                    // display: 'block',
+                    // // border: `2.5px solid ${entry.borderColor}`,
+                    // ...(entry.outlineColor
+                    //   ? { outline: `2px solid ${entry.outlineColor}`, outlineOffset: '0px' }
+                    //   : {}),
+                    // borderRadius: '6px',
+                    overflow: 'hidden',
+                    background: '#fff',
+                    textDecoration: 'none',
+                    width: '100%',
+                  }}
+                >
+                  {/* Full-width image — replaces the old logo box */}
+                  <img
+                    src={entry.imgSrc}
+                    alt={entry.imgAlt}
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      height: '50px',
+                      objectFit: 'contain',
+                      objectPosition: 'center',
+                      background: '#fff',
+                      // padding: '6px',
+                    }}
+                  />
+                  {/* Click text bar below image */}
+                  {/* <div
+                    style={{
+                      background: entry.bgText,
+                      textAlign: 'center',
+                      padding: '6px 8px',
+                      borderTop: `1.5px solid ${entry.borderColor}`,
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: entry.textColor,
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        lineHeight: 1.3,
+                        display: 'block',
+                      }}
+                    >
+                      Click here to visit us
+                    </span>
+                  </div> */}
+                </a>
+              );
+            })}
+          </div>
+          {/* ── End Indexing Buttons ── */}
+        </div>
+
+        </div>{/* ── End sticky wrapper ── */}
       </div>
     );
   };
 
-  // ContentSection Component
-  const ContentSection: React.FC<{ id: string; title: string; icon: React.ComponentType<{ className?: string }>; children: React.ReactNode }> = ({ id, title, icon: Icon, children }) => (
-    <section id={id} className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300">
+  // ── ContentSection ─────────────────────────────────────────────────────────
+  const ContentSection: React.FC<{
+    id: string;
+    title: string;
+    icon: React.ComponentType<{ className?: string }>;
+    children: React.ReactNode;
+  }> = ({ id, title, icon: Icon, children }) => (
+    <section
+      id={id}
+      className="guideline-section p-6 rounded-lg mb-6 bg-white hover:bg-green-100 transition-all duration-300"
+    >
       <h2 className="text-xl font-merriweather text-vibrant-green mb-4 flex items-center">
         <Icon className="mr-3 text-teal-800 bg-vibrant-green rounded-full w-10 h-10 flex items-center justify-center" />
         {title}
@@ -92,6 +300,8 @@ const Home: React.FC = () => {
       {children}
     </section>
   );
+
+  // ── InitiativeCard ─────────────────────────────────────────────────────────
   const InitiativeCard: React.FC<{
     title: string;
     image: string;
@@ -99,30 +309,27 @@ const Home: React.FC = () => {
     link: string;
   }> = ({ title, image, number, link }) => (
     <div className="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col items-center space-y-3 hover:bg-light-green transition-all duration-300">
-      <img
-        src={image}
-        alt={`${title} logo`}
-        className="w-full h-32 object-contain rounded-md"
-      />
+      <img src={image} alt={`${title} logo`} className="w-full h-32 object-contain rounded-md" />
       <h4 className="text-lg font-semibold text-vibrant-green text-center">{title}</h4>
-      <p className="text-gray-700 text-center"><strong>{number}</strong></p>
-      <a
-        href={link}
-        className="text--teal-800 hover:underline font-montserrat font-medium"
-      >
+      <p className="text-gray-700 text-center">
+        <strong>{number}</strong>
+      </p>
+      <a href={link} className="text--teal-800 hover:underline font-montserrat font-medium">
         Learn More
       </a>
     </div>
   );
 
-  // MainContent Component
+  // ── MainContent ────────────────────────────────────────────────────────────
   const MainContent = () => (
     <div className="lg:col-span-3">
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="bg-gradient-to-r from-teal-500 to-green-500 text-white p-8">
           <h1 className="text-4xl font-merriweather font-bold">Welcome to UJGSM</h1>
           <p className="text-lg mt-4 max-w-2xl">
-            Universal Journal of Green Sci-Tech and Management  is a bi-monthly, peer-reviewed, and open-access online journal dedicated to publishing original, high-quality research across various disciplines.
+            Universal Journal of Green Sci-Tech and Management is a bi-monthly, peer-reviewed, and
+            open-access online journal dedicated to publishing original, high-quality research across
+            various disciplines.
           </p>
           <Link
             to="/submit-paper"
@@ -145,10 +352,15 @@ const Home: React.FC = () => {
             Apply As Reviewer
           </Link>
         </div>
+
         <div className="p-6 space-y-6">
           <ContentSection id="welcome" title="About UJGSM" icon={FaBookOpen}>
             <p className="text-gray-700 leading-relaxed">
-              Launched in 2025 by the Universal Oneness Research Association (UORA), the Universal Journal of Green Sci-Tech and Management  focuses on bridging the gap between research and practice in science, technology, and management. Our mission is to foster interdisciplinary research that advances knowledge and addresses global challenges through innovative and sustainable solutions.
+              Launched in 2025 by the Universal Oneness Research Association (UORA), the Universal
+              Journal of Green Sci-Tech and Management focuses on bridging the gap between research
+              and practice in science, technology, and management. Our mission is to foster
+              interdisciplinary research that advances knowledge and addresses global challenges
+              through innovative and sustainable solutions.
             </p>
           </ContentSection>
 
@@ -165,13 +377,47 @@ const Home: React.FC = () => {
               <li><strong>Language:</strong> English</li>
               <li><strong>Publication Format:</strong> Online</li>
               <li><strong>Copyright:</strong> Authors retain copyright</li>
-              <li><strong>License:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0 International Licence (CC BY 4.0)</a></li>
-              <li><strong>Website:</strong> <a href="https://ujgsm.UORApublications.com" className="text--teal-800 hover:underline" target="_blank" rel="noopener noreferrer">https://ujgsm.UORApublications.com</a></li>
-              <li><strong>Registered Address:</strong> E-1/8 Mathura Nagar, N-6, Cidco, Chhatrapati Sambhajinagar, Maharashtra 431003, India</li>
-              <li><strong>Contact Number:</strong> <a href="tel:+919766930707" className="text--teal-800 hover:underline">+91 9766930707</a></li>
-              <li><strong>Email ID:</strong> <a href="mailto:contact@uorapublications.com" className="text--teal-800 hover:underline">contact@uorapublications.com</a></li>
+              <li>
+                <strong>License:</strong>{' '}
+                <a
+                  href="https://creativecommons.org/licenses/by/4.0/"
+                  className="text--teal-800 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+                </a>
+              </li>
+              <li>
+                <strong>Website:</strong>{' '}
+                <a
+                  href="https://ujgsm.UORApublications.com"
+                  className="text--teal-800 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  https://ujgsm.UORApublications.com
+                </a>
+              </li>
+              <li>
+                <strong>Registered Address:</strong> E-1/8 Mathura Nagar, N-6, Cidco, Chhatrapati
+                Sambhajinagar, Maharashtra 431003, India
+              </li>
+              <li>
+                <strong>Contact Number:</strong>{' '}
+                <a href="tel:+919766930707" className="text--teal-800 hover:underline">
+                  +91 9766930707
+                </a>
+              </li>
+              <li>
+                <strong>Email ID:</strong>{' '}
+                <a href="mailto:contact@uorapublications.com" className="text--teal-800 hover:underline">
+                  contact@uorapublications.com
+                </a>
+              </li>
             </ol>
           </ContentSection>
+
           <ContentSection id="registration-and-compliance" title="Registration & Compliance" icon={FaCompass}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {archives.map((item) => (
@@ -190,26 +436,47 @@ const Home: React.FC = () => {
     </div>
   );
 
-  // Footer Component
+  // ── Footer ─────────────────────────────────────────────────────────────────
   const Footer = () => (
     <footer className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-10 mt-10">
       <div className="container mx-auto max-w-6xl">
         <div className="footer-content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">About UJGSM</h3>
-            <p>A peer-reviewed, open-access journal publishing quality research across Engineering, Applied Science, and Management</p>
+            <p>
+              A peer-reviewed, open-access journal publishing quality research across Engineering,
+              Applied Science, and Management
+            </p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Quick Links</h3>
-            <p className="flex items-center mb-2"><FaHome className="mr-2" /> <Link to="./home" className="text-white hover:text--teal-800">Home</Link></p>
-            <p className="flex items-center mb-2"><FaBook className="mr-2" /> <Link to="./current" className="text-white hover:text--teal-800">Current Issue</Link></p>
-            <p className="flex items-center mb-2"><FaArchive className="mr-2" /> <Link to="./archives" className="text-white hover:text--teal-800">Archives</Link></p>
+            <p className="flex items-center mb-2">
+              <FaHome className="mr-2" />
+              <Link to="./home" className="text-white hover:text--teal-800">Home</Link>
+            </p>
+            <p className="flex items-center mb-2">
+              <FaBook className="mr-2" />
+              <Link to="./current" className="text-white hover:text--teal-800">Current Issue</Link>
+            </p>
+            <p className="flex items-center mb-2">
+              <FaArchive className="mr-2" />
+              <Link to="./archives" className="text-white hover:text--teal-800">Archives</Link>
+            </p>
           </div>
           <div className="footer-section">
             <h3 className="text-xl mb-5 border-b-2 border-accent pb-2 inline-block">Contact Us</h3>
-            <p className="flex items-center mb-2"><FaEnvelope className="mr-2" /> <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">contact@uorapublications.com</a></p>
-            <p className="flex items-center mb-2"><FaPhone className="mr-2" /> +91-9766930707</p>
-            <p className="flex items-center mb-2"><FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India</p>
+            <p className="flex items-center mb-2">
+              <FaEnvelope className="mr-2" />
+              <a href="mailto:contact@uorapublications.com" className="text-white hover:text--teal-800">
+                contact@uorapublications.com
+              </a>
+            </p>
+            <p className="flex items-center mb-2">
+              <FaPhone className="mr-2" /> +91-9766930707
+            </p>
+            <p className="flex items-center mb-2">
+              <FaMapMarkerAlt className="mr-2" /> Chhatrapati Sambhajinagar, Maharashtra, India
+            </p>
           </div>
         </div>
         <div className="copyright text-center pt-5 mt-5 border-t border-white/20 text-sm opacity-80">
@@ -219,6 +486,7 @@ const Home: React.FC = () => {
     </footer>
   );
 
+  // ── Page Root ──────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <main className="flex-grow container mx-auto max-w-6xl px-4 py-8">
