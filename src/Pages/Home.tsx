@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaBookOpen, FaInfoCircle, FaCompass, FaHome, FaBook, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 // import TrackPaper from './Submission/TrackPaper';
-import { ConferenceTicker } from '../components/ConferenceTicker';
+// import { ConferenceTicker } from '../components/ConferenceTicker';
 
 const archives = [
   {
