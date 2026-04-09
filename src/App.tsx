@@ -39,11 +39,13 @@ import JournalIssueTOC from './Pages/Volumes/Issue1';
 import JournalIssue2 from './Pages/Volumes/Issue2';
 import JournalIssue3 from './Pages/Volumes/Issue3';
 import JournalIssue4 from './Pages/Volumes/Issue4';
+import { ConferenceTicker } from './components/ConferenceTicker';
 function App() {
   return (
     <div className="App">
       <SiteBranding />
       <Navbar />
+      <ConferenceTicker />
       <Routes>
         <Route path="/" element={<Home />} />
          {/* <Route path="/current" element={<CurrentContent />} />
