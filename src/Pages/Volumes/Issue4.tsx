@@ -236,25 +236,44 @@ Acute Uncomplicated Lower Urinary Tract Infection in Females: A Prospective Sing
                 pdfLink="/volume1-issue4/article3.pdf"
                 updateLink="/upcoming-content"
               />
-              {/* <ArticleItem
+               <ArticleItem
                 id="5244"
-                title="Experimental Investigation and Optimization of WEDM Parameters for Titanium
-Alloy Considering MRR"
-                authors="Mohammed Aakef Farooqui, Ravindra Karvande & Mohammad Irfan"
-                pages="137-148"
-                pdfLink="/volume1-issue3/article4.pdf"
+                title="Enhancement of Wear Resistance of Hybrid Powder Coatings Using Nanoparticle
+Reinforcement"
+                authors="Akshay Shinde, M. S. Harne"
+                pages="209-221"
+                pdfLink="/volume1-issue4/article4.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
                 id="5245"
-                title="A Comprehensive Review of Wire Electrical Discharge Machining: Principles,
-Parameters, Performance Measures, and Optimization Techniques"
-                authors="Gajanan Khose, Shantisagar Biradar & Mohammad Irfan"
-                pages="149-157"
-                pdfLink="/volume1-issue3/article5.pdf"
+                title="A Comprehensive Review on Optimization of Wire Electrical Discharge Machining
+(WEDM) Parameters and Performance Characteristics"
+                authors="Siddiqui Mohd Abdul Mukhtadir Siddiqui Abdul Rub, Brijbhushan Shukla"
+                pages="222-235"
+                pdfLink="/volume1-issue4/article5.pdf"
                 updateLink="/upcoming-content"
               />
               <ArticleItem
+                id="5245"
+                title="Linking Environmental Stress, Institutional Response, and Child Nutrition: A Conceptual
+and Empirical Model from Marathwada"
+                authors="Priyanka M. Shejwal, Rajkumar H. Mhaske"
+
+                pages="236-252"
+                pdfLink="/volume1-issue4/article6.pdf"
+                updateLink="/upcoming-content"
+              /> 
+              <ArticleItem
+                id="5245"
+                title="Advanced Machining Processes in Modern Manufacturing: A Critical Review"
+                authors="Saurabh S. Joshi, Ravindra L. Karwande, Sachin B. Chhabile"
+
+                pages="253-261"
+                pdfLink="/volume1-issue4/article7.pdf"
+                updateLink="/upcoming-content"
+              /> 
+              {/* <ArticleItem
                 id="5245"
                 title="A Review on Polyester Powder Coatings: Materials, Deposition Techniques, Wear
 Mechanisms, and Nanofiller-Based Performance Enhancement"
@@ -263,7 +282,26 @@ Mechanisms, and Nanofiller-Based Performance Enhancement"
                 pages="158-167"
                 pdfLink="/volume1-issue3/article6.pdf"
                 updateLink="/upcoming-content"
-              /> */}
+              />  */}
+              {/* <ArticleItem
+                id="5245"
+                title="A Review on Polyester Powder Coatings: Materials, Deposition Techniques, Wear
+Mechanisms, and Nanofiller-Based Performance Enhancement"
+                authors="Chandrakant Sawant, Ravindra Karvande & Vilas Jadhav"
+
+                pages="158-167"
+                pdfLink="/volume1-issue3/article6.pdf"
+                updateLink="/upcoming-content"
+              /> <ArticleItem
+                id="5245"
+                title="A Review on Polyester Powder Coatings: Materials, Deposition Techniques, Wear
+Mechanisms, and Nanofiller-Based Performance Enhancement"
+                authors="Chandrakant Sawant, Ravindra Karvande & Vilas Jadhav"
+
+                pages="158-167"
+                pdfLink="/volume1-issue3/article6.pdf"
+                updateLink="/upcoming-content"
+              />  */}
             </div>
           </ContentSection>
         </div>
