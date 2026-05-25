@@ -39,13 +39,20 @@ import JournalIssueTOC from './Pages/Volumes/Issue1';
 import JournalIssue2 from './Pages/Volumes/Issue2';
 import JournalIssue3 from './Pages/Volumes/Issue3';
 import JournalIssue4 from './Pages/Volumes/Issue4';
+import { IssuePageRoute } from './Pages/Volumes/IssuePage';
 import { ConferenceTicker } from './components/ConferenceTicker';
+import ArticleDetail from './components/Articles_details';
+import ArticlesForm from './Pages/Submission/ArticlesForm';
+import ArticlesList from './Pages/Submission/ArticlesList';
+
 function App() {
+  const showConferenceTicker = false;
+
   return (
     <div className="App">
       <SiteBranding />
       <Navbar />
-      <ConferenceTicker />
+      {showConferenceTicker && <ConferenceTicker />}
       <Routes>
         <Route path="/" element={<Home />} />
          {/* <Route path="/current" element={<CurrentContent />} />
@@ -90,8 +97,8 @@ function App() {
         <Route path="/editorial-board" element={<EditorialBoard />} />
         {/* Archives + issue + PDF routes (deep links so browser Back works smoothly) */}
         <Route path="/archives" element={<Archives />} />
-        <Route path="/archives/:issueId" element={<JournalIssueTOC />} />
-        <Route path="/archives/:issueId/:pdfId" element={<JournalIssueTOC />} />
+        <Route path="/archives/:issueId" element={<IssuePageRoute />} />
+        <Route path="/archives/:issueId/:pdfId" element={<IssuePageRoute />} />
 
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/issue1" element={<JournalIssueTOC />} />
@@ -103,8 +110,11 @@ function App() {
 
         <Route path="/submissions-list" element={<SubmissionsList/>} />
         <Route path="/reviewer-applications-list" element={<ReviewerApplicationsList />} />
-          <Route path="/upcoming-content" element={<UpcomingContent />} />
-       x
+        <Route path="/upcoming-content" element={<UpcomingContent />} />
+
+        <Route path="/article/:slug" element={<ArticleDetail />} />
+        <Route path="/articles-form" element={<ArticlesForm />} />
+        <Route path="/articles-list" element={<ArticlesList />} />
       </Routes>
       
       {/* <Layout/> */}

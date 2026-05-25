@@ -104,6 +104,7 @@ const indexingLinks = [
 
 const Home: React.FC = () => {
   const [activeSection, setActiveSection] = useState('welcome');
+  const showIndexingDatabasePanel = false;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,21 +170,54 @@ const Home: React.FC = () => {
           </ul>
         </div>
 
-        {/* ── Card 2 : Indexing / Database panel ── */}
-        <div className="bg-white border border-gray-200 rounded-xl shadow-md p-4">
-          {/* Section heading */}
-          <div className="bg-teal-800 rounded-lg px-3 py-2 mb-4 text-center">
-            <p className="text-white text-xs font-semibold tracking-wide underline underline-offset-2">
-              Click to view us on the world&apos;s database
-            </p>
-          </div>
+        {showIndexingDatabasePanel && (
+          /* ── Card 2 : Indexing / Database panel ── */
+          <div className="bg-white border border-gray-200 rounded-xl shadow-md p-4">
+            {/* Section heading */}
+            <div className="bg-teal-800 rounded-lg px-3 py-2 mb-4 text-center">
+              <p className="text-white text-xs font-semibold tracking-wide underline underline-offset-2">
+                Click to view us on the world&apos;s database
+              </p>
+            </div>
 
-          {/* Buttons — full image as clickable button, "Click here to visit us" text below */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {indexingLinks.map((entry) => {
+            {/* Buttons — full image as clickable button, "Click here to visit us" text below */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {indexingLinks.map((entry) => {
 
-              /* Index Copernicus — text-only, no image */
-              if (entry.isIndexCopernicus) {
+                /* Index Copernicus — text-only, no image */
+                if (entry.isIndexCopernicus) {
+                  return (
+                    <a
+                      key={entry.title}
+                      // href={entry.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={entry.title}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        border: `2.5px solid ${entry.borderColor}`,
+                        outline: `2px solid ${entry.outlineColor}`,
+                        outlineOffset: '0px',
+                        borderRadius: '6px',
+                        background: '#fff',
+                        textDecoration: 'none',
+                        padding: '10px 14px',
+                        minHeight: '64px',
+                      }}
+                    >
+                      <span style={{ color: '#c0392b', fontSize: '12px', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>
+                        Click here for
+                      </span>
+                      <span style={{ color: '#111', fontSize: '16px', fontWeight: 700, letterSpacing: '0.4px', display: 'block' }}>
+                        INDEX COPERNICUS
+                      </span>
+                    </a>
+                  );
+                }
+
+                /* All other entries — full-width image fills the button */
                 return (
                   <a
                     key={entry.title}
@@ -192,66 +226,34 @@ const Home: React.FC = () => {
                     rel="noopener noreferrer"
                     title={entry.title}
                     style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      border: `2.5px solid ${entry.borderColor}`,
-                      outline: `2px solid ${entry.outlineColor}`,
-                      outlineOffset: '0px',
-                      borderRadius: '6px',
+                      // display: 'block',
+                      // // border: `2.5px solid ${entry.borderColor}`,
+                      // ...(entry.outlineColor
+                      //   ? { outline: `2px solid ${entry.outlineColor}`, outlineOffset: '0px' }
+                      //   : {}),
+                      // borderRadius: '6px',
+                      overflow: 'hidden',
                       background: '#fff',
                       textDecoration: 'none',
-                      padding: '10px 14px',
-                      minHeight: '64px',
+                      width: '100%',
                     }}
                   >
-                    <span style={{ color: '#c0392b', fontSize: '12px', display: 'block', marginBottom: '2px', fontStyle: 'italic' }}>
-                      Click here for
-                    </span>
-                    <span style={{ color: '#111', fontSize: '16px', fontWeight: 700, letterSpacing: '0.4px', display: 'block' }}>
-                      INDEX COPERNICUS
-                    </span>
-                  </a>
-                );
-              }
-
-              /* All other entries — full-width image fills the button */
-              return (
-                <a
-                  key={entry.title}
-                  // href={entry.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={entry.title}
-                  style={{
-                    // display: 'block',
-                    // // border: `2.5px solid ${entry.borderColor}`,
-                    // ...(entry.outlineColor
-                    //   ? { outline: `2px solid ${entry.outlineColor}`, outlineOffset: '0px' }
-                    //   : {}),
-                    // borderRadius: '6px',
-                    overflow: 'hidden',
-                    background: '#fff',
-                    textDecoration: 'none',
-                    width: '100%',
-                  }}
-                >
-                  {/* Full-width image — replaces the old logo box */}
-                  <img
-                    src={entry.imgSrc}
-                    alt={entry.imgAlt}
-                    style={{
-                      display: 'block',
-                      width: '100%',
-                      height: '50px',
-                      objectFit: 'contain',
-                      objectPosition: 'center',
-                      background: '#fff',
-                      // padding: '6px',
-                    }}
-                  />
-                  {/* Click text bar below image */}
-                  {/* <div
+                    {/* Full-width image — replaces the old logo box */}
+                    <img
+                      src={entry.imgSrc}
+                      alt={entry.imgAlt}
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        height: '50px',
+                        objectFit: 'contain',
+                        objectPosition: 'center',
+                        background: '#fff',
+                        // padding: '6px',
+                      }}
+                    />
+                    {/* Click text bar below image */}
+                    {/* <div
                     style={{
                       background: entry.bgText,
                       textAlign: 'center',
@@ -271,12 +273,13 @@ const Home: React.FC = () => {
                       Click here to visit us
                     </span>
                   </div> */}
-                </a>
-              );
-            })}
+                  </a>
+                );
+              })}
+            </div>
+            {/* ── End Indexing Buttons ── */}
           </div>
-          {/* ── End Indexing Buttons ── */}
-        </div>
+        )}
 
         </div>{/* ── End sticky wrapper ── */}
       </div>
