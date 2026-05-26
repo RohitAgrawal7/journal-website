@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaSave, FaPlus, FaTrash, FaEye, FaList, FaSpinner } from 'react-icons/fa';
-import { createArticle, getArticleById, updateArticle } from '../../api/articles';
+import { createArticle, getArticleById, listArticles, updateArticle } from '../../api/articles';
 import type { ArticleAuthor, ArticleFormState, ArticleStatus } from '../../types/article';
 import { DEFAULT_LICENSE_IMAGE_URL, DEFAULT_LICENSE_TEXT, JOURNAL_SHORT } from '../../types/article';
 import { findArticleByPdfUrl } from '../../data/issueArticles';
@@ -13,6 +13,7 @@ import {
   resolveArticleSlug,
   slugFromPdfUrl,
   normalizePdfUrl,
+  normalizeAssetUrl,
   generateCitationsFromArticle,
   articleToFormState,
 } from '../../utils/articleHelpers';
@@ -173,8 +174,31 @@ const ArticlesForm: React.FC = () => {
         saved = await updateArticle(Number(editId), apiPayload);
         toast.success('Article updated');
       } else {
-        saved = await createArticle(apiPayload);
-        toast.success('Article created');
+        const newSlug = slugFromPdfUrl(apiPayload.pdfUrl || '') || state.slug;
+        const normalizedPdfUrl = normalizePdfUrl(apiPayload.pdfUrl || '');
+        const existingArticles = await listArticles({ limit: 1000 });
+        const existingMatch = [...existingArticles.articles]
+          .filter((article) => {
+            const articlePdfUrl = normalizePdfUrl(article.pdfUrl || '');
+            return (
+              (normalizedPdfUrl && articlePdfUrl === normalizedPdfUrl) ||
+              resolveArticleSlug(article) === newSlug ||
+              (article.pdfUrl ? slugFromPdfUrl(article.pdfUrl) === newSlug : false)
+            );
+          })
+          .sort((a, b) => {
+            const aTime = Date.parse(a.updatedAt || a.createdAt || '') || a.id || 0;
+            const bTime = Date.parse(b.updatedAt || b.createdAt || '') || b.id || 0;
+            return bTime - aTime;
+          })[0];
+
+        if (existingMatch?.id) {
+          saved = await updateArticle(existingMatch.id, apiPayload);
+          toast.success('Existing article updated');
+        } else {
+          saved = await createArticle(apiPayload);
+          toast.success('Article created');
+        }
       }
       navigate(`/article/${resolveArticleSlug(saved)}`);
     } catch (err: unknown) {
@@ -330,7 +354,11 @@ const ArticlesForm: React.FC = () => {
             <h2 className="text-lg font-semibold text-teal-800 mb-3">Cover image URL</h2>
             <input type="text" value={form.coverImageUrl} onChange={(e) => setForm((p) => ({ ...p, coverImageUrl: e.target.value }))} className={fieldClass} placeholder="./cover.png or https://..." />
             {form.coverImageUrl && (
-              <img src={form.coverImageUrl} alt="Cover preview" className="mt-3 max-w-xs rounded border border-gray-200" />
+              <img
+                src={normalizeAssetUrl(form.coverImageUrl)}
+                alt="Cover preview"
+                className="mt-3 max-w-xs rounded border border-gray-200"
+              />
             )}
           </section>
 

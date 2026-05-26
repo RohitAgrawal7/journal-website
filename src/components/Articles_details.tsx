@@ -12,6 +12,8 @@ import type { Article } from '../types/article';
 import { CITATION_FORMAT_KEYS, JOURNAL_NAME, JOURNAL_SHORT } from '../types/article';
 import {
   getCitationFormats,
+  normalizeAssetUrl,
+  normalizePdfUrl,
   normalizeDoi,
   resolveArticleSlug,
   slugFromPdfUrl,
@@ -56,8 +58,48 @@ const ArticleDetail: React.FC = () => {
     setFromCatalog(false);
 
     const loadArticle = async () => {
+      const pickNewest = (items: Article[]) => (
+        [...items].sort((a, b) => {
+          const aTime = Date.parse(a.updatedAt || a.createdAt || '') || a.id || 0;
+          const bTime = Date.parse(b.updatedAt || b.createdAt || '') || b.id || 0;
+          return bTime - aTime;
+        })[0]
+      );
+
+      const catalogRow = findArticleBySlug(slug);
+      const catalogPdfUrl = catalogRow ? normalizePdfUrl(catalogRow.pdfUrl) : '';
+
+      try {
+        const response = await listArticles({ status: 'published', limit: 1000 });
+        const exactMatches = response.articles.filter((item) => {
+          const itemSlug = resolveArticleSlug(item);
+          const itemPdfSlug = item.pdfUrl ? slugFromPdfUrl(item.pdfUrl) : '';
+          const itemPdfUrl = item.pdfUrl ? normalizePdfUrl(item.pdfUrl) : '';
+          return itemSlug === slug || itemPdfSlug === slug || (catalogPdfUrl && itemPdfUrl === catalogPdfUrl);
+        });
+        const newestExactMatch = pickNewest(exactMatches);
+
+        if (newestExactMatch) {
+          setArticle(newestExactMatch);
+          setLoading(false);
+          return;
+        }
+      } catch {
+        // Fall through to direct slug lookup and then static catalog fallback.
+      }
+
       try {
         const data = await getArticleBySlug(slug);
+        const dataPdfUrl = data.pdfUrl ? normalizePdfUrl(data.pdfUrl) : '';
+        const dataMatchesRequestedArticle =
+          resolveArticleSlug(data) === slug ||
+          (data.pdfUrl ? slugFromPdfUrl(data.pdfUrl) === slug : false) ||
+          (catalogPdfUrl && dataPdfUrl === catalogPdfUrl);
+
+        if (!dataMatchesRequestedArticle) {
+          throw new Error('Article slug response did not match requested article');
+        }
+
         if (data.status !== 'published') {
           setError('This article is not published yet.');
           setArticle(null);
@@ -68,10 +110,12 @@ const ArticleDetail: React.FC = () => {
       } catch {
         try {
           const response = await listArticles({ status: 'published', limit: 1000 });
-          const data = response.articles.find((item) => (
-            resolveArticleSlug(item) === slug ||
-            (item.pdfUrl ? slugFromPdfUrl(item.pdfUrl) === slug : false)
-          ));
+          const data = pickNewest(response.articles.filter((item) => {
+            const itemSlug = resolveArticleSlug(item);
+            const itemPdfSlug = item.pdfUrl ? slugFromPdfUrl(item.pdfUrl) : '';
+            const itemPdfUrl = item.pdfUrl ? normalizePdfUrl(item.pdfUrl) : '';
+            return itemSlug === slug || itemPdfSlug === slug || (catalogPdfUrl && itemPdfUrl === catalogPdfUrl);
+          }));
           if (data) {
             setArticle(data);
             return;
@@ -80,7 +124,6 @@ const ArticleDetail: React.FC = () => {
           // Fall through to the static catalog fallback.
         }
 
-        const catalogRow = findArticleBySlug(slug);
         if (catalogRow) {
           setArticle(catalogEntryToArticle(catalogRow));
           setFromCatalog(true);
@@ -224,7 +267,16 @@ const ArticleDetail: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100">
         <Link to={issueLink} className="block">
           {article.coverImageUrl ? (
-            <img src={article.coverImageUrl} alt={`${JOURNAL_SHORT} cover`} className="w-full h-44 object-cover" />
+            <img
+              src={normalizeAssetUrl(article.coverImageUrl)}
+              alt={`${JOURNAL_SHORT} cover`}
+              className="w-full h-44 object-cover"
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement;
+                img.onerror = null;
+                img.src = '/cover.png';
+              }}
+            />
           ) : (
             <div className="bg-gradient-to-br from-teal-700 to-green-600 h-44 flex flex-col items-center justify-center p-4 text-center">
               <FaBook className="text-white text-4xl mb-2 opacity-80" />
@@ -246,7 +298,7 @@ const ArticleDetail: React.FC = () => {
               href={article.pdfUrl}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center gap-2 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors text-sm"
+              className="flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-red-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors text-sm"
             >
               <FaFilePdf className="text-base" /> PDF
             </a>

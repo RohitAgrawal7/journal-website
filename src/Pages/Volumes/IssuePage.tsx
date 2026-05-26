@@ -3,9 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import {
   FaBook, FaBookOpen, FaCompass, FaHome, FaArchive, FaEnvelope, FaMapMarkerAlt, FaPhone, FaCalendarAlt,
 } from 'react-icons/fa';
-import { listArticles } from '../../api/articles';
-import { getIssueCatalog, mergeIssueArticles } from '../../data/issueArticles';
-import type { Article } from '../../types/article';
+import { getIssueCatalog } from '../../data/issueArticles';
 import IssueArticleItem from '../../components/IssueArticleItem';
 
 interface IssuePageProps {
@@ -14,31 +12,11 @@ interface IssuePageProps {
 
 const IssuePage: React.FC<IssuePageProps> = ({ issueKey }) => {
   const catalogIssue = getIssueCatalog(issueKey);
-  const [apiArticles, setApiArticles] = useState<Article[]>([]);
   const [activeSection, setActiveSection] = useState('cover');
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const observer = useRef<IntersectionObserver | null>(null);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
-  const issue = useMemo(
-    () => (catalogIssue ? mergeIssueArticles(catalogIssue, apiArticles) : undefined),
-    [catalogIssue, apiArticles]
-  );
-
-  useEffect(() => {
-    let isMounted = true;
-
-    listArticles({ status: 'published', limit: 1000 })
-      .then((response) => {
-        if (isMounted) setApiArticles(response.articles);
-      })
-      .catch(() => {
-        if (isMounted) setApiArticles([]);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [issueKey]);
+  const issue = useMemo(() => catalogIssue, [catalogIssue]);
 
   useEffect(() => {
     observer.current = new IntersectionObserver(

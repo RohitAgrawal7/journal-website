@@ -60,7 +60,7 @@ export const JOURNAL_NAME = 'Universal Journal of Green Sci-Tech & Management';
 export const JOURNAL_SHORT = 'UJGSM';
 
 export const DEFAULT_LICENSE_TEXT =
-  'This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.';
+  'Copyright (c) 2025 Universal Journal of Green Sci-Tech and Management (UJGSM)This work is licensed under a Creative Commons Attribution License.';
 
 export const DEFAULT_LICENSE_IMAGE_URL =
   'https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png';

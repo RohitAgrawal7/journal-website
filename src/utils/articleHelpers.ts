@@ -27,6 +27,14 @@ export function normalizePdfUrl(pdfUrl: string): string {
   return withLeading.toLowerCase().endsWith('.pdf') ? withLeading : `${withLeading}.pdf`;
 }
 
+export function normalizeAssetUrl(url?: string): string {
+  const trimmed = url?.trim() || '';
+  if (!trimmed) return '';
+  if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('/')) return trimmed;
+  if (trimmed.startsWith('./')) return `/${trimmed.slice(2)}`;
+  return `/${trimmed}`;
+}
+
 export function slugFromPdfUrl(pdfUrl: string): string {
   const normalized = normalizePdfUrl(pdfUrl);
   if (!normalized) return '';
@@ -62,9 +70,9 @@ export function formToApiPayload(form: ArticleFormState): ArticleApiPayload {
     authors: form.authors,
     references: form.references,
     pdfUrl: form.pdfUrl?.trim() || undefined,
-    coverImageUrl: form.coverImageUrl?.trim() || undefined,
+    coverImageUrl: normalizeAssetUrl(form.coverImageUrl) || undefined,
     licenseText: form.licenseText?.trim() || undefined,
-    licenseImageUrl: form.licenseImageUrl?.trim() || undefined,
+    licenseImageUrl: normalizeAssetUrl(form.licenseImageUrl) || undefined,
     status: form.status,
   };
 }
@@ -186,9 +194,9 @@ export function normalizeArticle(raw: Record<string, unknown>): Article {
     volume: volume ? String(volume) : undefined,
     issue: issue ? String(issue) : undefined,
     pdfUrl,
-    coverImageUrl: raw.coverImageUrl ? String(raw.coverImageUrl) : undefined,
+    coverImageUrl: raw.coverImageUrl ? normalizeAssetUrl(String(raw.coverImageUrl)) : undefined,
     licenseText: raw.licenseText ? String(raw.licenseText) : undefined,
-    licenseImageUrl: raw.licenseImageUrl ? String(raw.licenseImageUrl) : undefined,
+    licenseImageUrl: raw.licenseImageUrl ? normalizeAssetUrl(String(raw.licenseImageUrl)) : undefined,
     issueUrl: raw.issueUrl ? String(raw.issueUrl) : undefined,
     createdAt: raw.createdAt ? String(raw.createdAt) : undefined,
     updatedAt: raw.updatedAt ? String(raw.updatedAt) : undefined,

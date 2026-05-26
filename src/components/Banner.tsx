@@ -14,7 +14,7 @@ const SiteBranding: React.FC = () => {
               className="block"
             >
               <img
-                src="./scitech.png"
+                src="/scitech.png"
                 alt="Universal Journal of Green Sci-Tech and Management Left Logo"
                 className="w-24 sm:w-32 md:w-50 h-auto border-2 border-white rounded-md"
               />
@@ -50,7 +50,7 @@ const SiteBranding: React.FC = () => {
               className="block"
             >
               <img
-                src="./oneness_1.png"
+                src="/oneness_1.png"
                 alt="Universal Oneness Research Association Right Logo"
                 className="w-24 sm:w-32 md:w-55 h-auto border-2 border-white rounded-xl"
               />
