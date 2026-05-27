@@ -37,6 +37,49 @@ const Section: React.FC<{
   </section>
 );
 
+const referenceLinkPattern = /(https?:\/\/[^\s]+|doi:\s*10\.\d{4,9}\/[^\s]+|10\.\d{4,9}\/[^\s]+)/gi;
+
+function renderReferenceText(reference: string): React.ReactNode {
+  const nodes: React.ReactNode[] = [];
+  let lastIndex = 0;
+
+  for (const match of reference.matchAll(referenceLinkPattern)) {
+    const rawLink = match[0];
+    const matchIndex = match.index ?? 0;
+    const trailingPunctuation = rawLink.match(/[.,;]+$/)?.[0] || '';
+    const linkText = trailingPunctuation ? rawLink.slice(0, -trailingPunctuation.length) : rawLink;
+    const href = linkText.startsWith('http') ? linkText : normalizeDoi(linkText);
+
+    if (matchIndex > lastIndex) {
+      nodes.push(reference.slice(lastIndex, matchIndex));
+    }
+
+    nodes.push(
+      <a
+        key={`${matchIndex}-${linkText}`}
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className="text-blue-600 underline hover:text-blue-800 break-all"
+      >
+        {linkText}
+      </a>
+    );
+
+    if (trailingPunctuation) {
+      nodes.push(trailingPunctuation);
+    }
+
+    lastIndex = matchIndex + rawLink.length;
+  }
+
+  if (lastIndex < reference.length) {
+    nodes.push(reference.slice(lastIndex));
+  }
+
+  return nodes.length ? nodes : reference;
+}
+
 const ArticleDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
@@ -249,14 +292,13 @@ const ArticleDetail: React.FC = () => {
 
       {article.references.length > 0 && (
         <Section id="references" title="References" icon={FaListOl}>
-          <ol className="space-y-3">
+          <div className="space-y-4">
             {article.references.map((ref, i) => (
-              <li key={i} className="flex gap-3 text-sm text-gray-700 leading-relaxed">
-                <span className="shrink-0 text-teal-700 font-bold w-6 text-right">{i + 1}.</span>
-                <span>{ref}</span>
-              </li>
+              <p key={i} className="text-sm text-gray-700 leading-relaxed break-words">
+                {renderReferenceText(ref)}
+              </p>
             ))}
-          </ol>
+          </div>
         </Section>
       )}
     </div>
