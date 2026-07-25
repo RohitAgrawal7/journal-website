@@ -104,9 +104,151 @@ export const ISSUE_CATALOG: Record<string, IssueCatalogEntry> = {
       entry('5245a', 'A Comprehensive Review on Optimization of Wire Electrical Discharge Machining (WEDM) Parameters and Performance Characteristics', 'Siddiqui Mohd Abdul Mukhtadir Siddiqui Abdul Rub, Brijbhushan Shukla', '222-235', '/volume1-issue4/article5.pdf'),
       entry('5245b', 'Linking Environmental Stress, Institutional Response, and Child Nutrition: A Conceptual and Empirical Model from Marathwada', 'Priyanka M. Shejwal, Rajkumar H. Mhaske', '236-252', '/volume1-issue4/article6.pdf'),
       entry('5245c', 'Advanced Machining Processes in Modern Manufacturing: A Critical Review', 'Saurabh S. Joshi, Ravindra L. Karwande, Sachin B. Chhabile', '253-261', '/volume1-issue4/article7.pdf'),
+      entry('5245d', 'Performance Optimization of Plate Fin Heat Sink Using ANSYS and Response Surface Methodology: A Review', 'Shaikh Yahya Gulam Rasool, A.V. Kodarkar', '262-284', '/volume1-issue4/article8.pdf'),
+    ],
+  },
+  issue5: {
+    issueKey: 'issue5',
+    issueUrl: '/issue5',
+    volumeLabel: 'Volume 1 Issue 5 (2026)',
+    headerSubtitle: 'Universal Journal of Green Sci-Tech and Management – Volume 1 Issue 5, 2026',
+    publishedDate: '2026-03-15',
+    coverImage: 'https://image2url.com/r2/default/images/1768247581446-de26be9e-abeb-48e5-b046-a3c8aea385f3.png',
+    articles: [
+      entry(
+        '5501',
+        'From Internal Combustion to Electric Mobility: A Mixed-Method Investigation of Resilience, Innovation, and Strategic Adaptation among Auto Ancillary Units in the Marathwada Region',
+        'Pooja Manohar Wankhade, Gurpreet Attal',
+        '1-18',
+        '/volume1-issue5/article1.pdf'
+      ),
+      entry(
+        '5502',
+        'Mechanical Performance and Mix Optimization of M50 Concrete Incorporating Metakaolin and Waste Foundry Sand',
+        'Nayan Pawar, V.B Chavan, L.S Mahajan',
+        '19-32',
+        '/volume1-issue5/article2.pdf'
+      ),
+      entry(
+        '5503',
+        'Statistical Optimization of Wire EDM Parameters for Surface Roughness in P-20 Tool Steel Using Orthogonal Array Design, ANOVA, and Regression Modeling',
+        'Siddiqui Mohd Abdul Mukhtadir Siddiqui Abdul Rub, Brijbhushan Shukla',
+        '33-42',
+        '/volume1-issue5/article3.pdf'
+      ),
     ],
   },
 };
+
+/** Ordered list of issues for admin form picker */
+export function listIssueCatalog(): IssueCatalogEntry[] {
+  return Object.values(ISSUE_CATALOG).sort((a, b) => {
+    const aNum = Number(a.issueKey.replace(/\D/g, '')) || 0;
+    const bNum = Number(b.issueKey.replace(/\D/g, '')) || 0;
+    return aNum - bNum;
+  });
+}
+
+export function getIssueNumber(issueKey: string): number {
+  return Number(String(issueKey).replace(/\D/g, '')) || 0;
+}
+
+/** Highest articleN from PDF paths like /volume1-issue4/article7.pdf */
+export function getMaxArticleNumber(issue: IssueCatalogEntry): number {
+  let max = 0;
+  for (const article of issue.articles) {
+    const match = article.pdfUrl.match(/article(\d+)\.pdf$/i);
+    if (match) max = Math.max(max, Number(match[1]));
+  }
+  return Math.max(max, issue.articles.length);
+}
+
+export function buildArticlePdfUrl(issueNumber: number, articleNumber: number): string {
+  return `/volume1-issue${issueNumber}/article${articleNumber}.pdf`;
+}
+
+export interface NextArticleDraft {
+  issue: IssueCatalogEntry;
+  articleNumber: number;
+  pdfUrl: string;
+  slug: string;
+  title: string;
+  authors: string;
+  pages: string;
+}
+
+/** Next article slot for a volume (e.g. issue4 with 7 articles → article8) */
+export function getNextArticleDraft(issue: IssueCatalogEntry): NextArticleDraft {
+  const issueNumber = getIssueNumber(issue.issueKey) || 1;
+  const articleNumber = getMaxArticleNumber(issue) + 1;
+  const pdfUrl = buildArticlePdfUrl(issueNumber, articleNumber);
+  return {
+    issue,
+    articleNumber,
+    pdfUrl,
+    slug: slugFromPdfUrl(pdfUrl),
+    title: `New Article ${articleNumber} — ${issue.volumeLabel}`,
+    authors: '',
+    pages: 'Online first',
+  };
+}
+
+export interface NextIssueDraft {
+  issueKey: string;
+  issueUrl: string;
+  volumeLabel: string;
+  headerSubtitle: string;
+  publishedDate: string;
+  coverImage: string;
+  articleNumber: number;
+  pdfUrl: string;
+  slug: string;
+  title: string;
+}
+
+/** Next volume/issue after the last catalog issue (e.g. issue5 → issue6 + article1) */
+export function getNextIssueDraft(fromIssueKey?: string): NextIssueDraft {
+  const issues = listIssueCatalog();
+  const last = fromIssueKey
+    ? issues.find((i) => i.issueKey === fromIssueKey) || issues[issues.length - 1]
+    : issues[issues.length - 1];
+
+  const nextNum = (last ? getIssueNumber(last.issueKey) : 0) + 1;
+  const year = new Date().getFullYear();
+  const volumeLabel = `Volume 1 Issue ${nextNum} (${year})`;
+  const issueKey = `issue${nextNum}`;
+  const pdfUrl = buildArticlePdfUrl(nextNum, 1);
+
+  return {
+    issueKey,
+    issueUrl: `/${issueKey}`,
+    volumeLabel,
+    headerSubtitle: `Universal Journal of Green Sci-Tech and Management – Volume 1 Issue ${nextNum}, ${year}`,
+    publishedDate: new Date().toISOString().slice(0, 10),
+    coverImage: last?.coverImage || './cover.png',
+    articleNumber: 1,
+    pdfUrl,
+    slug: slugFromPdfUrl(pdfUrl),
+    title: `New Article 1 — ${volumeLabel}`,
+  };
+}
+
+/** Create (or return) a runtime catalog issue for a newly added volume */
+export function ensureCatalogIssue(draft: NextIssueDraft): IssueCatalogEntry {
+  if (ISSUE_CATALOG[draft.issueKey]) return ISSUE_CATALOG[draft.issueKey];
+
+  const created: IssueCatalogEntry = {
+    issueKey: draft.issueKey,
+    issueUrl: draft.issueUrl,
+    volumeLabel: draft.volumeLabel,
+    headerSubtitle: draft.headerSubtitle,
+    publishedDate: draft.publishedDate,
+    coverImage: draft.coverImage,
+    articles: [],
+  };
+  ISSUE_CATALOG[draft.issueKey] = created;
+  return created;
+}
 
 export function getIssueCatalog(issueKey: string): IssueCatalogEntry | undefined {
   return ISSUE_CATALOG[issueKey];

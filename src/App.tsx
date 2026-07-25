@@ -39,7 +39,8 @@ import JournalIssueTOC from './Pages/Volumes/Issue1';
 import JournalIssue2 from './Pages/Volumes/Issue2';
 import JournalIssue3 from './Pages/Volumes/Issue3';
 import JournalIssue4 from './Pages/Volumes/Issue4';
-import { IssuePageRoute } from './Pages/Volumes/IssuePage';
+import JournalIssue5 from './Pages/Volumes/Issue5';
+import IssuePage, { IssuePageRoute } from './Pages/Volumes/IssuePage';
 import { ConferenceTicker } from './components/ConferenceTicker';
 import ArticleDetail from './components/Articles_details';
 import ArticlesForm from './Pages/Submission/ArticlesForm';
@@ -105,8 +106,10 @@ function App() {
         <Route path="/issue2" element={<JournalIssue2 />} />
         <Route path="/issue3" element={<JournalIssue3 />} />
         <Route path="/issue4" element={<JournalIssue4 />} />
-        <Route path="/issue5" element={<UpcomingContent />} />
-        <Route path="/issue6" element={<UpcomingContent />} />
+        <Route path="/issue5" element={<JournalIssue5 />} />
+        <Route path="/issue6" element={<IssuePage issueKey="issue6" />} />
+        <Route path="/issue7" element={<IssuePage issueKey="issue7" />} />
+        <Route path="/issue8" element={<IssuePage issueKey="issue8" />} />
 
         <Route path="/submissions-list" element={<SubmissionsList/>} />
         <Route path="/reviewer-applications-list" element={<ReviewerApplicationsList />} />

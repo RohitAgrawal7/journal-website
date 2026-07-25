@@ -39,8 +39,64 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
    const [currentPage, setCurrentPage] = useState<number>(1);
    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Enhanced sample data with more issues and details
+  // Newest issue first (Issue 5 → Issue 1)
   const issues: JournalIssue[] = useMemo(() => [
+    {
+      id: 5,
+      volume: "Volume 1 Issue 5",
+      year: 2026,
+      title: "Emerging Trends in SciTech",
+      coverImageUrl: "https://image2url.com/r2/default/images/1768247581446-de26be9e-abeb-48e5-b046-a3c8aea385f3.png",
+      issueUrl: "/issue5",
+      pdfUrl: "/issue5",
+      description: "Analysis of emerging trends and future outlook in green technology and sustainable science. Features predictive modeling and scenario analysis for climate-resilient development.",
+      publishedDate: "2026-03-15",
+      articlesCount: 3,
+      isCurrentIssue: true,
+      keywords: ["emerging trends", "predictive modeling", "climate resilience"]
+    },
+    {
+      id: 4,
+      volume: "Volume 1 Issue 4",
+      year: 2026,
+      title: "Sustainable Development Strategies",
+      coverImageUrl: "https://image2url.com/r2/default/images/1774632236661-23c327da-f619-43b1-8480-2fbc8d05ee5e.png",
+      issueUrl: "/issue4",
+      pdfUrl: "/issue4",
+      description: "Comprehensive strategies for sustainable growth across industrial, agricultural, and urban sectors. Includes policy frameworks and implementation guidelines for developing economies.",
+      publishedDate: "2026-02-28",
+      articlesCount: 7,
+      isCurrentIssue: false,
+      keywords: ["sustainable growth", "policy frameworks", "agriculture"]
+    },
+    {
+      id: 3,
+      volume: "Volume 1 Issue 3",
+      year: 2025,
+      title: "Innovation in Green Technology",
+      coverImageUrl: "https://image2url.com/r2/default/images/1768496248789-bb7e38e1-e54e-40f7-b885-61e14f1ca668.png",
+      issueUrl: "/issue3",
+      pdfUrl: "/issue3",
+      description: "Latest innovations and case studies in renewable energy, waste management, and sustainable urban planning. Special section on emerging technologies in environmental monitoring.",
+      publishedDate: "2025-03-15",
+      articlesCount: 6,
+      isCurrentIssue: false,
+      keywords: ["renewable energy", "waste management", "urban planning"]
+    },
+    {
+      id: 2,
+      volume: "Volume 1 Issue 2",
+      year: 2025,
+      title: "Advances in Environmental Management",
+      coverImageUrl: "https://image2url.com/r2/default/images/1768496219558-902e0e7e-2ec4-46c2-b8d1-5964ea90a868.png",
+      issueUrl: "/issue2",
+      pdfUrl: "/issue2",
+      description: "Focus on eco-friendly management practices, sustainable business models, and environmental conservation strategies. Features case studies from leading organizations implementing green initiatives.",
+      publishedDate: "2025-02-15",
+      articlesCount: 5,
+      isCurrentIssue: false,
+      keywords: ["eco-friendly", "sustainable business", "conservation"]
+    },
     {
       id: 1,
       volume: "Volume 1 Issue 1",
@@ -55,58 +111,6 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
       isCurrentIssue: false,
       keywords: ["sustainable technology", "green innovation", "environmental science"]
     },
-    {
-      id: 2,
-      volume: "Volume 1 Issue 2",
-      year: 2025,
-      title: "Advances in Environmental Management",
-      coverImageUrl: "https://image2url.com/r2/default/images/1768496219558-902e0e7e-2ec4-46c2-b8d1-5964ea90a868.png",
-      issueUrl: "/issue2",
-      pdfUrl: "/issue2",
-      description: "Focus on eco-friendly management practices, sustainable business models, and environmental conservation strategies. Features case studies from leading organizations implementing green initiatives.",
-      publishedDate: "2025-02-15",
-      articlesCount: 5,
-      keywords: ["eco-friendly", "sustainable business", "conservation"]
-    },
-    {
-      id: 3,
-      volume: "Volume 1 Issue 3",
-      year: 2025,
-      title: "Innovation in Green Technology",
-      coverImageUrl: "https://image2url.com/r2/default/images/1768496248789-bb7e38e1-e54e-40f7-b885-61e14f1ca668.png",
-      issueUrl: "/issue3",
-      pdfUrl: "/issue3",
-      description: "Latest innovations and case studies in renewable energy, waste management, and sustainable urban planning. Special section on emerging technologies in environmental monitoring.",
-      publishedDate: "2025-03-15",
-      articlesCount: 6,
-      keywords: ["renewable energy", "waste management", "urban planning"]
-    },
-    {
-      id: 4,
-      volume: "Volume 1 Issue 4",
-      year: 2026,
-      title: "Sustainable Development Strategies",
-      coverImageUrl: "https://image2url.com/r2/default/images/1774632236661-23c327da-f619-43b1-8480-2fbc8d05ee5e.png",
-      issueUrl: "/issue4",
-      pdfUrl: "/issue4",
-      description: "Comprehensive strategies for sustainable growth across industrial, agricultural, and urban sectors. Includes policy frameworks and implementation guidelines for developing economies.",
-      publishedDate: "2026-02-28",
-      articlesCount: 12,
-      keywords: ["sustainable growth", "policy frameworks", "agriculture"]
-    },
-    // {
-    //   id: 5,
-    //   volume: "Volume 1 Issue 5",
-    //   year: 2026,
-    //   title: "Emerging Trends in SciTech",
-    //   coverImageUrl: "https://image2url.com/r2/default/images/1768247581446-de26be9e-abeb-48e5-b046-a3c8aea385f3.png",
-    //   issueUrl: "/issue5",
-    //   pdfUrl: "/issue5",
-    //   description: "Analysis of emerging trends and future outlook in green technology and sustainable science. Features predictive modeling and scenario analysis for climate-resilient development.",
-    //   publishedDate: "2025-05-15",
-    //   articlesCount: 11,
-    //   keywords: ["emerging trends", "predictive modeling", "climate resilience"]
-    // },
     // {
     //   id: 6,
     //   volume: "Volume 1 Issue 6",
@@ -223,11 +227,8 @@ const JournalArchives: React.FC<JournalArchivesProps> = ({
         i.publishedDate.toLowerCase().includes(term)
       );
     }
-    filtered.sort((a, b) => {
-      const dateA = new Date(a.publishedDate).getTime();
-      const dateB = new Date(b.publishedDate).getTime();
-      return dateB - dateA;
-    });
+    // Newest volume/issue number first (Issue 5 on top)
+    filtered.sort((a, b) => b.id - a.id);
     setTimeout(() => {
       setFilteredIssues(filtered);
       setCurrentPage(1);

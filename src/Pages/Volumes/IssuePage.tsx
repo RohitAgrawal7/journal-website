@@ -109,7 +109,9 @@ const IssuePage: React.FC<IssuePageProps> = ({ issueKey }) => {
                       <FaBookOpen className="text-lg" />
                     </div>
                     Articles
+                    <span className="ml-2 text-sm font-normal text-gray-500">({issue.articles.length})</span>
                   </h2>
+
                   <div className="space-y-6">
                     {issue.articles.map((article) => (
                       <IssueArticleItem
@@ -185,7 +187,8 @@ const IssuePage: React.FC<IssuePageProps> = ({ issueKey }) => {
 /** Resolves `/archives/:issueId` — issueId must be `issue1`, `issue2`, etc. */
 export const IssuePageRoute: React.FC = () => {
   const { issueId } = useParams<{ issueId: string }>();
-  const issueKey = issueId && getIssueCatalog(issueId) ? issueId : 'issue1';
+  const raw = issueId || 'issue1';
+  const issueKey = raw.startsWith('issue') ? raw : `issue${raw}`;
   return <IssuePage issueKey={issueKey} />;
 };
 

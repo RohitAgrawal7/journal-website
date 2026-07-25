@@ -2,11 +2,18 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaSave, FaPlus, FaTrash, FaEye, FaList, FaSpinner } from 'react-icons/fa';
+import { FaSave, FaPlus, FaTrash, FaEye, FaList, FaSpinner, FaBook } from 'react-icons/fa';
 import { createArticle, getArticleById, listArticles, updateArticle } from '../../api/articles';
 import type { ArticleAuthor, ArticleFormState, ArticleStatus } from '../../types/article';
 import { DEFAULT_LICENSE_IMAGE_URL, DEFAULT_LICENSE_TEXT, JOURNAL_SHORT } from '../../types/article';
-import { findArticleByPdfUrl } from '../../data/issueArticles';
+import {
+  ensureCatalogIssue,
+  findArticleByPdfUrl,
+  getNextArticleDraft,
+  getNextIssueDraft,
+  listIssueCatalog,
+} from '../../data/issueArticles';
+import type { IssueArticleEntry, IssueCatalogEntry } from '../../data/issueArticles';
 import {
   emptyFormState,
   formToApiPayload,
@@ -22,6 +29,8 @@ import type { Article } from '../../types/article';
 const ArticlesForm: React.FC = () => {
   const [searchParams] = useSearchParams();
   const editId = searchParams.get('id');
+  const issueParam = searchParams.get('issue');
+  const actionParam = searchParams.get('action'); // add-article | add-volume
   const navigate = useNavigate();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -34,6 +43,20 @@ const ArticlesForm: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [keywordsText, setKeywordsText] = useState('');
   const [referencesText, setReferencesText] = useState('');
+  const [catalogTick, setCatalogTick] = useState(0);
+  const [selectedIssueKey, setSelectedIssueKey] = useState(issueParam || 'issue5');
+  const [bootstrappedFromQuery, setBootstrappedFromQuery] = useState(false);
+
+  const issueOptions = useMemo(() => listIssueCatalog(), [catalogTick]);
+  const selectedIssue: IssueCatalogEntry | undefined = useMemo(
+    () => issueOptions.find((issue) => issue.issueKey === selectedIssueKey),
+    [issueOptions, selectedIssueKey]
+  );
+  const nextArticleDraft = useMemo(
+    () => (selectedIssue ? getNextArticleDraft(selectedIssue) : null),
+    [selectedIssue]
+  );
+  const nextIssueDraft = useMemo(() => getNextIssueDraft(selectedIssueKey), [selectedIssueKey, catalogTick]);
 
   const citationPreview = useMemo(() => {
     const preview: Article = {
@@ -60,6 +83,8 @@ const ArticlesForm: React.FC = () => {
       setForm(articleToFormState(article));
       setKeywordsText(article.keywords.join(', '));
       setReferencesText(article.references.join('\n'));
+      const match = findArticleByPdfUrl(article.pdfUrl || '');
+      if (match) setSelectedIssueKey(match.issue.issueKey);
     } catch (err: unknown) {
       const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
       toast.error(msg || 'Failed to load article');
@@ -71,6 +96,88 @@ const ArticlesForm: React.FC = () => {
   useEffect(() => {
     if (isAuthenticated && editId) loadArticle(editId);
   }, [isAuthenticated, editId, loadArticle]);
+
+  const applyNewArticleDraft = useCallback((issue: IssueCatalogEntry) => {
+    const draft = getNextArticleDraft(issue);
+    setSelectedIssueKey(issue.issueKey);
+    setForm((prev) => ({
+      ...prev,
+      title: '',
+      abstract: '',
+      doi: '',
+      slug: draft.slug,
+      pdfUrl: draft.pdfUrl,
+      volume: issue.volumeLabel,
+      issue: 'Articles',
+      publicationDate: issue.publishedDate,
+      coverImageUrl: issue.coverImage,
+      issueUrl: issue.issueUrl,
+      authors: [{ name: '', affiliation: '', orcid: '' }],
+      status: 'draft',
+      keywords: [],
+      references: [],
+      licenseText: DEFAULT_LICENSE_TEXT,
+      licenseImageUrl: DEFAULT_LICENSE_IMAGE_URL,
+    }));
+    setKeywordsText('');
+    setReferencesText('');
+    toast.success(`Ready for Article ${draft.articleNumber}: ${draft.pdfUrl}`);
+  }, []);
+
+  const applyNewVolumeDraft = useCallback(() => {
+    const draft = getNextIssueDraft(selectedIssueKey);
+    const issue = ensureCatalogIssue(draft);
+    setCatalogTick((n) => n + 1);
+    setSelectedIssueKey(issue.issueKey);
+    setForm((prev) => ({
+      ...prev,
+      title: '',
+      abstract: '',
+      doi: '',
+      slug: draft.slug,
+      pdfUrl: draft.pdfUrl,
+      volume: draft.volumeLabel,
+      issue: 'Articles',
+      publicationDate: draft.publishedDate,
+      coverImageUrl: draft.coverImage,
+      issueUrl: draft.issueUrl,
+      authors: [{ name: '', affiliation: '', orcid: '' }],
+      status: 'draft',
+      keywords: [],
+      references: [],
+      licenseText: DEFAULT_LICENSE_TEXT,
+      licenseImageUrl: DEFAULT_LICENSE_IMAGE_URL,
+    }));
+    setKeywordsText('');
+    setReferencesText('');
+    toast.success(`New volume created: ${draft.volumeLabel} · ${draft.pdfUrl}`);
+  }, [selectedIssueKey]);
+
+  useEffect(() => {
+    if (!isAuthenticated || editId || bootstrappedFromQuery) return;
+
+    if (actionParam === 'add-volume') {
+      applyNewVolumeDraft();
+      setBootstrappedFromQuery(true);
+      return;
+    }
+
+    if (actionParam === 'add-article' && issueParam) {
+      const issue = listIssueCatalog().find((i) => i.issueKey === issueParam);
+      if (issue) {
+        applyNewArticleDraft(issue);
+        setBootstrappedFromQuery(true);
+      }
+    }
+  }, [
+    isAuthenticated,
+    editId,
+    bootstrappedFromQuery,
+    actionParam,
+    issueParam,
+    applyNewArticleDraft,
+    applyNewVolumeDraft,
+  ]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,9 +203,35 @@ const ArticlesForm: React.FC = () => {
     setForm((prev) => ({ ...prev, title }));
   };
 
+  const applyCatalogArticle = (row: IssueArticleEntry, issue: IssueCatalogEntry) => {
+    setSelectedIssueKey(issue.issueKey);
+    setForm((prev) => ({
+      ...prev,
+      title: row.title,
+      slug: row.slug,
+      pdfUrl: row.pdfUrl,
+      volume: issue.volumeLabel,
+      issue: 'Articles',
+      publicationDate: issue.publishedDate,
+      coverImageUrl: issue.coverImage,
+      issueUrl: issue.issueUrl,
+      authors: row.authors.split(/,|&/).map((name) => ({
+        name: name.trim(),
+        affiliation: '',
+        orcid: '',
+      })).filter((a) => a.name),
+      status: prev.status || 'published',
+    }));
+    if (!row.authors.trim()) {
+      setForm((prev) => ({ ...prev, authors: [{ name: '', affiliation: '', orcid: '' }] }));
+    }
+    toast.success(`Loaded ${row.pdfUrl}`);
+  };
+
   const handlePdfUrlChange = (pdfUrl: string) => {
     const normalized = normalizePdfUrl(pdfUrl);
     const catalogRow = findArticleByPdfUrl(normalized);
+    if (catalogRow) setSelectedIssueKey(catalogRow.issue.issueKey);
     setForm((prev) => ({
       ...prev,
       pdfUrl: normalized,
@@ -126,26 +259,10 @@ const ArticlesForm: React.FC = () => {
   const prefillFromCatalog = () => {
     const row = findArticleByPdfUrl(form.pdfUrl || '');
     if (!row) {
-      toast.info('No matching issue article. Use e.g. /volume1-issue1/article1.pdf');
+      toast.info('No matching issue article. Pick one from the catalog below, e.g. /volume1-issue5/article1.pdf');
       return;
     }
-    setForm((prev) => ({
-      ...prev,
-      title: row.title,
-      slug: row.slug,
-      pdfUrl: row.pdfUrl,
-      volume: row.issue.volumeLabel,
-      issue: 'Articles',
-      publicationDate: row.issue.publishedDate,
-      coverImageUrl: row.issue.coverImage,
-      issueUrl: row.issue.issueUrl,
-      authors: row.authors.split(/,|&/).map((name) => ({
-        name: name.trim(),
-        affiliation: '',
-        orcid: '',
-      })),
-    }));
-    toast.success('Prefilled from issue catalog');
+    applyCatalogArticle(row, row.issue);
   };
 
   const buildFormState = (): ArticleFormState => ({
@@ -254,8 +371,110 @@ const ArticlesForm: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
           <p className="text-sm text-gray-500 border-b pb-3">
-            Matches API body: title, abstract, doi, volume, issue, publicationDate, keywords, authors, references, pdfUrl, coverImageUrl, licenseText, licenseImageUrl, status.
+            Pick a volume/issue article to auto-fill PDF URL, volume, date, and authors. Then complete abstract, keywords, and references.
           </p>
+
+          <section className="rounded-lg border border-teal-100 bg-teal-50/40 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+              <h2 className="text-lg font-semibold text-teal-800">Issue catalog</h2>
+              <button
+                type="button"
+                onClick={applyNewVolumeDraft}
+                className="inline-flex items-center gap-2 text-sm bg-teal-700 text-white px-3 py-2 rounded-md hover:bg-teal-800"
+              >
+                <FaBook /> Add Volume / Issue
+                <span className="opacity-80 text-xs">→ {nextIssueDraft.volumeLabel}</span>
+              </button>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Select Volume / Issue</label>
+                <select
+                  value={selectedIssueKey}
+                  onChange={(e) => setSelectedIssueKey(e.target.value)}
+                  className={fieldClass}
+                >
+                  {issueOptions.map((issue) => (
+                    <option key={issue.issueKey} value={issue.issueKey}>
+                      {issue.volumeLabel} ({issue.articles.length} articles)
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="text-sm text-gray-600 flex flex-col justify-end gap-1">
+                <p><span className="font-medium text-teal-800">Published:</span> {selectedIssue?.publishedDate}</p>
+                <p><span className="font-medium text-teal-800">TOC:</span> {selectedIssue?.issueUrl}</p>
+                {nextArticleDraft && (
+                  <p>
+                    <span className="font-medium text-teal-800">Next PDF:</span>{' '}
+                    <code className="text-xs bg-white border px-1 rounded">{nextArticleDraft.pdfUrl}</code>
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {selectedIssue && (
+              <div className="space-y-2">
+                {selectedIssue.articles.length === 0 && (
+                  <p className="text-sm text-gray-500 italic py-2">No articles yet in this volume.</p>
+                )}
+                {selectedIssue.articles.map((article, index) => {
+                  const isActive = normalizePdfUrl(form.pdfUrl || '') === article.pdfUrl;
+                  return (
+                    <button
+                      key={article.pdfUrl}
+                      type="button"
+                      onClick={() => applyCatalogArticle(article, selectedIssue)}
+                      className={`w-full text-left rounded-md border px-3 py-3 transition-colors ${
+                        isActive
+                          ? 'border-teal-600 bg-white shadow-sm'
+                          : 'border-gray-200 bg-white hover:border-teal-300 hover:bg-teal-50/50'
+                      }`}
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-teal-700 mb-1">
+                            Article {index + 1}
+                          </p>
+                          <p className="text-sm font-medium text-gray-900 leading-snug">{article.title}</p>
+                          <p className="text-xs text-gray-500 mt-1">By {article.authors || '—'} · Pages {article.pages}</p>
+                        </div>
+                        <code className="text-xs bg-gray-100 text-teal-800 px-2 py-1 rounded shrink-0">
+                          {article.pdfUrl}
+                        </code>
+                      </div>
+                      <p className="text-xs text-teal-700 mt-2">
+                        {isActive ? 'Selected — PDF URL applied to form' : 'Click to fill form + PDF URL'}
+                      </p>
+                    </button>
+                  );
+                })}
+
+                {nextArticleDraft && (
+                  <button
+                    type="button"
+                    onClick={() => applyNewArticleDraft(selectedIssue)}
+                    className="w-full text-left rounded-md border-2 border-dashed border-teal-400 bg-white px-3 py-3 hover:bg-teal-50 transition-colors"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <p className="text-sm font-semibold text-teal-800 flex items-center gap-2">
+                          <FaPlus /> Add Article {nextArticleDraft.articleNumber}
+                        </p>
+                        <p className="text-xs text-gray-600 mt-1">
+                          Pre-fills volume, date, cover, and next PDF path for this issue.
+                        </p>
+                      </div>
+                      <code className="text-xs bg-teal-100 text-teal-900 px-2 py-1 rounded shrink-0">
+                        {nextArticleDraft.pdfUrl}
+                      </code>
+                    </div>
+                  </button>
+                )}
+              </div>
+            )}
+          </section>
 
           <section>
             <h2 className="text-lg font-semibold text-teal-800 mb-3">Publishing</h2>
@@ -346,8 +565,21 @@ const ArticlesForm: React.FC = () => {
 
           <section>
             <h2 className="text-lg font-semibold text-teal-800 mb-3">PDF URL *</h2>
-            <input type="text" value={form.pdfUrl} onChange={(e) => handlePdfUrlChange(e.target.value)} className={fieldClass} placeholder="/volume1-issue1/article1.pdf or https://..." required />
-            <button type="button" onClick={prefillFromCatalog} className="mt-2 text-xs text-teal-700 hover:underline">Prefill from issue catalog</button>
+            <input
+              type="text"
+              value={form.pdfUrl}
+              onChange={(e) => handlePdfUrlChange(e.target.value)}
+              className={fieldClass}
+              placeholder="/volume1-issue5/article1.pdf"
+              required
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Auto pattern: <code>/volume1-issue{'{N}'}/article{'{M}'}.pdf</code>
+              {form.pdfUrl ? <> · current <code>{form.pdfUrl}</code></> : null}
+            </p>
+            <button type="button" onClick={prefillFromCatalog} className="mt-2 text-xs text-teal-700 hover:underline">
+              Prefill from PDF URL match
+            </button>
           </section>
 
           <section>

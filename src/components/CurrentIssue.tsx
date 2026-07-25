@@ -20,17 +20,17 @@ const CurrentIssue: React.FC = () => {
   const [activeSection, setActiveSection] = useState('current-issue');
 
   const currentIssue: CurrentJournalIssue = useMemo(() => ({
-    id: 4,
-    volume: 'Volume 1 Issue 4',
+    id: 5,
+    volume: 'Volume 1 Issue 5',
     year: 2026,
-    title: 'Sustainable Development Strategies',
-    coverImageUrl: 'https://image2url.com/r2/default/images/1774632236661-23c327da-f619-43b1-8480-2fbc8d05ee5e.png',
-    issueUrl: '/issue4',
-    description: 'Comprehensive strategies for sustainable growth across industrial, agricultural, and urban sectors.',
-    publishedDate: '2026-02-28',
-    articlesCount: 12,
+    title: 'Emerging Trends in SciTech',
+    coverImageUrl: 'https://image2url.com/r2/default/images/1768247581446-de26be9e-abeb-48e5-b046-a3c8aea385f3.png',
+    issueUrl: '/issue5',
+    description: 'Analysis of emerging trends and future outlook in green technology and sustainable science. Features predictive modeling and scenario analysis for climate-resilient development.',
+    publishedDate: '2026-03-15',
+    articlesCount: 3,
     isCurrentIssue: true,
-    keywords: ['sustainable growth', 'policy frameworks', 'agriculture'],
+    keywords: ['emerging trends', 'predictive modeling', 'climate resilience'],
   }), []);
 
   const scrollToSection = useCallback((sectionId: string) => {
@@ -96,7 +96,7 @@ const CurrentIssue: React.FC = () => {
             <div className="space-y-2 text-teal-100">
               <div className="flex justify-between">
                 <span>Total Issues:</span>
-                <span className="font-semibold">1</span>
+                <span className="font-semibold">5</span>
               </div>
               <div className="flex justify-between">
                 <span>Current Year:</span>
